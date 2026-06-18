@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery — Cathedral CMS</title>
+  <link rel="stylesheet" href="css/admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="../js/data.js"></script>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar"></aside>
+  <div class="main-area">
+    <header class="top-header">
+      <div class="page-title"><h1>Gallery</h1><p>Manage cathedral photo gallery</p></div>
+      <div class="header-actions">
+        <a href="../gallery.html" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-external-link-alt"></i> View Gallery</a>
+        <button class="btn btn-gold" onclick="openGalleryModal()"><i class="fas fa-plus"></i> Add Photo</button>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="breadcrumb"><a href="index.html">Dashboard</a><span>/</span><span>Gallery</span></div>
+
+      <!-- Stats -->
+      <div class="stats-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:20px;" id="gal-stats"></div>
+
+      <!-- Filter toolbar -->
+      <div class="panel">
+        <div class="toolbar">
+          <div class="search-box"><i class="fas fa-search"></i><input type="text" id="search" placeholder="Search photos…" oninput="renderGrid()"></div>
+          <select id="filter-cat" class="form-control" style="width:160px;" onchange="renderGrid()">
+            <option value="">All Categories</option>
+            <option value="architecture">Architecture</option>
+            <option value="liturgy">Liturgy</option>
+            <option value="community">Community</option>
+            <option value="youth">Youth</option>
+          </select>
+          <select id="view-mode" class="form-control" style="width:120px;" onchange="renderGrid()">
+            <option value="grid">Grid View</option>
+            <option value="table">Table View</option>
+          </select>
+          <span id="gal-count" style="font-size:12px;color:var(--text-muted);"></span>
+        </div>
+
+        <!-- Grid -->
+        <div id="gal-grid" class="panel-body" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;"></div>
+        <!-- Table (hidden by default) -->
+        <table class="data-table" id="gal-table" style="display:none;">
+          <thead><tr><th style="width:70px;">Photo</th><th>Title</th><th>Category</th><th>Image URL</th><th>Actions</th></tr></thead>
+          <tbody id="gal-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal-backdrop" id="gal-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="gal-modal-title">Add Photo</span>
+      <button class="modal-close" onclick="closeModal('gal-modal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="gal-id" />
+      <div class="form-group">
+        <label class="form-label">Photo Title <span style="color:var(--red)">*</span></label>
+        <input type="text" id="gal-title" class="form-control" placeholder="e.g. Cathedral Interior" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Image URL <span style="color:var(--red)">*</span></label>
+        <input type="text" id="gal-url" class="form-control" placeholder="https://…" oninput="previewGalImg()" />
+        <div class="img-preview" id="gal-img-preview" style="margin-top:8px;"><span><i class="fas fa-image" style="display:block;margin-bottom:4px;font-size:22px;"></i>Image preview</span></div>
+      </div>
+      <div class="form-row form-row-2">
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select id="gal-cat" class="form-control">
+            <option value="architecture">Architecture</option>
+            <option value="liturgy">Liturgy</option>
+            <option value="community">Community</option>
+            <option value="youth">Youth</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Grid Span</label>
+          <select id="gal-span" class="form-control">
+            <option value="1x1">1×1 (Normal)</option>
+            <option value="2x1">2×1 (Wide)</option>
+            <option value="1x2">1×2 (Tall)</option>
+            <option value="2x2">2×2 (Feature)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('gal-modal')">Cancel</button>
+      <button class="btn btn-gold" onclick="saveGallery()"><i class="fas fa-save"></i> Save Photo</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="js/admin.js"></script>
+<script>
+  const CAT_BADGE = { architecture:'badge-purple', liturgy:'badge-gold', community:'badge-blue', youth:'badge-green' };
+
+  function renderStats() {
+    const items = CathedralDB.get('gallery');
+    const cats = ['architecture','liturgy','community','youth'];
+    const stats = [
+      { label:'Total Photos', value: items.length, color:'var(--gold)' },
+      ...cats.map(c => ({ label: c.charAt(0).toUpperCase()+c.slice(1), value: items.filter(i=>i.category===c).length, color:'var(--blue)' }))
+    ];
+    document.getElementById('gal-stats').innerHTML = stats.map(s => `
+      <div class="stat-card"><div class="stat-card-accent" style="background:${s.color}"></div>
+        <div class="stat-card-value" style="color:${s.color};">${s.value}</div>
+        <div class="stat-card-label">${s.label}</div>
+      </div>`).join('');
+  }
+
+  function renderGrid() {
+    const q   = document.getElementById('search').value.toLowerCase();
+    const cat = document.getElementById('filter-cat').value;
+    const mode = document.getElementById('view-mode').value;
+    let items = CathedralDB.get('gallery').filter(i =>
+      i.title.toLowerCase().includes(q) && (!cat || i.category === cat)
+    );
+    document.getElementById('gal-count').textContent = `${items.length} photo${items.length!==1?'s':''}`;
+
+    const grid  = document.getElementById('gal-grid');
+    const table = document.getElementById('gal-table');
+    const tbody = document.getElementById('gal-tbody');
+
+    if (mode === 'grid') {
+      table.style.display = 'none'; grid.style.display = 'grid';
+      grid.innerHTML = '';
+      if (!items.length) { grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No photos found</h3></div>'; return; }
+      items.forEach(item => {
+        grid.innerHTML += `<div style="position:relative;border-radius:8px;overflow:hidden;aspect-ratio:1;border:1px solid var(--border);group;">
+          <img src="${item.image}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.opacity=0.3">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,13,31,0.92),transparent);opacity:0;transition:opacity .2s;" class="hover-overlay" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">
+            <div style="position:absolute;bottom:0;left:0;right:0;padding:10px;">
+              <div style="font-size:11px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.title}</div>
+              <div style="display:flex;gap:4px;margin-top:6px;">
+                <button class="btn-icon" onclick="editGallery(${item.id})" style="width:26px;height:26px;"><i class="fas fa-pen"></i></button>
+                <button class="btn-icon danger" onclick="deleteGallery(${item.id})" style="width:26px;height:26px;"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>
+          </div>
+          <span class="badge ${CAT_BADGE[item.category]||'badge-gray'}" style="position:absolute;top:6px;left:6px;font-size:9px;">${item.category}</span>
+        </div>`;
+      });
+    } else {
+      grid.style.display = 'none'; table.style.display = 'table';
+      tbody.innerHTML = '';
+      items.forEach(item => {
+        tbody.innerHTML += `<tr>
+          <td><img src="${item.image}" style="width:56px;height:42px;object-fit:cover;border-radius:4px;"></td>
+          <td><strong>${item.title}</strong></td>
+          <td><span class="badge ${CAT_BADGE[item.category]||'badge-gray'}">${item.category}</span></td>
+          <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-muted);font-size:11px;">${item.image}</td>
+          <td><div class="actions">
+            <button class="btn-icon" onclick="editGallery(${item.id})"><i class="fas fa-pen"></i></button>
+            <button class="btn-icon danger" onclick="deleteGallery(${item.id})"><i class="fas fa-trash"></i></button>
+          </div></td>
+        </tr>`;
+      });
+    }
+  }
+
+  function openGalleryModal(item) {
+    document.getElementById('gal-id').value = '';
+    document.getElementById('gal-title').value = '';
+    document.getElementById('gal-url').value = '';
+    document.getElementById('gal-cat').value = 'architecture';
+    document.getElementById('gal-span').value = '1x1';
+    document.getElementById('gal-img-preview').innerHTML = '<span><i class="fas fa-image" style="display:block;margin-bottom:4px;font-size:22px;"></i>Image preview</span>';
+    document.getElementById('gal-modal-title').textContent = 'Add Photo';
+    if (item) {
+      document.getElementById('gal-id').value = item.id;
+      document.getElementById('gal-title').value = item.title;
+      document.getElementById('gal-url').value = item.image;
+      document.getElementById('gal-cat').value = item.category;
+      document.getElementById('gal-span').value = item.span || '1x1';
+      document.getElementById('gal-img-preview').innerHTML = `<img src="${item.image}">`;
+      document.getElementById('gal-modal-title').textContent = 'Edit Photo';
+    }
+    openModal('gal-modal');
+  }
+
+  function editGallery(id) { openGalleryModal(CathedralDB.get('gallery').find(i => i.id === id)); }
+
+  function previewGalImg() {
+    const url = document.getElementById('gal-url').value.trim();
+    document.getElementById('gal-img-preview').innerHTML = url
+      ? `<img src="${url}" onerror="this.parentElement.innerHTML='<span>Invalid URL</span>'">`
+      : '<span><i class="fas fa-image" style="display:block;margin-bottom:4px;font-size:22px;"></i>Image preview</span>';
+  }
+
+  function saveGallery() {
+    const title = document.getElementById('gal-title').value.trim();
+    const image = document.getElementById('gal-url').value.trim();
+    if (!title || !image) { showToast('Title and image URL required', 'error'); return; }
+    const items = CathedralDB.get('gallery');
+    const editId = parseInt(document.getElementById('gal-id').value);
+    const data = { title, image, category: document.getElementById('gal-cat').value, span: document.getElementById('gal-span').value };
+    if (editId) { const i = items.find(x => x.id === editId); if (i) Object.assign(i, data); }
+    else { items.push({ id: CathedralDB.nextId('gallery'), ...data }); }
+    CathedralDB.set('gallery', items);
+    closeModal('gal-modal');
+    renderGrid(); renderStats();
+    showToast('Photo saved!', 'success');
+    CathedralDB.log('Admin', `${editId ? 'Updated' : 'Added'} gallery photo: ${title}`);
+  }
+
+  function deleteGallery(id) {
+    const item = CathedralDB.get('gallery').find(i => i.id === id);
+    confirmAction(`Delete "${item?.title}"?`, () => {
+      CathedralDB.set('gallery', CathedralDB.get('gallery').filter(i => i.id !== id));
+      renderGrid(); renderStats(); showToast('Photo deleted', 'error');
+      CathedralDB.log('Admin', `Deleted gallery photo: ${item?.title}`);
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', () => { renderStats(); renderGrid(); });
+</script>
+</body>
+</html>

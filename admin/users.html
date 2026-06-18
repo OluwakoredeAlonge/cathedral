@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Users — Cathedral CMS</title>
+  <link rel="stylesheet" href="css/admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="../js/data.js"></script>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar"></aside>
+  <div class="main-area">
+    <header class="top-header">
+      <div class="page-title"><h1>Admin Users</h1><p>Manage who has access to the Cathedral CMS</p></div>
+      <div class="header-actions">
+        <button class="btn btn-gold" onclick="openUserModal()"><i class="fas fa-user-plus"></i> Add User</button>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="breadcrumb"><a href="index.html">Dashboard</a><span>/</span><span>Admin Users</span></div>
+
+      <!-- Role info cards -->
+      <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:20px;">
+        <div class="panel" style="padding:16px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <div style="width:34px;height:34px;border-radius:8px;background:rgba(201,168,76,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);"><i class="fas fa-crown"></i></div>
+            <div style="font-weight:700;color:var(--gold);">Super Admin</div>
+          </div>
+          <p style="font-size:11px;color:var(--text-muted);">Full access to all settings, content, users and system configuration. Assign with care.</p>
+        </div>
+        <div class="panel" style="padding:16px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <div style="width:34px;height:34px;border-radius:8px;background:rgba(59,130,246,0.1);display:flex;align-items:center;justify-content:center;color:var(--blue);"><i class="fas fa-pen-to-square"></i></div>
+            <div style="font-weight:700;color:var(--blue);">Editor</div>
+          </div>
+          <p style="font-size:11px;color:var(--text-muted);">Can create, edit and publish blog posts, events and gallery items. Cannot change site settings or manage users.</p>
+        </div>
+        <div class="panel" style="padding:16px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <div style="width:34px;height:34px;border-radius:8px;background:rgba(34,197,94,0.1);display:flex;align-items:center;justify-content:center;color:var(--green);"><i class="fas fa-file-lines"></i></div>
+            <div style="font-weight:700;color:var(--green);">Content Manager</div>
+          </div>
+          <p style="font-size:11px;color:var(--text-muted);">Can manage blog posts and announcements only. Cannot edit events, gallery or site settings.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="toolbar">
+          <div class="search-box"><i class="fas fa-search"></i><input type="text" id="search" placeholder="Search users…" oninput="renderTable()"></div>
+          <select id="filter-role" class="form-control" style="width:160px;" onchange="renderTable()">
+            <option value="">All Roles</option>
+            <option>Super Admin</option><option>Editor</option><option>Content Manager</option>
+          </select>
+          <span id="user-count" style="font-size:12px;color:var(--text-muted);"></span>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>User</th><th>Email</th><th>Role</th><th>Last Login</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="users-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Activity log -->
+      <div class="panel" style="margin-top:20px;">
+        <div class="panel-header">
+          <div class="panel-title"><i class="fas fa-clock-rotate-left"></i> System Activity Log</div>
+          <button class="btn btn-outline btn-sm" onclick="clearLog()"><i class="fas fa-trash"></i> Clear Log</button>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>User</th><th>Action</th><th>Timestamp</th></tr></thead>
+          <tbody id="log-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- User Modal -->
+<div class="modal-backdrop" id="user-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="user-modal-title">Add Admin User</span>
+      <button class="modal-close" onclick="closeModal('user-modal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="user-id" />
+      <div class="form-row form-row-2">
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label">Full Name <span style="color:var(--red)">*</span></label>
+          <input type="text" id="u-name" class="form-control" placeholder="e.g. Parish Administrator" />
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label">Email Address <span style="color:var(--red)">*</span></label>
+          <input type="email" id="u-email" class="form-control" placeholder="user@catholicdioceseofekiti.org" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Role</label>
+          <select id="u-role" class="form-control">
+            <option>Super Admin</option><option>Editor</option><option>Content Manager</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select id="u-active" class="form-control">
+            <option value="true">Active</option><option value="false">Inactive</option>
+          </select>
+        </div>
+      </div>
+      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:7px;padding:12px;font-size:12px;color:var(--text-muted);">
+        <i class="fas fa-info-circle" style="color:var(--gold);margin-right:6px;"></i>
+        New users will be sent an invitation email with a temporary password. The default demo password is <strong style="color:var(--gold-light);">cathedral2026</strong>.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('user-modal')">Cancel</button>
+      <button class="btn btn-gold" onclick="saveUser()"><i class="fas fa-save"></i> Save User</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="js/admin.js"></script>
+<script>
+  const ROLE_BADGE = { 'Super Admin':'badge-gold', 'Editor':'badge-blue', 'Content Manager':'badge-green' };
+
+  function renderTable() {
+    const q    = document.getElementById('search').value.toLowerCase();
+    const role = document.getElementById('filter-role').value;
+    const users = CathedralDB.get('adminUsers').filter(u =>
+      (u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q)) &&
+      (!role || u.role === role)
+    );
+    document.getElementById('user-count').textContent = `${users.length} user${users.length!==1?'s':''}`;
+    const tbody = document.getElementById('users-tbody');
+    tbody.innerHTML = '';
+    if (!users.length) { tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-users"></i><h3>No users found</h3></div></td></tr>'; return; }
+    users.forEach(u => {
+      tbody.innerHTML += `<tr>
+        <td>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:34px;height:34px;border-radius:50%;background:var(--surface3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--gold);font-size:13px;flex-shrink:0;">${u.name.charAt(0)}</div>
+            <div>
+              <div style="font-weight:600;">${u.name}</div>
+              <div style="font-size:10px;color:var(--text-dim);">ID #${u.id}</div>
+            </div>
+          </div>
+        </td>
+        <td style="color:var(--text-muted);font-size:12px;">${u.email}</td>
+        <td><span class="badge ${ROLE_BADGE[u.role]||'badge-gray'}">${u.role}</span></td>
+        <td style="color:var(--text-muted);font-size:12px;">${fmtDate(u.lastLogin)}</td>
+        <td>
+          <label class="toggle"><input type="checkbox" ${u.active?'checked':''} onchange="toggleUser(${u.id},this.checked)">
+          <div class="toggle-track"><div class="toggle-thumb"></div></div>
+          <span class="toggle-label">${u.active?'Active':'Inactive'}</span></label>
+        </td>
+        <td>
+          <div class="actions">
+            <button class="btn-icon" onclick="editUser(${u.id})" title="Edit"><i class="fas fa-pen"></i></button>
+            <button class="btn-icon danger" onclick="deleteUser(${u.id})" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>`;
+    });
+  }
+
+  function renderLog() {
+    const tbody = document.getElementById('log-tbody');
+    const log = CathedralDB.get('activityLog').slice(0, 20);
+    tbody.innerHTML = '';
+    if (!log.length) { tbody.innerHTML = '<tr><td colspan="3" style="color:var(--text-dim);text-align:center;padding:20px;">No activity recorded</td></tr>'; return; }
+    log.forEach(a => {
+      tbody.innerHTML += `<tr>
+        <td><span class="badge badge-gray">${a.user}</span></td>
+        <td style="color:var(--text-muted);font-size:12px;">${a.action}</td>
+        <td style="color:var(--text-dim);font-size:11px;white-space:nowrap;">${a.time}</td>
+      </tr>`;
+    });
+  }
+
+  function clearLog() {
+    confirmAction('Clear the entire activity log?', () => {
+      CathedralDB.set('activityLog', []);
+      renderLog();
+      showToast('Activity log cleared', 'info');
+    });
+  }
+
+  function openUserModal(u) {
+    document.getElementById('user-id').value = '';
+    document.getElementById('u-name').value = '';
+    document.getElementById('u-email').value = '';
+    document.getElementById('u-role').value = 'Editor';
+    document.getElementById('u-active').value = 'true';
+    document.getElementById('user-modal-title').textContent = 'Add Admin User';
+    if (u) {
+      document.getElementById('user-id').value = u.id;
+      document.getElementById('u-name').value = u.name;
+      document.getElementById('u-email').value = u.email;
+      document.getElementById('u-role').value = u.role;
+      document.getElementById('u-active').value = String(u.active);
+      document.getElementById('user-modal-title').textContent = 'Edit User';
+    }
+    openModal('user-modal');
+  }
+
+  function editUser(id) { openUserModal(CathedralDB.get('adminUsers').find(u => u.id === id)); }
+
+  function toggleUser(id, val) {
+    const users = CathedralDB.get('adminUsers');
+    const u = users.find(x => x.id === id);
+    if (u) { u.active = val; CathedralDB.set('adminUsers', users); }
+    renderTable();
+    showToast(val ? 'User activated' : 'User deactivated', 'info');
+  }
+
+  function saveUser() {
+    const name  = document.getElementById('u-name').value.trim();
+    const email = document.getElementById('u-email').value.trim();
+    if (!name || !email) { showToast('Name and email are required', 'error'); return; }
+    const users  = CathedralDB.get('adminUsers');
+    const editId = parseInt(document.getElementById('user-id').value);
+    const data   = { name, email, role: document.getElementById('u-role').value, active: document.getElementById('u-active').value === 'true' };
+    if (editId) {
+      const u = users.find(x => x.id === editId); if (u) Object.assign(u, data);
+      CathedralDB.log('Admin', `Updated user: ${name}`);
+    } else {
+      users.push({ id: CathedralDB.nextId('adminUsers'), lastLogin: '—', ...data });
+      CathedralDB.log('Admin', `Added new user: ${name}`);
+    }
+    CathedralDB.set('adminUsers', users);
+    closeModal('user-modal');
+    renderTable();
+    showToast('User saved!', 'success');
+  }
+
+  function deleteUser(id) {
+    const u = CathedralDB.get('adminUsers').find(x => x.id === id);
+    if (u?.role === 'Super Admin') { showToast('Cannot delete Super Admin', 'error'); return; }
+    confirmAction(`Delete user "${u?.name}"?`, () => {
+      CathedralDB.set('adminUsers', CathedralDB.get('adminUsers').filter(x => x.id !== id));
+      renderTable();
+      showToast('User deleted', 'error');
+      CathedralDB.log('Admin', `Deleted user: ${u?.name}`);
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', () => { renderTable(); renderLog(); });
+</script>
+</body>
+</html>
