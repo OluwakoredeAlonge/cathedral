@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catechism & RCIA — Cathedral CMS</title>
+  <link rel="stylesheet" href="css/admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="../js/data.js"></script>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar"></aside>
+  <div class="main-area">
+    <header class="top-header">
+      <div class="page-title">
+        <h1>Catechism &amp; RCIA</h1>
+        <p>Manage faith formation programmes shown on the Masses page</p>
+      </div>
+      <div class="header-actions">
+        <a href="../masses.html" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-external-link-alt"></i> View Page</a>
+        <button class="btn btn-gold" onclick="openAddModal()"><i class="fas fa-plus"></i> Add Programme</button>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="breadcrumb"><a href="index.html">Dashboard</a><span>/</span><span>Catechism &amp; RCIA</span></div>
+
+      <div class="panel">
+        <div class="toolbar">
+          <div class="search-box"><i class="fas fa-search"></i><input type="text" id="search" placeholder="Search programmes…" oninput="renderTable()"></div>
+          <span id="count-label" style="font-size:12px;color:var(--text-muted);"></span>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:50px;">Order</th>
+              <th>Programme</th>
+              <th style="width:120px;">Audience</th>
+              <th>Schedule</th>
+              <th style="width:80px;">Status</th>
+              <th style="width:110px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="cat-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="cat-modal">
+  <div class="modal" style="max-width:540px;">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title">Add Programme</span>
+      <button class="modal-close" onclick="closeModal('cat-modal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-id" />
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label">Programme Name *</label>
+          <input type="text" id="edit-name" class="form-control" placeholder="e.g. Children's Catechism" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Target Audience</label>
+          <input type="text" id="edit-audience" class="form-control" placeholder="e.g. Ages 7–12" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Display Order</label>
+          <input type="number" id="edit-order" class="form-control" min="1" value="1" />
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label">Schedule</label>
+          <input type="text" id="edit-schedule" class="form-control" placeholder="e.g. Saturdays · 3:00 PM – 5:00 PM" />
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label">Description</label>
+          <textarea id="edit-description" class="form-control" rows="3" placeholder="Brief description of the programme…"></textarea>
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label">Status</label>
+          <select id="edit-active" class="form-control">
+            <option value="true">Active (visible on website)</option>
+            <option value="false">Hidden</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('cat-modal')">Cancel</button>
+      <button class="btn btn-gold" onclick="saveProgramme()"><i class="fas fa-save mr-1"></i> Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="js/admin.js"></script>
+<script>
+let editingId = null;
+
+function renderTable() {
+  const items = CathedralDB.get('catechism') || [];
+  const q = (document.getElementById('search').value || '').toLowerCase();
+  const filtered = items.filter(c => !q || c.name.toLowerCase().includes(q) || (c.audience||'').toLowerCase().includes(q))
+    .sort((a,b) => (a.order||0)-(b.order||0));
+  document.getElementById('count-label').textContent = `${filtered.length} of ${items.length}`;
+  const tbody = document.getElementById('cat-table');
+  tbody.innerHTML = filtered.map(c => `
+    <tr>
+      <td style="text-align:center;">
+        <div style="display:flex;gap:4px;justify-content:center;align-items:center;">
+          <button class="btn-icon" onclick="moveUp(${c.id})"><i class="fas fa-chevron-up"></i></button>
+          <span style="font-size:12px;color:var(--text-muted);font-weight:600;">${c.order||'—'}</span>
+          <button class="btn-icon" onclick="moveDown(${c.id})"><i class="fas fa-chevron-down"></i></button>
+        </div>
+      </td>
+      <td>
+        <div style="font-weight:600;color:var(--text);">${c.name}</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">${c.description||''}</div>
+      </td>
+      <td style="color:var(--text-muted);font-size:12px;">${c.audience||'—'}</td>
+      <td style="color:var(--text-muted);font-size:12px;">${c.schedule||'—'}</td>
+      <td><span class="badge ${c.active !== false ? 'badge-green' : 'badge-gray'}">${c.active !== false ? 'Active' : 'Hidden'}</span></td>
+      <td>
+        <div style="display:flex;gap:6px;">
+          <button class="btn-icon" onclick="editProgramme(${c.id})"><i class="fas fa-edit"></i></button>
+          <button class="btn-icon danger" onclick="deleteProgramme(${c.id})"><i class="fas fa-trash"></i></button>
+        </div>
+      </td>
+    </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--text-dim);padding:40px;">No programmes found.</td></tr>';
+}
+
+function openAddModal() {
+  editingId = null;
+  document.getElementById('modal-title').textContent = 'Add Programme';
+  ['edit-name','edit-audience','edit-schedule','edit-description'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('edit-order').value = 1;
+  document.getElementById('edit-active').value = 'true';
+  openModal('cat-modal');
+}
+
+function editProgramme(id) {
+  const items = CathedralDB.get('catechism') || [];
+  const c = items.find(x => x.id === id); if (!c) return;
+  editingId = id;
+  document.getElementById('modal-title').textContent = 'Edit Programme';
+  document.getElementById('edit-id').value = id;
+  document.getElementById('edit-name').value = c.name || '';
+  document.getElementById('edit-audience').value = c.audience || '';
+  document.getElementById('edit-order').value = c.order || 1;
+  document.getElementById('edit-schedule').value = c.schedule || '';
+  document.getElementById('edit-description').value = c.description || '';
+  document.getElementById('edit-active').value = c.active === false ? 'false' : 'true';
+  openModal('cat-modal');
+}
+
+function saveProgramme() {
+  const name = document.getElementById('edit-name').value.trim();
+  if (!name) { showToast('Programme name is required.', 'error'); return; }
+  const items = CathedralDB.get('catechism') || [];
+  const id = editingId ? parseInt(editingId) : CathedralDB.nextId('catechism');
+  const entry = { id, name, audience: document.getElementById('edit-audience').value.trim(), order: parseInt(document.getElementById('edit-order').value)||1, schedule: document.getElementById('edit-schedule').value.trim(), description: document.getElementById('edit-description').value.trim(), active: document.getElementById('edit-active').value !== 'false' };
+  if (editingId) { const idx = items.findIndex(x => x.id === id); if (idx !== -1) items[idx] = entry; else items.push(entry); }
+  else items.push(entry);
+  CathedralDB.set('catechism', items);
+  editingId = null;
+  closeModal('cat-modal');
+  renderTable();
+  showToast('Programme saved!', 'success');
+}
+
+function deleteProgramme(id) {
+  const items = CathedralDB.get('catechism') || [];
+  const c = items.find(x => x.id === id);
+  confirmAction(`Delete "${c ? c.name : 'this programme'}"?`, () => {
+    CathedralDB.set('catechism', items.filter(x => x.id !== id));
+    renderTable(); showToast('Deleted.', 'success');
+  });
+}
+
+function moveUp(id) {
+  const items = [...(CathedralDB.get('catechism')||[])].sort((a,b)=>(a.order||0)-(b.order||0));
+  const idx = items.findIndex(x=>x.id===id); if(idx<=0) return;
+  const tmp=items[idx].order; items[idx].order=items[idx-1].order; items[idx-1].order=tmp;
+  CathedralDB.set('catechism',items); renderTable();
+}
+
+function moveDown(id) {
+  const items = [...(CathedralDB.get('catechism')||[])].sort((a,b)=>(a.order||0)-(b.order||0));
+  const idx = items.findIndex(x=>x.id===id); if(idx<0||idx>=items.length-1) return;
+  const tmp=items[idx].order; items[idx].order=items[idx+1].order; items[idx+1].order=tmp;
+  CathedralDB.set('catechism',items); renderTable();
+}
+
+document.addEventListener('DOMContentLoaded', () => { renderSidebar(); renderTable(); });
+</script>
+</body>
+</html>

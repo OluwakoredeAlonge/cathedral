@@ -7,12 +7,13 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="js/data.js"></script>
 </head>
 <body>
 
 <div class="ticker-wrap" style="position:relative;z-index:1001;">
-  <div class="ticker-content font-cinzel text-xs tracking-widest text-white opacity-90">
-    &nbsp;&nbsp;&nbsp;✦ Corpus Christi Procession — June 22, 2026 &nbsp;|&nbsp; ✦ Diocesan Youth Rally — July 5, 2026 &nbsp;|&nbsp; ✦ Annual Spiritual Retreat — Aug 10–12, 2026 &nbsp;|&nbsp; ✦ Feast of the Assumption — Aug 15, 2026 &nbsp;&nbsp;&nbsp;
+  <div id="ticker-text" class="ticker-content font-cinzel text-xs tracking-widest text-white opacity-90">
+    &nbsp;&nbsp;&nbsp;✦ Corpus Christi Procession — June 22, 2026 &nbsp;|&nbsp; ✦ Diocesan Youth Rally — July 5, 2026 &nbsp;&nbsp;&nbsp;
   </div>
 </div>
 
@@ -54,7 +55,7 @@
 <!-- Page Hero -->
 <section class="page-hero" style="padding-top:8.5rem;padding-bottom:5rem;">
   <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1543207093-7bf3a6bfcfd2?w=1920&q=80');"></div>
-  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,13,31,0.65),rgba(6,13,31,0.92));"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,5,3,0.65),rgba(15,5,3,0.92));"></div>
   <div class="relative z-10 max-w-3xl mx-auto px-6">
     <p class="font-cinzel text-xs tracking-[0.4em] mb-4 fade-up" style="color:var(--gold);">PARISH LIFE</p>
     <h1 class="font-cinzel font-black text-white mb-4 fade-up delay-1" style="font-size:clamp(2.2rem,5vw,4rem);">Events &amp; News</h1>
@@ -66,25 +67,7 @@
 
 <!-- ══════ FEATURED EVENT ══════ -->
 <section class="section-mid py-20 px-6">
-  <div class="max-w-6xl mx-auto reveal">
-    <div class="relative overflow-hidden rounded-sm" style="border:1px solid rgba(201,168,76,0.25);">
-      <img src="https://images.unsplash.com/photo-1596496181848-3091d4878b24?w=1400&q=80" alt="Corpus Christi" class="w-full object-cover" style="height:420px;">
-      <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(6,13,31,0.95) 40%,rgba(6,13,31,0.4) 100%);"></div>
-      <div class="absolute inset-0 flex items-center px-10 md:px-16">
-        <div class="max-w-lg">
-          <div class="inline-block px-3 py-1 font-cinzel text-xs tracking-widest mb-4 font-bold" style="background:var(--gold);color:var(--navy);">FEATURED EVENT</div>
-          <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-white mb-3">Corpus Christi Procession</h2>
-          <div class="flex flex-wrap gap-4 mb-4">
-            <span class="flex items-center gap-2 text-sm" style="color:var(--gold-light);"><i class="fas fa-calendar-alt text-xs"></i> June 22, 2026</span>
-            <span class="flex items-center gap-2 text-sm" style="color:var(--gold-light);"><i class="fas fa-clock text-xs"></i> 10:00 AM</span>
-            <span class="flex items-center gap-2 text-sm" style="color:var(--gold-light);"><i class="fas fa-map-marker-alt text-xs"></i> Cathedral &amp; Streets of Ado-Ekiti</span>
-          </div>
-          <p class="text-gray-300 text-sm leading-relaxed mb-6">The solemn outdoor procession of the Blessed Sacrament through the main streets of Ado-Ekiti. The faithful gather in their thousands to adore Jesus in the Eucharist. Mass at 9:00 AM, procession at 10:30 AM. All parishioners are warmly invited.</p>
-          <a href="contact.html" class="btn-gold">REGISTER ATTENDANCE</a>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="max-w-6xl mx-auto reveal" id="featured-event-container"></div>
 </section>
 
 
@@ -97,123 +80,7 @@
       <div class="ornament"><span class="ornament-icon">✦</span></div>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 reveal">
-
-      <div class="card-glass rounded-sm overflow-hidden">
-        <div class="relative">
-          <img src="https://images.unsplash.com/photo-1543207093-7bf3a6bfcfd2?w=600&q=80" alt="Youth Rally" class="w-full object-cover" style="height:180px;">
-          <div class="absolute top-0 left-0 w-16 text-center py-2 font-cinzel font-bold" style="background:var(--gold);color:var(--navy);">
-            <div class="text-xl leading-none">5</div>
-            <div class="text-xs">JUL</div>
-          </div>
-        </div>
-        <div class="p-5">
-          <div class="inline-block px-2 py-0.5 text-xs font-cinzel tracking-wider mb-3 rounded-sm" style="background:rgba(26,92,58,0.4);color:#6ee7a0;">YOUTH</div>
-          <h4 class="font-cinzel font-bold text-white mb-2">Diocesan Youth Rally</h4>
-          <p class="text-gray-400 text-sm mb-3">Young Catholics from across the Diocese gather for a full day of prayer, praise, talks and fellowship. Theme: "Arise and Shine!"</p>
-          <div class="flex items-center gap-3 text-xs" style="color:var(--gold-light);">
-            <span><i class="fas fa-clock mr-1"></i>8:00 AM – 6:00 PM</span>
-            <span><i class="fas fa-map-marker-alt mr-1"></i>Cathedral Grounds</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="card-glass rounded-sm overflow-hidden">
-        <div class="relative">
-          <img src="https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=600&q=80" alt="Retreat" class="w-full object-cover" style="height:180px;">
-          <div class="absolute top-0 left-0 w-16 text-center py-2 font-cinzel font-bold" style="background:var(--gold);color:var(--navy);">
-            <div class="text-xl leading-none">10</div>
-            <div class="text-xs">AUG</div>
-          </div>
-        </div>
-        <div class="p-5">
-          <div class="inline-block px-2 py-0.5 text-xs font-cinzel tracking-wider mb-3 rounded-sm" style="background:rgba(30,64,175,0.4);color:#93c5fd;">RETREAT</div>
-          <h4 class="font-cinzel font-bold text-white mb-2">Annual Spiritual Retreat</h4>
-          <p class="text-gray-400 text-sm mb-3">Three days of silence, reflection and renewal guided by a visiting retreat master. Open to all parishioners 18 and above.</p>
-          <div class="flex items-center gap-3 text-xs" style="color:var(--gold-light);">
-            <span><i class="fas fa-clock mr-1"></i>Aug 10–12, 2026</span>
-            <span><i class="fas fa-map-marker-alt mr-1"></i>Pastoral Centre</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="card-glass rounded-sm overflow-hidden">
-        <div class="relative">
-          <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80" alt="Assumption" class="w-full object-cover" style="height:180px;">
-          <div class="absolute top-0 left-0 w-16 text-center py-2 font-cinzel font-bold" style="background:var(--gold);color:var(--navy);">
-            <div class="text-xl leading-none">15</div>
-            <div class="text-xs">AUG</div>
-          </div>
-        </div>
-        <div class="p-5">
-          <div class="inline-block px-2 py-0.5 text-xs font-cinzel tracking-wider mb-3 rounded-sm" style="background:rgba(109,40,217,0.4);color:#c4b5fd;">FEAST DAY</div>
-          <h4 class="font-cinzel font-bold text-white mb-2">Feast of the Assumption</h4>
-          <p class="text-gray-400 text-sm mb-3">Solemnity of the Assumption of the Blessed Virgin Mary — a Holy Day of Obligation. Special solemn Mass celebrated by the Bishop.</p>
-          <div class="flex items-center gap-3 text-xs" style="color:var(--gold-light);">
-            <span><i class="fas fa-clock mr-1"></i>9:00 AM &amp; 11:00 AM</span>
-            <span><i class="fas fa-map-marker-alt mr-1"></i>Cathedral</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="card-glass rounded-sm overflow-hidden">
-        <div class="relative">
-          <img src="https://images.unsplash.com/photo-1507692049790-de58290a4334?w=600&q=80" alt="Baptism Sunday" class="w-full object-cover" style="height:180px;">
-          <div class="absolute top-0 left-0 w-16 text-center py-2 font-cinzel font-bold" style="background:var(--gold);color:var(--navy);">
-            <div class="text-xl leading-none">6</div>
-            <div class="text-xs">SEP</div>
-          </div>
-        </div>
-        <div class="p-5">
-          <div class="inline-block px-2 py-0.5 text-xs font-cinzel tracking-wider mb-3 rounded-sm" style="background:rgba(6,78,59,0.5);color:#6ee7b7;">SACRAMENT</div>
-          <h4 class="font-cinzel font-bold text-white mb-2">Baptism Sunday</h4>
-          <p class="text-gray-400 text-sm mb-3">Monthly Baptism Sunday — welcoming new members into the Body of Christ. Register your child or adult candidate with the parish office.</p>
-          <div class="flex items-center gap-3 text-xs" style="color:var(--gold-light);">
-            <span><i class="fas fa-clock mr-1"></i>11:00 AM Mass</span>
-            <span><i class="fas fa-map-marker-alt mr-1"></i>Cathedral</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="card-glass rounded-sm overflow-hidden">
-        <div class="relative">
-          <img src="https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=600&q=80" alt="Choir Concert" class="w-full object-cover" style="height:180px;">
-          <div class="absolute top-0 left-0 w-16 text-center py-2 font-cinzel font-bold" style="background:var(--gold);color:var(--navy);">
-            <div class="text-xl leading-none">27</div>
-            <div class="text-xs">SEP</div>
-          </div>
-        </div>
-        <div class="p-5">
-          <div class="inline-block px-2 py-0.5 text-xs font-cinzel tracking-wider mb-3 rounded-sm" style="background:rgba(154,52,18,0.4);color:#fed7aa;">MUSIC</div>
-          <h4 class="font-cinzel font-bold text-white mb-2">Cathedral Choir Concert</h4>
-          <p class="text-gray-400 text-sm mb-3">An evening of sacred music and worship featuring the Cathedral Choir, guest choirs from across the Diocese, and special soloists.</p>
-          <div class="flex items-center gap-3 text-xs" style="color:var(--gold-light);">
-            <span><i class="fas fa-clock mr-1"></i>5:00 PM</span>
-            <span><i class="fas fa-map-marker-alt mr-1"></i>Cathedral Hall</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="card-glass rounded-sm overflow-hidden">
-        <div class="relative">
-          <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&q=80" alt="Harvest Thanksgiving" class="w-full object-cover" style="height:180px;">
-          <div class="absolute top-0 left-0 w-16 text-center py-2 font-cinzel font-bold" style="background:var(--gold);color:var(--navy);">
-            <div class="text-xl leading-none">18</div>
-            <div class="text-xs">OCT</div>
-          </div>
-        </div>
-        <div class="p-5">
-          <div class="inline-block px-2 py-0.5 text-xs font-cinzel tracking-wider mb-3 rounded-sm" style="background:rgba(133,77,14,0.5);color:#fde68a;">ANNUAL</div>
-          <h4 class="font-cinzel font-bold text-white mb-2">Harvest Thanksgiving</h4>
-          <p class="text-gray-400 text-sm mb-3">The grand annual Harvest Thanksgiving Mass and Bazaar — celebrating God's provision over the past year with music, food, and fellowship.</p>
-          <div class="flex items-center gap-3 text-xs" style="color:var(--gold-light);">
-            <span><i class="fas fa-clock mr-1"></i>9:00 AM</span>
-            <span><i class="fas fa-map-marker-alt mr-1"></i>Cathedral Grounds</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 reveal" id="events-grid"></div>
   </div>
 </section>
 
@@ -226,77 +93,21 @@
       <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-white">Liturgical Calendar 2026</h2>
       <div class="ornament"><span class="ornament-icon">✦</span></div>
     </div>
-    <div class="grid sm:grid-cols-2 gap-4 reveal">
-      <div class="mass-card rounded-sm flex items-start gap-4">
-        <div class="font-cinzel text-center min-w-[3.5rem]" style="color:var(--gold);">
-          <div class="text-2xl font-black leading-none">25</div>
-          <div class="text-xs tracking-wider">DEC</div>
-        </div>
-        <div>
-          <div class="font-cinzel font-bold text-white text-sm">Nativity of Our Lord (Christmas)</div>
-          <div class="text-gray-400 text-xs mt-1">Masses: 12:00 AM Midnight · 9:00 AM · 11:00 AM</div>
-        </div>
-      </div>
-      <div class="mass-card rounded-sm flex items-start gap-4">
-        <div class="font-cinzel text-center min-w-[3.5rem]" style="color:var(--gold);">
-          <div class="text-2xl font-black leading-none">17</div>
-          <div class="text-xs tracking-wider">MAR</div>
-        </div>
-        <div>
-          <div class="font-cinzel font-bold text-white text-sm">Feast of St. Patrick</div>
-          <div class="text-gray-400 text-xs mt-1">Patron feast of the Cathedral — Solemn Mass with the Bishop. 10:00 AM</div>
-        </div>
-      </div>
-      <div class="mass-card rounded-sm flex items-start gap-4">
-        <div class="font-cinzel text-center min-w-[3.5rem]" style="color:var(--gold);">
-          <div class="text-2xl font-black leading-none">2</div>
-          <div class="text-xs tracking-wider">APR</div>
-        </div>
-        <div>
-          <div class="font-cinzel font-bold text-white text-sm">Palm Sunday 2027</div>
-          <div class="text-gray-400 text-xs mt-1">Opening of Holy Week — outdoor procession and solemn Mass. 9:00 AM</div>
-        </div>
-      </div>
-      <div class="mass-card rounded-sm flex items-start gap-4">
-        <div class="font-cinzel text-center min-w-[3.5rem]" style="color:var(--gold);">
-          <div class="text-2xl font-black leading-none">8</div>
-          <div class="text-xs tracking-wider">APR</div>
-        </div>
-        <div>
-          <div class="font-cinzel font-bold text-white text-sm">Easter Sunday 2027</div>
-          <div class="text-gray-400 text-xs mt-1">The greatest feast of the Church — Easter Vigil Sat 8:00 PM · Easter Sunday 7, 9, 11 AM</div>
-        </div>
-      </div>
-      <div class="mass-card rounded-sm flex items-start gap-4">
-        <div class="font-cinzel text-center min-w-[3.5rem]" style="color:var(--gold);">
-          <div class="text-2xl font-black leading-none">15</div>
-          <div class="text-xs tracking-wider">AUG</div>
-        </div>
-        <div>
-          <div class="font-cinzel font-bold text-white text-sm">Assumption of Mary</div>
-          <div class="text-gray-400 text-xs mt-1">Holy Day of Obligation — Masses at 9:00 AM and 11:00 AM</div>
-        </div>
-      </div>
-      <div class="mass-card rounded-sm flex items-start gap-4">
-        <div class="font-cinzel text-center min-w-[3.5rem]" style="color:var(--gold);">
-          <div class="text-2xl font-black leading-none">1</div>
-          <div class="text-xs tracking-wider">NOV</div>
-        </div>
-        <div>
-          <div class="font-cinzel font-bold text-white text-sm">All Saints' Day</div>
-          <div class="text-gray-400 text-xs mt-1">Holy Day of Obligation — Solemn Mass 9:00 AM. All Souls' Day Mass Nov 2</div>
-        </div>
-      </div>
-    </div>
+    <div class="grid sm:grid-cols-2 gap-4 reveal" id="liturgical-grid"></div>
   </div>
 </section>
 
 <!-- Quote -->
-<section class="py-16 px-6 reveal" style="background:linear-gradient(135deg,var(--emerald),#0d2a1c);">
-  <div class="max-w-3xl mx-auto text-center">
-    <div class="text-5xl mb-4" style="color:rgba(201,168,76,0.35);">"</div>
-    <p class="scripture-quote text-white mb-4">Come to me, all you who are weary and burdened, and I will give you rest.</p>
-    <p class="font-cinzel text-xs tracking-[0.3em]" style="color:var(--gold-light);">— MATTHEW 11:28</p>
+<section class="section-mid py-20 px-6 reveal">
+  <div class="max-w-6xl mx-auto flex justify-center">
+    <div class="w-full max-w-2xl text-center px-8 md:px-14 py-14 relative overflow-hidden" style="background:linear-gradient(150deg,#3d1809 0%,#1a0a04 60%,#2e1008 100%);border:1px solid rgba(201,164,120,0.22);border-radius:18px;box-shadow:0 28px 70px rgba(0,0,0,0.6),inset 0 1px 0 rgba(201,164,120,0.1);">
+      <div class="absolute top-0 left-0 w-36 h-36 opacity-10 pointer-events-none" style="background:radial-gradient(circle at 0 0,var(--gold),transparent);border-radius:0 0 100% 0;"></div>
+      <div class="absolute bottom-0 right-0 w-36 h-36 opacity-10 pointer-events-none" style="background:radial-gradient(circle at 100% 100%,var(--gold),transparent);border-radius:100% 0 0 0;"></div>
+      <div class="text-5xl mb-6 relative z-10">🕊️</div>
+      <p class="scripture-quote text-white mb-6 relative z-10">Come to me, all you who are weary and burdened, and I will give you rest.</p>
+      <div class="ornament relative z-10"><span class="ornament-icon">✦</span></div>
+      <p class="font-cinzel text-xs tracking-[0.3em] mt-5 relative z-10" style="color:var(--gold-light);">— MATTHEW 11:28</p>
+    </div>
   </div>
 </section>
 
@@ -340,12 +151,114 @@
       </ul>
     </div>
   </div>
-  <div class="max-w-6xl mx-auto mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-3" style="border-top:1px solid rgba(201,168,76,0.1);">
+  <div class="max-w-6xl mx-auto mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-3" style="border-top:1px solid rgba(201,164,120,0.1);">
     <p class="text-gray-600 text-xs">&copy; 2026 St. Patrick's Catholic Cathedral, Ado-Ekiti. All rights reserved.</p>
     <p class="text-gray-600 text-xs font-cinzel tracking-wider">DIOCESE OF EKITI · ECCLESIASTICAL PROVINCE OF IBADAN</p>
   </div>
 </footer>
 
 <script src="js/main.js"></script>
+<script>
+(function renderEventsPage() {
+  const TAG_COLORS = {
+    gold:   { bg:'var(--gold)',                      color:'var(--navy)' },
+    green:  { bg:'rgba(26,92,58,0.4)',               color:'#6ee7a0' },
+    blue:   { bg:'rgba(30,64,175,0.4)',              color:'#93c5fd' },
+    purple: { bg:'rgba(109,40,217,0.4)',             color:'#c4b5fd' },
+    orange: { bg:'rgba(154,52,18,0.4)',              color:'#fed7aa' },
+    amber:  { bg:'rgba(133,77,14,0.5)',              color:'#fde68a' },
+  };
+  const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+
+  function fmtDate(d) {
+    const dt = new Date(d + 'T00:00:00');
+    return { day: dt.getDate(), mon: MONTHS[dt.getMonth()] };
+  }
+  function fmtLong(d) {
+    const dt = new Date(d + 'T00:00:00');
+    return dt.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  }
+
+  /* Ticker */
+  const ticker = document.getElementById('ticker-text');
+  if (ticker) { const t = CathedralDB.buildTickerText(); if(t) ticker.textContent = t; }
+
+  const events = CathedralDB.get('events').filter(e => e.published);
+  const featured = events.find(e => e.featured) || events[0];
+
+  /* Featured event */
+  const featEl = document.getElementById('featured-event-container');
+  if (featEl && featured) {
+    const d = fmtLong(featured.date);
+    featEl.innerHTML = `
+      <div class="relative overflow-hidden rounded-sm" style="border:1px solid rgba(201,164,120,0.25);">
+        <img src="${featured.image}" alt="${featured.title}" class="w-full object-cover" style="height:420px;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(15,5,3,0.95) 40%,rgba(15,5,3,0.4) 100%);"></div>
+        <div class="absolute inset-0 flex items-center px-10 md:px-16">
+          <div class="max-w-lg">
+            <div class="inline-block px-3 py-1 font-cinzel text-xs tracking-widest mb-4 font-bold" style="background:var(--gold);color:var(--navy);">FEATURED EVENT</div>
+            <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-white mb-3">${featured.title}</h2>
+            <div class="flex flex-wrap gap-4 mb-4">
+              <span class="flex items-center gap-2 text-sm" style="color:var(--gold-light);"><i class="fas fa-calendar-alt text-xs"></i> ${d}</span>
+              <span class="flex items-center gap-2 text-sm" style="color:var(--gold-light);"><i class="fas fa-clock text-xs"></i> ${featured.time}</span>
+              <span class="flex items-center gap-2 text-sm" style="color:var(--gold-light);"><i class="fas fa-map-marker-alt text-xs"></i> ${featured.location}</span>
+            </div>
+            <p class="text-gray-300 text-sm leading-relaxed mb-6">${featured.description}</p>
+            <a href="contact.html" class="btn-gold">REGISTER ATTENDANCE</a>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  /* Events grid — exclude the featured one */
+  const gridEl = document.getElementById('events-grid');
+  if (gridEl) {
+    const rest = events.filter(e => !e.featured || e.id !== (featured && featured.id));
+    if (!rest.length) {
+      gridEl.innerHTML = '<p class="text-gray-500 col-span-3 text-center py-10">No upcoming events at this time.</p>';
+    } else {
+      gridEl.innerHTML = rest.map(e => {
+        const tc = TAG_COLORS[e.tagColor] || TAG_COLORS.gold;
+        const { day, mon } = fmtDate(e.date);
+        return `
+        <div class="card-glass rounded-sm overflow-hidden">
+          <div class="relative">
+            <img src="${e.image}" alt="${e.title}" class="w-full object-cover" style="height:180px;">
+            <div class="absolute top-0 left-0 w-16 text-center py-2 font-cinzel font-bold" style="background:var(--gold);color:var(--navy);">
+              <div class="text-xl leading-none">${day}</div>
+              <div class="text-xs">${mon}</div>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="inline-block px-2 py-0.5 text-xs font-cinzel tracking-wider mb-3 rounded-sm" style="background:${tc.bg};color:${tc.color};">${e.tag}</div>
+            <h4 class="font-cinzel font-bold text-white mb-2">${e.title}</h4>
+            <p class="text-gray-400 text-sm mb-3">${e.description}</p>
+            <div class="flex items-center gap-3 text-xs" style="color:var(--gold-light);">
+              <span><i class="fas fa-clock mr-1"></i>${e.time}</span>
+              <span><i class="fas fa-map-marker-alt mr-1"></i>${e.location}</span>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  /* Liturgical calendar */
+  const litEl = document.getElementById('liturgical-grid');
+  if (litEl) {
+    const dates = (CathedralDB.get('liturgicalDates') || []).sort((a,b) => (a.order||0)-(b.order||0));
+    litEl.innerHTML = dates.map(d => `
+      <div class="mass-card rounded-sm flex items-start gap-4">
+        <div class="font-cinzel text-center min-w-[4rem] pt-1" style="color:var(--gold);">
+          <div class="text-xs tracking-wider font-bold leading-snug">${d.date}</div>
+        </div>
+        <div>
+          <div class="font-cinzel font-bold text-white text-sm">${d.feast}</div>
+          <div class="text-gray-400 text-xs mt-1">${d.note}</div>
+        </div>
+      </div>`).join('') || '<p class="text-gray-500">No dates listed.</p>';
+  }
+})();
+</script>
 </body>
 </html>

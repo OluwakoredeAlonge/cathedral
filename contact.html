@@ -7,12 +7,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="js/data.js"></script>
 </head>
 <body>
 
 <div class="ticker-wrap" style="position:relative;z-index:1001;">
-  <div class="ticker-content font-cinzel text-xs tracking-widest text-white opacity-90">
-    &nbsp;&nbsp;&nbsp;✦ Parish Office Hours: Mon–Fri 8:00am – 4:00pm &nbsp;|&nbsp; ✦ Emergency Pastoral Care: (0812) 567-4455 &nbsp;|&nbsp; ✦ Pope John Paul II Pastoral Centre, Ikere Road, Ado-Ekiti &nbsp;&nbsp;&nbsp;
+  <div id="ticker-text" class="ticker-content font-cinzel text-xs tracking-widest text-white opacity-90">
+    &nbsp;&nbsp;&nbsp;✦ Parish Office Hours: Mon–Fri 8:00am – 4:00pm &nbsp;|&nbsp; ✦ Emergency Pastoral Care: (0812) 567-4455 &nbsp;&nbsp;&nbsp;
   </div>
 </div>
 
@@ -54,7 +56,7 @@
 <!-- Page Hero -->
 <section class="page-hero" style="padding-top:8.5rem;padding-bottom:5rem;">
   <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1583429780296-e8b9d8df0b19?w=1920&q=80');"></div>
-  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,13,31,0.65),rgba(6,13,31,0.92));"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,5,3,0.65),rgba(15,5,3,0.92));"></div>
   <div class="relative z-10 max-w-3xl mx-auto px-6">
     <p class="font-cinzel text-xs tracking-[0.4em] mb-4 fade-up" style="color:var(--gold);">WE'D LOVE TO HEAR FROM YOU</p>
     <h1 class="font-cinzel font-black text-white mb-4 fade-up delay-1" style="font-size:clamp(2.2rem,5vw,4rem);">Get in Touch</h1>
@@ -74,74 +76,12 @@
       <h2 class="font-cinzel text-2xl md:text-3xl font-bold text-white mb-6">Parish Office</h2>
       <div class="ornament justify-start"><span class="ornament-icon">✦</span></div>
 
-      <div class="space-y-6 mt-2">
-        <div class="flex gap-4 items-start">
-          <div class="w-10 h-10 border flex-shrink-0 flex items-center justify-center rounded-sm" style="border-color:rgba(201,168,76,0.4);color:var(--gold);">
-            <i class="fas fa-map-marker-alt text-sm"></i>
-          </div>
-          <div>
-            <div class="font-cinzel text-xs tracking-wider mb-1" style="color:var(--gold);">ADDRESS</div>
-            <p class="text-gray-300 text-sm leading-relaxed">Pope John Paul II Pastoral Centre,<br/>Ikere Road, P.O. Box 136,<br/>Ado-Ekiti, Ekiti State, Nigeria.</p>
-          </div>
-        </div>
-
-        <div class="flex gap-4 items-start">
-          <div class="w-10 h-10 border flex-shrink-0 flex items-center justify-center rounded-sm" style="border-color:rgba(201,168,76,0.4);color:var(--gold);">
-            <i class="fas fa-phone text-sm"></i>
-          </div>
-          <div>
-            <div class="font-cinzel text-xs tracking-wider mb-1" style="color:var(--gold);">TELEPHONE</div>
-            <p class="text-gray-300 text-sm">(0812) 567-4455</p>
-            <p class="text-gray-500 text-xs mt-1">Emergency pastoral line — 24/7</p>
-          </div>
-        </div>
-
-        <div class="flex gap-4 items-start">
-          <div class="w-10 h-10 border flex-shrink-0 flex items-center justify-center rounded-sm" style="border-color:rgba(201,168,76,0.4);color:var(--gold);">
-            <i class="fas fa-envelope text-sm"></i>
-          </div>
-          <div>
-            <div class="font-cinzel text-xs tracking-wider mb-1" style="color:var(--gold);">EMAIL</div>
-            <p class="text-gray-300 text-sm">info@catholicdioceseofekiti.org</p>
-            <p class="text-gray-500 text-xs mt-1">We respond within 2 working days</p>
-          </div>
-        </div>
-
-        <div class="flex gap-4 items-start">
-          <div class="w-10 h-10 border flex-shrink-0 flex items-center justify-center rounded-sm" style="border-color:rgba(201,168,76,0.4);color:var(--gold);">
-            <i class="fas fa-clock text-sm"></i>
-          </div>
-          <div>
-            <div class="font-cinzel text-xs tracking-wider mb-1" style="color:var(--gold);">OFFICE HOURS</div>
-            <div class="text-gray-300 text-sm space-y-1">
-              <div class="flex justify-between gap-6"><span>Monday – Friday</span><span style="color:var(--gold-light);">8:00 AM – 4:00 PM</span></div>
-              <div class="flex justify-between gap-6"><span>Saturday</span><span style="color:var(--gold-light);">9:00 AM – 1:00 PM</span></div>
-              <div class="flex justify-between gap-6"><span>Sunday</span><span style="color:var(--gold-light);">After last Mass</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex gap-4 items-start">
-          <div class="w-10 h-10 border flex-shrink-0 flex items-center justify-center rounded-sm" style="border-color:rgba(201,168,76,0.4);color:var(--gold);">
-            <i class="fas fa-globe text-sm"></i>
-          </div>
-          <div>
-            <div class="font-cinzel text-xs tracking-wider mb-1" style="color:var(--gold);">DIOCESE WEBSITE</div>
-            <p class="text-gray-300 text-sm">www.catholicdioceseofekiti.org</p>
-          </div>
-        </div>
-      </div>
+      <div class="space-y-6 mt-2" id="contact-details-list"></div>
 
       <!-- Social -->
       <div class="mt-8">
         <div class="font-cinzel text-xs tracking-[0.25em] mb-4" style="color:var(--gold);">FOLLOW US</div>
-        <div class="flex gap-3">
-          <a href="#" class="w-9 h-9 border border-yellow-800 flex items-center justify-center text-yellow-600 hover:bg-yellow-600 hover:text-navy transition-all text-sm rounded-sm"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="w-9 h-9 border border-yellow-800 flex items-center justify-center text-yellow-600 hover:bg-yellow-600 hover:text-navy transition-all text-sm rounded-sm"><i class="fab fa-youtube"></i></a>
-          <a href="#" class="w-9 h-9 border border-yellow-800 flex items-center justify-center text-yellow-600 hover:bg-yellow-600 hover:text-navy transition-all text-sm rounded-sm"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="w-9 h-9 border border-yellow-800 flex items-center justify-center text-yellow-600 hover:bg-yellow-600 hover:text-navy transition-all text-sm rounded-sm"><i class="fab fa-whatsapp"></i></a>
-          <a href="#" class="w-9 h-9 border border-yellow-800 flex items-center justify-center text-yellow-600 hover:bg-yellow-600 hover:text-navy transition-all text-sm rounded-sm"><i class="fab fa-twitter"></i></a>
-        </div>
+        <div class="flex gap-3" id="contact-social-links"></div>
       </div>
     </div>
 
@@ -169,15 +109,15 @@
           </div>
           <div>
             <label class="font-cinzel text-xs tracking-wider block mb-2" style="color:var(--gold);">SUBJECT *</label>
-            <select required class="form-field rounded-sm" style="background:rgba(13,26,56,0.6);">
-              <option value="" style="background:#0d1a38;">Select a subject…</option>
-              <option value="general" style="background:#0d1a38;">General Enquiry</option>
-              <option value="baptism" style="background:#0d1a38;">Baptism Request</option>
-              <option value="marriage" style="background:#0d1a38;">Marriage Preparation</option>
-              <option value="confession" style="background:#0d1a38;">Confession / Spiritual Direction</option>
-              <option value="anointing" style="background:#0d1a38;">Anointing of the Sick</option>
-              <option value="donation" style="background:#0d1a38;">Donation / Giving</option>
-              <option value="other" style="background:#0d1a38;">Other</option>
+            <select required class="form-field rounded-sm" style="background:rgba(30,11,6,0.6);">
+              <option value="" style="background:#1e0b06;">Select a subject…</option>
+              <option value="general" style="background:#1e0b06;">General Enquiry</option>
+              <option value="baptism" style="background:#1e0b06;">Baptism Request</option>
+              <option value="marriage" style="background:#1e0b06;">Marriage Preparation</option>
+              <option value="confession" style="background:#1e0b06;">Confession / Spiritual Direction</option>
+              <option value="anointing" style="background:#1e0b06;">Anointing of the Sick</option>
+              <option value="donation" style="background:#1e0b06;">Donation / Giving</option>
+              <option value="other" style="background:#1e0b06;">Other</option>
             </select>
           </div>
         </div>
@@ -213,7 +153,7 @@
       <p class="font-cinzel text-xs tracking-[0.3em] mb-3" style="color:var(--gold);">HOW TO FIND US</p>
       <h2 class="font-cinzel text-2xl md:text-3xl font-bold text-white">Visit the Cathedral</h2>
     </div>
-    <div class="reveal map-container rounded-sm overflow-hidden" style="border:1px solid rgba(201,168,76,0.2);">
+    <div class="reveal map-container rounded-sm overflow-hidden" style="border:1px solid rgba(201,164,120,0.2);">
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.8!2d5.2230!3d7.6277!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1040c0a2b2c4e5a7%3A0x1234567890abcdef!2sSt.%20Patrick's%20Catholic%20Cathedral%2C%20Ado-Ekiti!5e0!3m2!1sen!2sng!4v1234567890"
         allowfullscreen=""
@@ -244,27 +184,46 @@
 
 
 <!-- ══════ GIVING ══════ -->
-<section class="py-20 px-6 reveal" style="background:linear-gradient(135deg,var(--emerald),#0d2a1c);">
-  <div class="max-w-4xl mx-auto text-center">
-    <p class="font-cinzel text-xs tracking-[0.3em] mb-3" style="color:var(--gold-light);">SUPPORT THE CATHEDRAL</p>
-    <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-white mb-4">Give to God's Work</h2>
-    <div class="ornament"><span class="ornament-icon">✦</span></div>
-    <p class="text-gray-300 text-sm leading-relaxed max-w-xl mx-auto mb-8">Your generous offerings sustain our ministry, maintain the Cathedral, and enable us to serve the poor and vulnerable of Ado-Ekiti. Every gift, however small, makes a difference.</p>
-    <div class="grid sm:grid-cols-3 gap-5 mb-10">
-      <div class="p-5 rounded-sm text-center" style="background:rgba(255,255,255,0.07);border:1px solid rgba(201,168,76,0.2);">
-        <div class="font-cinzel font-bold text-white text-lg mb-1">Bank Transfer</div>
-        <p class="text-gray-400 text-xs">Diocese of Ekiti<br/>Account No: 0123456789<br/>First Bank Nigeria PLC</p>
-      </div>
-      <div class="p-5 rounded-sm text-center" style="background:rgba(255,255,255,0.07);border:1px solid rgba(201,168,76,0.2);">
-        <div class="font-cinzel font-bold text-white text-lg mb-1">Sunday Offertory</div>
-        <p class="text-gray-400 text-xs">Drop your offering in the collection basket at any Sunday Mass or at the Parish Office.</p>
-      </div>
-      <div class="p-5 rounded-sm text-center" style="background:rgba(255,255,255,0.07);border:1px solid rgba(201,168,76,0.2);">
-        <div class="font-cinzel font-bold text-white text-lg mb-1">Building Fund</div>
-        <p class="text-gray-400 text-xs">Dedicated envelopes for the Cathedral Renovation Fund are available at the entrance.</p>
+<section class="section-mid py-20 px-6 reveal">
+  <div class="max-w-6xl mx-auto flex justify-center">
+    <div class="w-full max-w-4xl relative overflow-hidden" style="background:linear-gradient(150deg,#3d1809 0%,#1a0a04 60%,#2e1008 100%);border:1px solid rgba(201,164,120,0.22);border-radius:18px;box-shadow:0 28px 70px rgba(0,0,0,0.6),inset 0 1px 0 rgba(201,164,120,0.1);">
+      <div class="absolute top-0 left-0 w-48 h-48 opacity-10 pointer-events-none" style="background:radial-gradient(circle at 0 0,var(--gold),transparent);border-radius:0 0 100% 0;"></div>
+      <div class="absolute bottom-0 right-0 w-48 h-48 opacity-10 pointer-events-none" style="background:radial-gradient(circle at 100% 100%,var(--gold),transparent);border-radius:100% 0 0 0;"></div>
+      <div class="px-8 md:px-14 py-14 relative z-10">
+        <div class="text-center mb-10">
+          <div class="text-5xl mb-5">🙏</div>
+          <p class="font-cinzel text-xs tracking-[0.3em] mb-3" style="color:var(--gold-light);">SUPPORT THE CATHEDRAL</p>
+          <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-white mb-4">Give to God's Work</h2>
+          <div class="ornament"><span class="ornament-icon">✦</span></div>
+          <p class="text-gray-300 text-sm leading-relaxed max-w-xl mx-auto mt-4">Your generous offerings sustain our ministry, maintain the Cathedral, and enable us to serve the poor and vulnerable of Ado-Ekiti.</p>
+        </div>
+        <div class="grid sm:grid-cols-3 gap-5 mb-10">
+          <div class="p-6 text-center" style="background:rgba(255,255,255,0.05);border:1px solid rgba(201,164,120,0.18);border-radius:12px;">
+            <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center" style="background:rgba(201,164,120,0.1);border:1px solid rgba(201,164,120,0.25);border-radius:50%;">
+              <i data-lucide="landmark" style="color:var(--gold);width:20px;height:20px;"></i>
+            </div>
+            <div class="font-cinzel font-bold text-white mb-2">Bank Transfer</div>
+            <p class="text-gray-400 text-xs leading-relaxed">Diocese of Ekiti<br/>Account: 0123456789<br/>First Bank Nigeria PLC</p>
+          </div>
+          <div class="p-6 text-center" style="background:rgba(255,255,255,0.05);border:1px solid rgba(201,164,120,0.18);border-radius:12px;">
+            <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center text-2xl" style="background:rgba(201,164,120,0.1);border:1px solid rgba(201,164,120,0.25);border-radius:50%;">🧺</div>
+            <div class="font-cinzel font-bold text-white mb-2">Sunday Offertory</div>
+            <p class="text-gray-400 text-xs leading-relaxed">Drop your offering in the collection basket at any Sunday Mass or at the Parish Office.</p>
+          </div>
+          <div class="p-6 text-center" style="background:rgba(255,255,255,0.05);border:1px solid rgba(201,164,120,0.18);border-radius:12px;">
+            <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center" style="background:rgba(201,164,120,0.1);border:1px solid rgba(201,164,120,0.25);border-radius:50%;">
+              <i data-lucide="hard-hat" style="color:var(--gold);width:20px;height:20px;"></i>
+            </div>
+            <div class="font-cinzel font-bold text-white mb-2">Building Fund</div>
+            <p class="text-gray-400 text-xs leading-relaxed">Dedicated envelopes for the Cathedral Renovation Fund are available at the entrance.</p>
+          </div>
+        </div>
+        <div class="text-center pt-6" style="border-top:1px solid rgba(201,164,120,0.12);">
+          <p class="font-cormorant italic text-gray-300 text-lg">"Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver."</p>
+          <p class="font-cinzel text-xs tracking-wider mt-3" style="color:var(--gold-light);">— 2 CORINTHIANS 9:7</p>
+        </div>
       </div>
     </div>
-    <p class="font-cormorant italic text-gray-300 text-lg">"Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver."<br/><span class="font-cinzel text-xs tracking-wider not-italic mt-2 block" style="color:var(--gold-light);">— 2 CORINTHIANS 9:7</span></p>
   </div>
 </section>
 
@@ -309,7 +268,7 @@
       </ul>
     </div>
   </div>
-  <div class="max-w-6xl mx-auto mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-3" style="border-top:1px solid rgba(201,168,76,0.1);">
+  <div class="max-w-6xl mx-auto mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-3" style="border-top:1px solid rgba(201,164,120,0.1);">
     <p class="text-gray-600 text-xs">&copy; 2026 St. Patrick's Catholic Cathedral, Ado-Ekiti. All rights reserved.</p>
     <p class="text-gray-600 text-xs font-cinzel tracking-wider">DIOCESE OF EKITI · ECCLESIASTICAL PROVINCE OF IBADAN</p>
   </div>
@@ -317,11 +276,83 @@
 
 <script src="js/main.js"></script>
 <script>
-  function handleSubmit(e) {
-    e.preventDefault();
-    document.getElementById('contact-form').classList.add('hidden');
-    document.getElementById('form-success').classList.remove('hidden');
+function handleSubmit(e) {
+  e.preventDefault();
+  document.getElementById('contact-form').classList.add('hidden');
+  document.getElementById('form-success').classList.remove('hidden');
+}
+
+(function renderContactPage() {
+  const s = CathedralDB.get('settings');
+
+  /* Ticker */
+  const ticker = document.getElementById('ticker-text');
+  if (ticker) { const t = CathedralDB.buildTickerText(); if(t) ticker.textContent = t; }
+
+  /* Contact details */
+  const detailsEl = document.getElementById('contact-details-list');
+  if (detailsEl) {
+    detailsEl.innerHTML = `
+      <div class="flex gap-4 items-start">
+        <div class="w-10 h-10 border flex-shrink-0 flex items-center justify-center rounded-sm" style="border-color:rgba(201,164,120,0.4);color:var(--gold);"><i class="fas fa-map-marker-alt text-sm"></i></div>
+        <div>
+          <div class="font-cinzel text-xs tracking-wider mb-1" style="color:var(--gold);">ADDRESS</div>
+          <p class="text-gray-300 text-sm leading-relaxed">${(s.address || '').replace(/, /g, ',<br/>')}<br/>${s.poBox || ''}</p>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start">
+        <div class="w-10 h-10 border flex-shrink-0 flex items-center justify-center rounded-sm" style="border-color:rgba(201,164,120,0.4);color:var(--gold);"><i class="fas fa-phone text-sm"></i></div>
+        <div>
+          <div class="font-cinzel text-xs tracking-wider mb-1" style="color:var(--gold);">TELEPHONE</div>
+          <p class="text-gray-300 text-sm">${s.phone || ''}</p>
+          <p class="text-gray-500 text-xs mt-1">Emergency pastoral line — 24/7</p>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start">
+        <div class="w-10 h-10 border flex-shrink-0 flex items-center justify-center rounded-sm" style="border-color:rgba(201,164,120,0.4);color:var(--gold);"><i class="fas fa-envelope text-sm"></i></div>
+        <div>
+          <div class="font-cinzel text-xs tracking-wider mb-1" style="color:var(--gold);">EMAIL</div>
+          <p class="text-gray-300 text-sm">${s.email || ''}</p>
+          <p class="text-gray-500 text-xs mt-1">We respond within 2 working days</p>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start">
+        <div class="w-10 h-10 border flex-shrink-0 flex items-center justify-center rounded-sm" style="border-color:rgba(201,164,120,0.4);color:var(--gold);"><i class="fas fa-clock text-sm"></i></div>
+        <div>
+          <div class="font-cinzel text-xs tracking-wider mb-1" style="color:var(--gold);">OFFICE HOURS</div>
+          <div class="text-gray-300 text-sm space-y-1">
+            <div class="flex justify-between gap-6"><span>Monday – Friday</span><span style="color:var(--gold-light);">${(s.officeHoursMF||'').replace(/Monday – Friday · /,'')}</span></div>
+            <div class="flex justify-between gap-6"><span>Saturday</span><span style="color:var(--gold-light);">${(s.officeHoursSat||'').replace(/Saturday · /,'')}</span></div>
+            <div class="flex justify-between gap-6"><span>Sunday</span><span style="color:var(--gold-light);">${(s.officeHoursSun||'').replace(/Sunday · /,'')}</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start">
+        <div class="w-10 h-10 border flex-shrink-0 flex items-center justify-center rounded-sm" style="border-color:rgba(201,164,120,0.4);color:var(--gold);"><i class="fas fa-globe text-sm"></i></div>
+        <div>
+          <div class="font-cinzel text-xs tracking-wider mb-1" style="color:var(--gold);">DIOCESE WEBSITE</div>
+          <p class="text-gray-300 text-sm">${s.website || ''}</p>
+        </div>
+      </div>`;
   }
+
+  /* Social links */
+  const socialEl = document.getElementById('contact-social-links');
+  if (socialEl) {
+    const socials = [
+      { key:'facebook', icon:'fa-facebook-f' },
+      { key:'youtube',  icon:'fa-youtube' },
+      { key:'instagram',icon:'fa-instagram' },
+      { key:'whatsapp', icon:'fa-whatsapp' },
+      { key:'twitter',  icon:'fa-twitter' },
+    ];
+    const cls = 'w-9 h-9 border border-yellow-800 flex items-center justify-center text-yellow-600 hover:bg-yellow-600 hover:text-navy transition-all text-sm rounded-sm';
+    socialEl.innerHTML = socials.map(soc =>
+      `<a href="${s[soc.key] || '#'}" class="${cls}"><i class="fab ${soc.icon}"></i></a>`
+    ).join('');
+  }
+})();
 </script>
+<script>lucide.createIcons();</script>
 </body>
 </html>

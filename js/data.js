@@ -33,6 +33,14 @@ const CathedralDB = (() => {
       heroTagline:     '"A House of God, a Gate of Heaven" — serving the faithful of Ado-Ekiti since 1929',
       welcomeTitle:    "A Community of Faith, Hope & Love",
       welcomeText:     "St. Patrick's Catholic Cathedral stands as the mother church of the Diocese of Ekiti — a spiritual home where generations of faithful have encountered the living God. Whether you are visiting for the first time or returning after many years, you are welcome here.",
+      churchHistoryP1: "The history of St. Patrick's Catholic Cathedral is intertwined with the very beginning of Catholicism in the Ekiti heartland. Evangelisation in this region began under the aegis of Bishop O'Rourke of the Society of African Missions (SMA), who succeeded Bishop Terrien in 1929 when the area was part of the ancient Bight of Benin mission.",
+      churchHistoryP2: "The church building — originally known as St. George's Church — was established by the Irish SMA fathers who brought the Catholic faith to the people of Ado-Ekiti. When the Irish missionaries arrived and planted deep roots, it was renamed St. Patrick's, in honour of the patron saint of Ireland, a fitting tribute to those who crossed oceans to share the Gospel.",
+      churchHistoryP3: "On July 30, 1972, the Diocese of Ado-Ekiti was created from the Diocese of Ondo. Just months later, on December 11, 1972, it was officially renamed the Diocese of Ekiti. St. Patrick's was elevated as its Cathedral Church — the Seat of the Bishop — a role it has held with dignity and grace ever since.",
+      bishopBio1:      "Bishop Felix Femi Ajakaye was ordained to the episcopate and installed as the fourth Bishop of Ekiti on April 17, 2010. A native of Ekiti State, his Lordship has dedicated his episcopal ministry to deepening the faith of the people, promoting education, and championing social justice across the diocese.",
+      bishopBio2:      "Under his leadership, the Diocese of Ekiti has witnessed remarkable growth in pastoral outreach, the establishment of new parishes, and a renewed commitment to youth evangelisation and Catholic education.",
+      officeHoursMF:   "Monday – Friday · 8:00 AM – 4:00 PM",
+      officeHoursSat:  "Saturday · 9:00 AM – 1:00 PM",
+      officeHoursSun:  "Sunday · After last Mass",
       statFounded:     "1929",
       statYears:       "95+",
       statMasses:      "6",
@@ -166,6 +174,53 @@ const CathedralDB = (() => {
         published: true,
         views: 173
       },
+    ],
+
+    societies: [
+      { id: 1, name: "Catholic Men Organisation (CMO)",         emoji: "👨‍👩‍👧", description: "Fostering faith, family and fellowship among men of the parish. Monthly meetings every 2nd Sunday.",           active: true, order: 1 },
+      { id: 2, name: "Catholic Women Organisation (CWO)",       emoji: "👩‍🦱", description: "Empowering women through prayer, service and advocacy. A strong pillar of the parish community.",            active: true, order: 2 },
+      { id: 3, name: "Cathedral Choir",                          emoji: "🎵", description: "Lifting voices in praise at every liturgy. Rehearsals every Friday 5:00 PM. New members are welcome!",          active: true, order: 3 },
+      { id: 4, name: "Catholic Charismatic Renewal (CCR)",       emoji: "🔥", description: "Weekly prayer meetings full of praise, prophecy and the gifts of the Holy Spirit. Wednesdays 5:30 PM.",       active: true, order: 4 },
+      { id: 5, name: "CYON (Catholic Youth Organisation of Nigeria)", emoji: "🌟", description: "Young Catholics building faith, character and community across Ekiti Diocese. Monthly rallies and weekly meetings.", active: true, order: 5 },
+      { id: 6, name: "Legion of Mary",                           emoji: "📿", description: "Dedicated to Marian devotion and active apostolic service. Weekly praesidium meetings on Thursdays.",          active: true, order: 6 },
+    ],
+
+    sacraments: [
+      { id: 1, emoji: "🕊", name: "Baptism",             description: "Admission into the Body of Christ. Celebrated on the first Sunday of each month after the 11:00 AM Mass.", order: 1 },
+      { id: 2, emoji: "🍞", name: "Holy Eucharist",      description: "The source and summit of Christian life, celebrated at every Mass. First Holy Communion preparation runs annually.", order: 2 },
+      { id: 3, emoji: "🕯", name: "Confirmation",        description: "Strengthening of the Holy Spirit. The Bishop administers Confirmation during the annual pastoral visit.", order: 3 },
+      { id: 4, emoji: "🙏", name: "Reconciliation",      description: "God's mercy and forgiveness. Confessions before every weekday Mass and on Saturdays 4:00–5:30 PM.", order: 4 },
+      { id: 5, emoji: "✝️", name: "Anointing of the Sick", description: "Healing grace for the sick and elderly. Contact the Parish Office to arrange home and hospital visits.", order: 5 },
+      { id: 6, emoji: "⛪", name: "Holy Orders",          description: "The sacrament of ordained ministry. Vocations enquiries and discernment support available through the Bishop's Office.", order: 6 },
+      { id: 7, emoji: "💍", name: "Matrimony",            description: "Holy marriage — couples must begin preparation at least six months before the intended wedding date.", order: 7 },
+    ],
+
+    catechism: [
+      { id: 1, name: "Children's Catechism",         audience: "Ages 7–12",   schedule: "Saturdays · 3:00 PM – 5:00 PM",  description: "Faith formation for children preparing for First Holy Communion and Confirmation.", active: true, order: 1 },
+      { id: 2, name: "Youth Formation (CYON)",        audience: "Ages 13–17",  schedule: "Saturdays · 3:00 PM – 5:00 PM",  description: "Deepening faith and Catholic identity for teenagers and young adults.", active: true, order: 2 },
+      { id: 3, name: "RCIA (Adult Initiation)",       audience: "Adults",      schedule: "Thursdays · 5:00 PM – 6:30 PM",  description: "Journey into the Catholic faith for adults and the non-baptised. Open year-round.", active: true, order: 3 },
+      { id: 4, name: "Continuing Adult Formation",    audience: "All Adults",  schedule: "Sundays · After 11:00 AM Mass",  description: "Monthly series on Scripture, Church teaching and Catholic Social Doctrine.", active: true, order: 4 },
+    ],
+
+    liturgicalDates: [
+      { id: 1, feast: "Feast of St. Patrick",          date: "March 17",      note: "Patronal feast of the Cathedral — Solemn Mass & celebration",  order: 1 },
+      { id: 2, feast: "Palm Sunday",                   date: "Moveable",      note: "Start of Holy Week — procession from the Cathedral forecourt",   order: 2 },
+      { id: 3, feast: "Easter Sunday",                 date: "Moveable",      note: "Holy Day of Obligation — Easter Vigil Saturday night",           order: 3 },
+      { id: 4, feast: "Corpus Christi",                date: "Moveable",      note: "Solemn procession through the streets of Ado-Ekiti",             order: 4 },
+      { id: 5, feast: "Feast of the Assumption",       date: "August 15",     note: "Holy Day of Obligation — Solemn Mass by the Bishop",            order: 5 },
+      { id: 6, feast: "All Saints' Day",               date: "November 1",    note: "Holy Day of Obligation",                                         order: 6 },
+      { id: 7, feast: "All Souls' Day",                date: "November 2",    note: "Mass for the faithful departed — all-night vigil at cemetery",   order: 7 },
+      { id: 8, feast: "Christmas Day",                 date: "December 25",   note: "Holy Day of Obligation — Midnight Mass & Dawn Mass",             order: 8 },
+    ],
+
+    milestones: [
+      { id: 1, year: "1929",              title: "Evangelisation Begins",             description: "Irish SMA missionaries arrive in Ado-Ekiti under Bishop O'Rourke, planting the seed of Catholic faith in the Ekiti heartland.", order: 1 },
+      { id: 2, year: "1930s – 1960s",     title: "Growth of St. George's Church",     description: "The parish grows steadily under Irish missionary leadership. The church building expands and schools are established across Ekiti.", order: 2 },
+      { id: 3, year: "Late 1960s",        title: "Renamed St. Patrick's",             description: "Honouring Ireland's patron saint and the Irish missionaries who built the faith community, the church is renamed St. Patrick's.", order: 3 },
+      { id: 4, year: "July 30, 1972",     title: "Diocese of Ado-Ekiti Established",  description: "Carved out from the Diocese of Ondo, the new Diocese of Ado-Ekiti is formally erected, with St. Patrick's at its heart.", order: 4 },
+      { id: 5, year: "December 11, 1972", title: "Renamed Diocese of Ekiti",          description: "The diocese is officially renamed the Diocese of Ekiti, becoming suffragan of Lagos. St. Patrick's is elevated as the Cathedral Church.", order: 5 },
+      { id: 6, year: "April 17, 2010",    title: "Bishop Felix Femi Ajakaye Installed","description": "His Lordship Most Rev. Felix Femi Ajakaye is ordained and installed as the Bishop of Ekiti, continuing a legacy of faithful shepherding.", order: 6 },
+      { id: 7, year: "2026 & Beyond",     title: "Continuing the Mission",            description: "Today, St. Patrick's stands as a vibrant parish family of over 5,000 faithful, carrying the light of the Gospel into every corner of Ekiti State.", order: 7 },
     ],
 
     adminUsers: [

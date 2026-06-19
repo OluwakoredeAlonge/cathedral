@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sacraments — Cathedral CMS</title>
+  <link rel="stylesheet" href="css/admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="../js/data.js"></script>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar"></aside>
+  <div class="main-area">
+    <header class="top-header">
+      <div class="page-title">
+        <h1>The Seven Sacraments</h1>
+        <p>Manage sacrament descriptions shown on the Masses &amp; Home pages</p>
+      </div>
+      <div class="header-actions">
+        <a href="../masses.html" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-external-link-alt"></i> View Page</a>
+        <button class="btn btn-gold" onclick="openModal('sac-modal')"><i class="fas fa-plus"></i> Add Sacrament</button>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="breadcrumb"><a href="index.html">Dashboard</a><span>/</span><span>Sacraments</span></div>
+
+      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.18);border-radius:8px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;font-size:12px;color:var(--text-muted);">
+        <i class="fas fa-info-circle" style="color:var(--gold);font-size:16px;flex-shrink:0;"></i>
+        <span>The Catholic Church has <strong style="color:var(--text);">seven sacraments</strong>. All seven are displayed on the Masses &amp; Sacraments page. The first four appear on the Home page.</span>
+      </div>
+
+      <div class="panel">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:50px;">Order</th>
+              <th style="width:40px;">Icon</th>
+              <th style="width:200px;">Name</th>
+              <th>Description</th>
+              <th style="width:110px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="sac-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="sac-modal">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title">Add Sacrament</span>
+      <button class="modal-close" onclick="closeModal('sac-modal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-id" />
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label">Sacrament Name *</label>
+          <input type="text" id="edit-name" class="form-control" placeholder="e.g. Baptism" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Emoji Icon</label>
+          <input type="text" id="edit-emoji" class="form-control" placeholder="e.g. 🕊" maxlength="4" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Display Order (1–7)</label>
+          <input type="number" id="edit-order" class="form-control" min="1" max="7" value="1" />
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label">Description</label>
+          <textarea id="edit-description" class="form-control" rows="3" placeholder="Schedule and practical information for this sacrament…"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('sac-modal')">Cancel</button>
+      <button class="btn btn-gold" onclick="saveSacrament()"><i class="fas fa-save mr-1"></i> Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="js/admin.js"></script>
+<script>
+let editingId = null;
+
+function renderTable() {
+  const items = (CathedralDB.get('sacraments') || []).sort((a,b) => (a.order||0)-(b.order||0));
+  const tbody = document.getElementById('sac-table');
+  tbody.innerHTML = items.map(s => `
+    <tr>
+      <td style="text-align:center;">
+        <div style="display:flex;gap:4px;justify-content:center;align-items:center;">
+          <button class="btn-icon" onclick="moveUp(${s.id})"><i class="fas fa-chevron-up"></i></button>
+          <span style="font-size:12px;color:var(--text-muted);font-weight:600;">${s.order}</span>
+          <button class="btn-icon" onclick="moveDown(${s.id})"><i class="fas fa-chevron-down"></i></button>
+        </div>
+      </td>
+      <td style="text-align:center;font-size:22px;">${s.emoji||''}</td>
+      <td style="font-weight:600;color:var(--text);">${s.name}</td>
+      <td style="color:var(--text-muted);font-size:12px;max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.description||''}</td>
+      <td>
+        <div style="display:flex;gap:6px;">
+          <button class="btn-icon" onclick="editSacrament(${s.id})"><i class="fas fa-edit"></i></button>
+          <button class="btn-icon danger" onclick="deleteSacrament(${s.id})"><i class="fas fa-trash"></i></button>
+        </div>
+      </td>
+    </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--text-dim);padding:40px;">No sacraments found.</td></tr>';
+}
+
+function editSacrament(id) {
+  const items = CathedralDB.get('sacraments') || [];
+  const s = items.find(x => x.id === id); if (!s) return;
+  editingId = id;
+  document.getElementById('modal-title').textContent = 'Edit Sacrament';
+  document.getElementById('edit-id').value = id;
+  document.getElementById('edit-name').value = s.name || '';
+  document.getElementById('edit-emoji').value = s.emoji || '';
+  document.getElementById('edit-order').value = s.order || 1;
+  document.getElementById('edit-description').value = s.description || '';
+  openModal('sac-modal');
+}
+
+function saveSacrament() {
+  const name = document.getElementById('edit-name').value.trim();
+  if (!name) { showToast('Name is required.', 'error'); return; }
+  const items = CathedralDB.get('sacraments') || [];
+  const id = editingId ? parseInt(editingId) : CathedralDB.nextId('sacraments');
+  const entry = { id, name, emoji: document.getElementById('edit-emoji').value.trim(), order: parseInt(document.getElementById('edit-order').value)||1, description: document.getElementById('edit-description').value.trim() };
+  if (editingId) { const idx = items.findIndex(x => x.id === id); if (idx !== -1) items[idx] = entry; else items.push(entry); }
+  else items.push(entry);
+  CathedralDB.set('sacraments', items);
+  editingId = null;
+  closeModal('sac-modal');
+  renderTable();
+  showToast('Sacrament saved!', 'success');
+}
+
+function deleteSacrament(id) {
+  const items = CathedralDB.get('sacraments') || [];
+  const s = items.find(x => x.id === id);
+  confirmAction(`Delete "${s ? s.name : 'this sacrament'}"?`, () => {
+    CathedralDB.set('sacraments', items.filter(x => x.id !== id));
+    renderTable(); showToast('Deleted.', 'success');
+  });
+}
+
+function moveUp(id) {
+  const items = [...(CathedralDB.get('sacraments')||[])].sort((a,b)=>(a.order||0)-(b.order||0));
+  const idx = items.findIndex(x=>x.id===id); if(idx<=0) return;
+  const tmp=items[idx].order; items[idx].order=items[idx-1].order; items[idx-1].order=tmp;
+  CathedralDB.set('sacraments',items); renderTable();
+}
+
+function moveDown(id) {
+  const items = [...(CathedralDB.get('sacraments')||[])].sort((a,b)=>(a.order||0)-(b.order||0));
+  const idx = items.findIndex(x=>x.id===id); if(idx<0||idx>=items.length-1) return;
+  const tmp=items[idx].order; items[idx].order=items[idx+1].order; items[idx+1].order=tmp;
+  CathedralDB.set('sacraments',items); renderTable();
+}
+
+document.addEventListener('DOMContentLoaded', () => { renderSidebar(); renderTable(); });
+</script>
+</body>
+</html>

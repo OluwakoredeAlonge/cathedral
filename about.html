@@ -7,13 +7,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="js/data.js"></script>
 </head>
 <body>
 
 <!-- Ticker -->
 <div class="ticker-wrap" style="position:relative;z-index:1001;">
-  <div class="ticker-content font-cinzel text-xs tracking-widest text-white opacity-90">
-    &nbsp;&nbsp;&nbsp;✦ HOLY MASS: Weekdays 6:30am &amp; 7:00am &nbsp;|&nbsp; ✦ Saturdays 7:00am &amp; 6:00pm &nbsp;|&nbsp; ✦ Sundays 7:00am, 9:00am &amp; 11:00am &nbsp;|&nbsp; ✦ Catechism Classes every Saturday 3:00pm &nbsp;&nbsp;&nbsp;
+  <div id="ticker-text" class="ticker-content font-cinzel text-xs tracking-widest text-white opacity-90">
+    &nbsp;&nbsp;&nbsp;✦ HOLY MASS: Weekdays 6:30am &amp; 7:00am &nbsp;|&nbsp; ✦ Saturdays 7:00am &amp; 6:00pm &nbsp;&nbsp;&nbsp;
   </div>
 </div>
 
@@ -63,7 +64,7 @@
 ════════════════════════════════════════════════ -->
 <section class="page-hero" style="padding-top:8.5rem;padding-bottom:5rem;">
   <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1548625149-720754952f87?w=1920&q=80');"></div>
-  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,13,31,0.7),rgba(6,13,31,0.9));"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,5,3,0.7),rgba(15,5,3,0.9));"></div>
   <div class="relative z-10 max-w-3xl mx-auto px-6">
     <p class="font-cinzel text-xs tracking-[0.4em] mb-4 fade-up" style="color:var(--gold);">OUR STORY</p>
     <h1 class="font-cinzel font-black text-white mb-4 fade-up delay-1" style="font-size:clamp(2.2rem,5vw,4rem);">About the Cathedral</h1>
@@ -84,20 +85,12 @@
       <p class="font-cinzel text-xs tracking-[0.3em] mb-3" style="color:var(--gold);">SINCE 1929</p>
       <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-white mb-5">A Century of<br/><span class="gold-text">Faith &amp; Worship</span></h2>
       <div class="ornament justify-start"><span class="ornament-icon">✦</span></div>
-      <p class="text-gray-300 leading-relaxed mb-4">
-        The history of St. Patrick's Catholic Cathedral is intertwined with the very beginning of Catholicism in the Ekiti heartland. Evangelisation in this region began under the aegis of Bishop O'Rourke of the Society of African Missions (SMA), who succeeded Bishop Terrien in 1929 when the area was part of the ancient Bight of Benin mission.
-      </p>
-      <p class="text-gray-300 leading-relaxed mb-4">
-        The church building — originally known as <em style="color:var(--gold-light);">St. George's Church</em> — was established by the Irish SMA fathers who brought the Catholic faith to the people of Ado-Ekiti. When the Irish missionaries arrived and planted deep roots, it was renamed <em style="color:var(--gold-light);">St. Patrick's</em>, in honour of the patron saint of Ireland, a fitting tribute to those who crossed oceans to share the Gospel.
-      </p>
-      <p class="text-gray-300 leading-relaxed">
-        On July 30, 1972, the Diocese of Ado-Ekiti was created from the Diocese of Ondo. Just months later, on December 11, 1972, it was officially renamed the Diocese of Ekiti. St. Patrick's was elevated as its Cathedral Church — the Seat of the Bishop — a role it has held with dignity and grace ever since.
-      </p>
+      <div id="history-text-container"></div>
     </div>
     <div class="reveal relative">
       <div class="absolute -top-4 -right-4 w-full h-full border border-yellow-700 opacity-20 rounded-sm"></div>
       <img src="https://images.unsplash.com/photo-1583429780296-e8b9d8df0b19?w=700&q=80" alt="Cathedral exterior" class="w-full object-cover rounded-sm relative z-10" style="height:500px;">
-      <div class="absolute bottom-0 left-0 right-0 z-20 p-5" style="background:linear-gradient(to top,rgba(6,13,31,0.9),transparent);">
+      <div class="absolute bottom-0 left-0 right-0 z-20 p-5" style="background:linear-gradient(to top,rgba(15,5,3,0.9),transparent);">
         <p class="font-cinzel text-xs tracking-widest" style="color:var(--gold);">ST. PATRICK'S · ADO-EKITI</p>
       </div>
     </div>
@@ -115,42 +108,8 @@
       <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-white">Our Timeline</h2>
       <div class="ornament"><span class="ornament-icon">✦</span></div>
     </div>
-    <div class="space-y-10 reveal">
-      <div class="timeline-item">
-        <div class="font-cinzel font-bold text-sm mb-1" style="color:var(--gold);">1929</div>
-        <h4 class="font-cinzel font-bold text-white mb-1">Evangelisation Begins</h4>
-        <p class="text-gray-400 text-sm">Irish SMA missionaries arrive in Ado-Ekiti under Bishop O'Rourke, planting the seed of Catholic faith in the Ekiti heartland.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="font-cinzel font-bold text-sm mb-1" style="color:var(--gold);">1930s–1960s</div>
-        <h4 class="font-cinzel font-bold text-white mb-1">Growth of St. George's Church</h4>
-        <p class="text-gray-400 text-sm">The parish grows steadily under Irish missionary leadership. The church building expands and schools are established across Ekiti.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="font-cinzel font-bold text-sm mb-1" style="color:var(--gold);">Late 1960s</div>
-        <h4 class="font-cinzel font-bold text-white mb-1">Renamed St. Patrick's</h4>
-        <p class="text-gray-400 text-sm">Honouring Ireland's patron saint and the Irish missionaries who built the faith community, the church is renamed St. Patrick's.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="font-cinzel font-bold text-sm mb-1" style="color:var(--gold);">July 30, 1972</div>
-        <h4 class="font-cinzel font-bold text-white mb-1">Diocese of Ado-Ekiti Established</h4>
-        <p class="text-gray-400 text-sm">Carved out from the Diocese of Ondo, the new Diocese of Ado-Ekiti is formally erected, with St. Patrick's at its heart.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="font-cinzel font-bold text-sm mb-1" style="color:var(--gold);">December 11, 1972</div>
-        <h4 class="font-cinzel font-bold text-white mb-1">Renamed Diocese of Ekiti</h4>
-        <p class="text-gray-400 text-sm">The diocese is officially renamed the Diocese of Ekiti, becoming suffragan of Lagos. St. Patrick's is elevated as the Cathedral Church.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="font-cinzel font-bold text-sm mb-1" style="color:var(--gold);">April 17, 2010</div>
-        <h4 class="font-cinzel font-bold text-white mb-1">Bishop Felix Femi Ajakaye Installed</h4>
-        <p class="text-gray-400 text-sm">His Lordship Most Rev. Felix Femi Ajakaye is ordained and installed as the Bishop of Ekiti, continuing a legacy of faithful shepherding.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="font-cinzel font-bold text-sm mb-1" style="color:var(--gold);">2026 &amp; Beyond</div>
-        <h4 class="font-cinzel font-bold text-white mb-1">Continuing the Mission</h4>
-        <p class="text-gray-400 text-sm">Today, St. Patrick's stands as a vibrant parish family of over 5,000 faithful, carrying the light of the Gospel into every corner of Ekiti State.</p>
-      </div>
+    <div class="space-y-10 reveal" id="timeline-container">
+      <!-- Populated from CathedralDB.get('milestones') -->
     </div>
   </div>
 </section>
@@ -160,37 +119,8 @@
      BISHOP PROFILE
 ════════════════════════════════════════════════ -->
 <section class="parallax-strip py-24 px-6" style="background-image:url('https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=1920&q=80');">
-  <div style="position:absolute;inset:0;background:rgba(6,13,31,0.9);"></div>
-  <div class="relative max-w-5xl mx-auto grid md:grid-cols-5 gap-10 items-center reveal">
-    <div class="md:col-span-2">
-      <div class="relative inline-block">
-        <div class="absolute -inset-3 border border-yellow-700 opacity-30"></div>
-        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&q=80" alt="Bishop Ajakaye" class="relative z-10 w-full object-cover" style="height:380px;">
-      </div>
-    </div>
-    <div class="md:col-span-3">
-      <p class="font-cinzel text-xs tracking-[0.3em] mb-3" style="color:var(--gold);">SHEPHERD OF THE FLOCK</p>
-      <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-white mb-2">Most Rev. Felix Femi Ajakaye</h2>
-      <p class="font-cinzel text-sm tracking-widest mb-5" style="color:var(--gold-light);">DD · BISHOP OF EKITI</p>
-      <div class="ornament justify-start"><span class="ornament-icon">✦</span></div>
-      <p class="text-gray-300 leading-relaxed mb-4">
-        Bishop Felix Femi Ajakaye was ordained to the episcopate and installed as the fourth Bishop of Ekiti on April 17, 2010. A native of Ekiti State, his Lordship has dedicated his episcopal ministry to deepening the faith of the people, promoting education, and championing social justice across the diocese.
-      </p>
-      <p class="text-gray-300 leading-relaxed mb-6">
-        Under his leadership, the Diocese of Ekiti has witnessed remarkable growth in pastoral outreach, the establishment of new parishes, and a renewed commitment to youth evangelisation and Catholic education.
-      </p>
-      <div class="grid grid-cols-2 gap-4">
-        <div class="mass-card rounded-sm">
-          <div class="font-cinzel text-xs tracking-wider mb-1" style="color:var(--gold);">ORDAINED BISHOP</div>
-          <div class="text-white text-sm font-semibold">April 17, 2010</div>
-        </div>
-        <div class="mass-card rounded-sm">
-          <div class="font-cinzel text-xs tracking-wider mb-1" style="color:var(--gold);">DIOCESE</div>
-          <div class="text-white text-sm font-semibold">Ekiti, Nigeria</div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div style="position:absolute;inset:0;background:rgba(15,5,3,0.9);"></div>
+  <div id="bishop-section" class="relative max-w-5xl mx-auto reveal"></div>
 </section>
 
 
@@ -204,48 +134,22 @@
       <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-white">Parish Societies &amp; Groups</h2>
       <div class="ornament"><span class="ornament-icon">✦</span></div>
     </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 reveal">
-      <div class="card-glass p-6 rounded-sm">
-        <div class="text-3xl mb-3" style="color:var(--gold);">👨‍👩‍👧‍👦</div>
-        <h4 class="font-cinzel font-bold text-white mb-2">Catholic Men Organisation</h4>
-        <p class="text-gray-400 text-sm">Fostering faith, family, and fellowship among the men of the parish. Meetings: 2nd Sunday monthly.</p>
-      </div>
-      <div class="card-glass p-6 rounded-sm">
-        <div class="text-3xl mb-3" style="color:var(--gold);">👩</div>
-        <h4 class="font-cinzel font-bold text-white mb-2">Catholic Women Organisation</h4>
-        <p class="text-gray-400 text-sm">Empowering women through prayer, service, and advocacy. A strong pillar of the parish community.</p>
-      </div>
-      <div class="card-glass p-6 rounded-sm">
-        <div class="text-3xl mb-3" style="color:var(--gold);">🎵</div>
-        <h4 class="font-cinzel font-bold text-white mb-2">Cathedral Choir</h4>
-        <p class="text-gray-400 text-sm">Lifting voices in praise at every liturgy. Rehearsals every Friday 5:00pm. New members welcome!</p>
-      </div>
-      <div class="card-glass p-6 rounded-sm">
-        <div class="text-3xl mb-3" style="color:var(--gold);">🔥</div>
-        <h4 class="font-cinzel font-bold text-white mb-2">Catholic Charismatic Renewal</h4>
-        <p class="text-gray-400 text-sm">Weekly prayer meetings full of praise, prophecy, and the gifts of the Holy Spirit. Every Wednesday 5:30pm.</p>
-      </div>
-      <div class="card-glass p-6 rounded-sm">
-        <div class="text-3xl mb-3" style="color:var(--gold);">🌟</div>
-        <h4 class="font-cinzel font-bold text-white mb-2">Youth Ministry (YCS)</h4>
-        <p class="text-gray-400 text-sm">Young Catholic Students building faith, character, and community. Monthly rallies and weekly meetings.</p>
-      </div>
-      <div class="card-glass p-6 rounded-sm">
-        <div class="text-3xl mb-3" style="color:var(--gold);">📿</div>
-        <h4 class="font-cinzel font-bold text-white mb-2">Legion of Mary</h4>
-        <p class="text-gray-400 text-sm">Dedicated to Marian devotion and active apostolic service. Weekly praesidium meetings on Thursdays.</p>
-      </div>
-    </div>
+    <div id="societies-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 reveal"></div>
   </div>
 </section>
 
 
 <!-- Scripture quote -->
-<section class="py-20 px-6 reveal" style="background:linear-gradient(135deg,var(--emerald) 0%,#0d2a1c 100%);">
-  <div class="max-w-3xl mx-auto text-center">
-    <div class="text-5xl mb-6" style="color:rgba(201,168,76,0.4);">"</div>
-    <p class="scripture-quote text-white mb-6">You are a chosen race, a royal priesthood, a holy nation, God's own people.</p>
-    <p class="font-cinzel text-xs tracking-[0.3em]" style="color:var(--gold-light);">— 1 PETER 2:9</p>
+<section class="section-mid py-20 px-6 reveal">
+  <div class="max-w-6xl mx-auto flex justify-center">
+    <div class="w-full max-w-2xl text-center px-8 md:px-14 py-14 relative overflow-hidden" style="background:linear-gradient(150deg,#3d1809 0%,#1a0a04 60%,#2e1008 100%);border:1px solid rgba(201,164,120,0.22);border-radius:18px;box-shadow:0 28px 70px rgba(0,0,0,0.6),inset 0 1px 0 rgba(201,164,120,0.1);">
+      <div class="absolute top-0 left-0 w-36 h-36 opacity-10 pointer-events-none" style="background:radial-gradient(circle at 0 0,var(--gold),transparent);border-radius:0 0 100% 0;"></div>
+      <div class="absolute bottom-0 right-0 w-36 h-36 opacity-10 pointer-events-none" style="background:radial-gradient(circle at 100% 100%,var(--gold),transparent);border-radius:100% 0 0 0;"></div>
+      <div class="text-5xl mb-6 relative z-10">✝️</div>
+      <p class="scripture-quote text-white mb-6 relative z-10">You are a chosen race, a royal priesthood, a holy nation, God's own people.</p>
+      <div class="ornament relative z-10"><span class="ornament-icon">✦</span></div>
+      <p class="font-cinzel text-xs tracking-[0.3em] mt-5 relative z-10" style="color:var(--gold-light);">— 1 PETER 2:9</p>
+    </div>
   </div>
 </section>
 
@@ -290,7 +194,7 @@
       </ul>
     </div>
   </div>
-  <div class="max-w-6xl mx-auto mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-3" style="border-top:1px solid rgba(201,168,76,0.1);">
+  <div class="max-w-6xl mx-auto mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-3" style="border-top:1px solid rgba(201,164,120,0.1);">
     <p class="text-gray-600 text-xs">&copy; 2026 St. Patrick's Catholic Cathedral, Ado-Ekiti. All rights reserved.</p>
     <p class="text-gray-600 text-xs font-cinzel tracking-wider">DIOCESE OF EKITI · ECCLESIASTICAL PROVINCE OF IBADAN</p>
   </div>
@@ -298,5 +202,84 @@
 
 <div id="lightbox"><img id="lightbox-img" src="" alt=""/></div>
 <script src="js/main.js"></script>
+<script>
+(function renderAboutPage() {
+  const s = CathedralDB.get('settings');
+
+  /* Ticker */
+  const ticker = document.getElementById('ticker-text');
+  if (ticker) ticker.textContent = CathedralDB.buildTickerText() || ticker.textContent;
+
+  /* History paragraphs */
+  const histEl = document.getElementById('history-text-container');
+  if (histEl) {
+    const p1 = s.churchHistoryP1 || '';
+    const p2 = s.churchHistoryP2 || '';
+    const p3 = s.churchHistoryP3 || '';
+    histEl.innerHTML = [p1,p2,p3].filter(Boolean).map((p,i) =>
+      `<p class="text-gray-300 leading-relaxed ${i < 2 ? 'mb-4' : ''}">${p}</p>`
+    ).join('');
+  }
+
+  /* Bishop section */
+  const bishopEl = document.getElementById('bishop-section');
+  if (bishopEl) {
+    bishopEl.innerHTML = `
+      <div class="grid md:grid-cols-5 gap-10 items-center">
+        <div class="md:col-span-2">
+          <div class="relative inline-block">
+            <div class="absolute -inset-3 border border-yellow-700 opacity-30"></div>
+            <img src="${s.bishopImage || ''}" alt="${s.bishopName || 'Bishop'}" class="relative z-10 w-full object-cover" style="height:380px;object-fit:cover;">
+          </div>
+        </div>
+        <div class="md:col-span-3">
+          <p class="font-cinzel text-xs tracking-[0.3em] mb-3" style="color:var(--gold);">SHEPHERD OF THE FLOCK</p>
+          <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-white mb-2">${s.bishopName || ''}</h2>
+          <p class="font-cinzel text-sm tracking-widest mb-5" style="color:var(--gold-light);">${s.bishopTitle || ''}</p>
+          <div class="ornament justify-start"><span class="ornament-icon">✦</span></div>
+          ${s.bishopBio1 ? `<p class="text-gray-300 leading-relaxed mb-4">${s.bishopBio1}</p>` : ''}
+          ${s.bishopBio2 ? `<p class="text-gray-300 leading-relaxed mb-6">${s.bishopBio2}</p>` : ''}
+          <div class="grid grid-cols-2 gap-4">
+            <div class="mass-card rounded-sm">
+              <div class="font-cinzel text-xs tracking-wider mb-1" style="color:var(--gold);">ORDAINED BISHOP</div>
+              <div class="text-white text-sm font-semibold">${s.bishopSince || ''}</div>
+            </div>
+            <div class="mass-card rounded-sm">
+              <div class="font-cinzel text-xs tracking-wider mb-1" style="color:var(--gold);">DIOCESE</div>
+              <div class="text-white text-sm font-semibold">${s.diocese || 'Ekiti, Nigeria'}</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  /* Parish Societies */
+  const societiesEl = document.getElementById('societies-grid');
+  if (societiesEl) {
+    const societies = (CathedralDB.get('societies') || [])
+      .filter(s => s.active !== false)
+      .sort((a,b) => (a.order||0) - (b.order||0));
+    societiesEl.innerHTML = societies.map(s => `
+      <div class="card-glass p-6 rounded-sm">
+        <div class="text-3xl mb-3">${s.emoji || '✝️'}</div>
+        <h4 class="font-cinzel font-bold text-white mb-2">${s.name}</h4>
+        <p class="text-gray-400 text-sm">${s.description}</p>
+      </div>`).join('') || '<p class="text-gray-500 col-span-3">No societies listed.</p>';
+  }
+
+  /* Timeline */
+  const tlEl = document.getElementById('timeline-container');
+  if (tlEl) {
+    const milestones = (CathedralDB.get('milestones') || [])
+      .slice().sort((a,b) => (a.order||0) - (b.order||0));
+    tlEl.innerHTML = milestones.map(m => `
+      <div class="timeline-item">
+        <div class="font-cinzel font-bold text-sm mb-1" style="color:var(--gold);">${m.year}</div>
+        <h4 class="font-cinzel font-bold text-white mb-1">${m.title}</h4>
+        <p class="text-gray-400 text-sm">${m.description}</p>
+      </div>`).join('') || '<p class="text-gray-500">No milestones yet.</p>';
+  }
+})();
+</script>
 </body>
 </html>

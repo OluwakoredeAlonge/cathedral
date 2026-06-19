@@ -29,13 +29,22 @@ const SIDEBAR_LINKS = [
   { section: 'CONTENT' },
   { href: 'announcements.html', icon: 'fa-bullhorn',       label: 'Announcements' },
   { href: 'homepage.html',      icon: 'fa-house',          label: 'Homepage Content' },
+  { section: 'LITURGY' },
   { href: 'masses.html',        icon: 'fa-church',         label: 'Mass Schedule' },
+  { href: 'devotions.html',     icon: 'fa-praying-hands',  label: 'Devotions' },
+  { href: 'sacraments.html',    icon: 'fa-cross',          label: 'Sacraments' },
+  { href: 'catechism.html',     icon: 'fa-book-open',      label: 'Catechism & RCIA' },
+  { href: 'liturgical-calendar.html', icon: 'fa-calendar-check', label: 'Liturgical Calendar' },
   { section: 'MINISTRY' },
   { href: 'events.html',        icon: 'fa-calendar-days',  label: 'Events' },
   { href: 'gallery.html',       icon: 'fa-images',         label: 'Gallery' },
+  { href: 'societies.html',     icon: 'fa-people-group',   label: 'Parish Societies' },
   { section: 'BLOG' },
   { href: 'posts.html',         icon: 'fa-newspaper',      label: 'All Posts' },
   { href: 'post-editor.html',   icon: 'fa-pen-to-square',  label: 'New Post' },
+  { section: 'ABOUT PAGE' },
+  { href: 'milestones.html',    icon: 'fa-timeline',       label: 'Key Milestones' },
+  { href: 'about-content.html', icon: 'fa-feather-pointed',label: 'History & Bishop Bio' },
   { section: 'SYSTEM' },
   { href: 'settings.html',      icon: 'fa-gear',           label: 'Settings' },
   { href: 'users.html',         icon: 'fa-users',          label: 'Admin Users' },
@@ -149,6 +158,5 @@ function slugify(text) {
 
 /* ── Init on load ── */
 window.addEventListener('DOMContentLoaded', () => {
-  requireAuth();
   renderSidebar();
 });

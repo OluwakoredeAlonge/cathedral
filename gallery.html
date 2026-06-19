@@ -7,12 +7,13 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="js/data.js"></script>
 </head>
 <body>
 
 <div class="ticker-wrap" style="position:relative;z-index:1001;">
-  <div class="ticker-content font-cinzel text-xs tracking-widest text-white opacity-90">
-    &nbsp;&nbsp;&nbsp;✦ Moments of Grace — A visual journey through parish life at St. Patrick's &nbsp;|&nbsp; ✦ Submit your photos to: photos@catholicdioceseofekiti.org &nbsp;&nbsp;&nbsp;
+  <div id="ticker-text" class="ticker-content font-cinzel text-xs tracking-widest text-white opacity-90">
+    &nbsp;&nbsp;&nbsp;✦ Moments of Grace — A visual journey through parish life at St. Patrick's &nbsp;&nbsp;&nbsp;
   </div>
 </div>
 
@@ -54,7 +55,7 @@
 <!-- Page Hero -->
 <section class="page-hero" style="padding-top:8.5rem;padding-bottom:5rem;">
   <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1507692049790-de58290a4334?w=1920&q=80');"></div>
-  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,13,31,0.6),rgba(6,13,31,0.92));"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,5,3,0.6),rgba(15,5,3,0.92));"></div>
   <div class="relative z-10 max-w-3xl mx-auto px-6">
     <p class="font-cinzel text-xs tracking-[0.4em] mb-4 fade-up" style="color:var(--gold);">MOMENTS OF GRACE</p>
     <h1 class="font-cinzel font-black text-white mb-4 fade-up delay-1" style="font-size:clamp(2.2rem,5vw,4rem);">Cathedral Gallery</h1>
@@ -68,11 +69,11 @@
 <section class="section-mid py-10 px-6">
   <div class="max-w-6xl mx-auto">
     <div class="flex flex-wrap gap-3 justify-center reveal" id="filter-tabs">
-      <button class="filter-btn active font-cinzel text-xs tracking-widest px-5 py-2 border transition-all duration-300" data-filter="all" style="border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.1);">ALL</button>
-      <button class="filter-btn font-cinzel text-xs tracking-widest px-5 py-2 border transition-all duration-300" data-filter="liturgy" style="border-color:rgba(201,168,76,0.3);color:rgba(248,243,232,0.6);">LITURGY</button>
-      <button class="filter-btn font-cinzel text-xs tracking-widest px-5 py-2 border transition-all duration-300" data-filter="community" style="border-color:rgba(201,168,76,0.3);color:rgba(248,243,232,0.6);">COMMUNITY</button>
-      <button class="filter-btn font-cinzel text-xs tracking-widest px-5 py-2 border transition-all duration-300" data-filter="youth" style="border-color:rgba(201,168,76,0.3);color:rgba(248,243,232,0.6);">YOUTH</button>
-      <button class="filter-btn font-cinzel text-xs tracking-widest px-5 py-2 border transition-all duration-300" data-filter="architecture" style="border-color:rgba(201,168,76,0.3);color:rgba(248,243,232,0.6);">ARCHITECTURE</button>
+      <button class="filter-btn active font-cinzel text-xs tracking-widest px-5 py-2 border transition-all duration-300" data-filter="all" style="border-color:var(--gold);color:var(--gold);background:rgba(201,164,120,0.1);">ALL</button>
+      <button class="filter-btn font-cinzel text-xs tracking-widest px-5 py-2 border transition-all duration-300" data-filter="liturgy" style="border-color:rgba(201,164,120,0.3);color:rgba(248,243,232,0.6);">LITURGY</button>
+      <button class="filter-btn font-cinzel text-xs tracking-widest px-5 py-2 border transition-all duration-300" data-filter="community" style="border-color:rgba(201,164,120,0.3);color:rgba(248,243,232,0.6);">COMMUNITY</button>
+      <button class="filter-btn font-cinzel text-xs tracking-widest px-5 py-2 border transition-all duration-300" data-filter="youth" style="border-color:rgba(201,164,120,0.3);color:rgba(248,243,232,0.6);">YOUTH</button>
+      <button class="filter-btn font-cinzel text-xs tracking-widest px-5 py-2 border transition-all duration-300" data-filter="architecture" style="border-color:rgba(201,164,120,0.3);color:rgba(248,243,232,0.6);">ARCHITECTURE</button>
     </div>
   </div>
 </section>
@@ -82,85 +83,7 @@
 <section class="section-dark pb-20 px-6">
   <div class="max-w-6xl mx-auto">
 
-    <!-- Row 1 -->
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 reveal" id="gallery-grid">
-
-      <div class="gallery-item col-span-2 row-span-2 rounded-sm" style="height:420px;" data-category="architecture">
-        <img src="https://images.unsplash.com/photo-1548625149-720754952f87?w=800&q=80" alt="Cathedral Interior" loading="lazy">
-        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">Cathedral Interior</span></div>
-      </div>
-
-      <div class="gallery-item rounded-sm" style="height:200px;" data-category="liturgy">
-        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500&q=80" alt="Holy Mass" loading="lazy">
-        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">Holy Mass</span></div>
-      </div>
-
-      <div class="gallery-item rounded-sm" style="height:200px;" data-category="community">
-        <img src="https://images.unsplash.com/photo-1507692049790-de58290a4334?w=500&q=80" alt="Baptism" loading="lazy">
-        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">Baptism</span></div>
-      </div>
-
-      <div class="gallery-item rounded-sm" style="height:200px;" data-category="youth">
-        <img src="https://images.unsplash.com/photo-1543207093-7bf3a6bfcfd2?w=500&q=80" alt="Youth Ministry" loading="lazy">
-        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">Youth Ministry</span></div>
-      </div>
-
-      <div class="gallery-item rounded-sm" style="height:200px;" data-category="liturgy">
-        <img src="https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=500&q=80" alt="Cathedral Choir" loading="lazy">
-        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">Cathedral Choir</span></div>
-      </div>
-
-      <div class="gallery-item col-span-2 rounded-sm" style="height:280px;" data-category="community">
-        <img src="https://images.unsplash.com/photo-1596496181848-3091d4878b24?w=800&q=80" alt="Corpus Christi" loading="lazy">
-        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">Corpus Christi Procession</span></div>
-      </div>
-
-      <div class="gallery-item rounded-sm" style="height:280px;" data-category="architecture">
-        <img src="https://images.unsplash.com/photo-1583429780296-e8b9d8df0b19?w=500&q=80" alt="Cathedral Exterior" loading="lazy">
-        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">Cathedral Exterior</span></div>
-      </div>
-
-      <div class="gallery-item rounded-sm" style="height:280px;" data-category="liturgy">
-        <img src="https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=500&q=80" alt="Adoration" loading="lazy">
-        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">Eucharistic Adoration</span></div>
-      </div>
-
-      <div class="gallery-item rounded-sm" style="height:240px;" data-category="youth">
-        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&q=80" alt="Youth Fellowship" loading="lazy">
-        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">Youth Fellowship</span></div>
-      </div>
-
-      <div class="gallery-item rounded-sm" style="height:240px;" data-category="community">
-        <img src="https://images.unsplash.com/photo-1567529684892-09290a1b2d05?w=500&q=80" alt="Parish gathering" loading="lazy">
-        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">Parish Gathering</span></div>
-      </div>
-
-      <div class="gallery-item rounded-sm" style="height:240px;" data-category="architecture">
-        <img src="https://images.unsplash.com/photo-1568667256549-094345857637?w=500&q=80" alt="Stained glass" loading="lazy">
-        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">Cathedral Windows</span></div>
-      </div>
-
-      <div class="gallery-item rounded-sm" style="height:240px;" data-category="liturgy">
-        <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?w=500&q=80" alt="Candles" loading="lazy">
-        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">Candlelight Vigil</span></div>
-      </div>
-
-      <div class="gallery-item col-span-2 rounded-sm" style="height:300px;" data-category="community">
-        <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800&q=80" alt="Parish family" loading="lazy">
-        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">Our Parish Family</span></div>
-      </div>
-
-      <div class="gallery-item rounded-sm" style="height:300px;" data-category="liturgy">
-        <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=500&q=80" alt="Bishop Mass" loading="lazy">
-        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">Bishop's Mass</span></div>
-      </div>
-
-      <div class="gallery-item rounded-sm" style="height:300px;" data-category="youth">
-        <img src="https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?w=500&q=80" alt="Confirmation" loading="lazy">
-        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">Confirmation</span></div>
-      </div>
-
-    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 reveal" id="gallery-grid"></div>
   </div>
 </section>
 
@@ -215,7 +138,7 @@
       </ul>
     </div>
   </div>
-  <div class="max-w-6xl mx-auto mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-3" style="border-top:1px solid rgba(201,168,76,0.1);">
+  <div class="max-w-6xl mx-auto mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-3" style="border-top:1px solid rgba(201,164,120,0.1);">
     <p class="text-gray-600 text-xs">&copy; 2026 St. Patrick's Catholic Cathedral, Ado-Ekiti. All rights reserved.</p>
     <p class="text-gray-600 text-xs font-cinzel tracking-wider">DIOCESE OF EKITI · ECCLESIASTICAL PROVINCE OF IBADAN</p>
   </div>
@@ -226,35 +149,51 @@
 
 <script src="js/main.js"></script>
 <script>
-  /* Gallery filter */
+(function renderGalleryPage() {
+  /* Ticker */
+  const ticker = document.getElementById('ticker-text');
+  if (ticker) { const t = CathedralDB.buildTickerText(); if(t) ticker.textContent = t; }
+
+  /* Gallery grid */
+  const grid = document.getElementById('gallery-grid');
+  const items = CathedralDB.get('gallery') || [];
+
+  function spanClasses(span) {
+    if (span === '2x2') return { cls: 'col-span-2 row-span-2', h: '420px' };
+    if (span === '2x1') return { cls: 'col-span-2',            h: '280px' };
+    return                      { cls: '',                      h: '220px' };
+  }
+
+  if (grid) {
+    grid.innerHTML = items.map(item => {
+      const { cls, h } = spanClasses(item.span);
+      return `
+      <div class="gallery-item ${cls} rounded-sm" style="height:${h};" data-category="${item.category}">
+        <img src="${item.image}" alt="${item.title}" loading="lazy">
+        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">${item.title}</span></div>
+      </div>`;
+    }).join('') || '<p class="text-gray-500 col-span-4 text-center py-10">No gallery items yet.</p>';
+  }
+
+  /* Filter buttons */
   const filterBtns = document.querySelectorAll('.filter-btn');
-  const galleryItems = document.querySelectorAll('#gallery-grid .gallery-item');
+  function applyFilter(filter) {
+    const galleryItems = document.querySelectorAll('#gallery-grid .gallery-item');
+    galleryItems.forEach(item => {
+      const show = filter === 'all' || item.dataset.category === filter;
+      item.style.display = show ? 'block' : 'none';
+      if (show) { item.style.opacity = '0'; setTimeout(() => { item.style.transition = 'opacity 0.4s'; item.style.opacity = '1'; }, 10); }
+    });
+  }
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      filterBtns.forEach(b => {
-        b.classList.remove('active');
-        b.style.background = 'transparent';
-        b.style.color = 'rgba(248,243,232,0.6)';
-        b.style.borderColor = 'rgba(201,168,76,0.3)';
-      });
-      btn.classList.add('active');
-      btn.style.background = 'rgba(201,168,76,0.1)';
-      btn.style.color = 'var(--gold)';
-      btn.style.borderColor = 'var(--gold)';
-
-      const filter = btn.dataset.filter;
-      galleryItems.forEach(item => {
-        if (filter === 'all' || item.dataset.category === filter) {
-          item.style.display = 'block';
-          item.style.opacity = '0';
-          setTimeout(() => { item.style.transition = 'opacity 0.4s'; item.style.opacity = '1'; }, 10);
-        } else {
-          item.style.display = 'none';
-        }
-      });
+      filterBtns.forEach(b => { b.classList.remove('active'); b.style.background='transparent'; b.style.color='rgba(248,243,232,0.6)'; b.style.borderColor='rgba(201,164,120,0.3)'; });
+      btn.classList.add('active'); btn.style.background='rgba(201,164,120,0.1)'; btn.style.color='var(--gold)'; btn.style.borderColor='var(--gold)';
+      applyFilter(btn.dataset.filter);
     });
   });
+})();
 </script>
 </body>
 </html>
