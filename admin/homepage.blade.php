@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Homepage Content — Cathedral CMS</title>
+  <link rel="stylesheet" href="{{ asset('admin/css/admin.css') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="{{ asset('js/data.js') }}"></script>
+  <style>
+    .section-card { background:var(--surface2); border:1px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:16px; }
+    .section-card-header { display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface3);border-bottom:1px solid var(--border);cursor:pointer; }
+    .section-card-header:hover { background:rgba(201,168,76,0.06); }
+    .section-card-body { padding:18px; display:none; }
+    .section-card-body.open { display:block; }
+    .section-label { font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px; }
+    .section-label i { color:var(--gold); }
+    .live-preview { background:#060d1f;border-radius:8px;padding:16px;font-family:'Cinzel',serif;color:#fff; }
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar"></aside>
+  <div class="main-area">
+    <header class="top-header">
+      <div class="page-title"><h1>Homepage Content</h1><p>Edit every text section that appears on the public homepage</p></div>
+      <div class="header-actions">
+        <a href="../index.html" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-external-link-alt"></i> View Homepage</a>
+        <button class="btn btn-gold" onclick="saveAll()"><i class="fas fa-save"></i> Save All</button>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="breadcrumb"><a href="index.html">Dashboard</a><span>/</span><span>Homepage Content</span></div>
+
+      <div style="display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;">
+
+        <!-- Editor sections -->
+        <div>
+
+          <!-- Hero -->
+          <div class="section-card">
+            <div class="section-card-header" onclick="toggleSection(this)">
+              <div class="section-label"><i class="fas fa-image"></i> Hero Section</div>
+              <i class="fas fa-chevron-down" style="color:var(--text-dim);font-size:11px;transition:transform .2s;"></i>
+            </div>
+            <div class="section-card-body open">
+              <div class="form-row form-row-2">
+                <div class="form-group"><label class="form-label">Main Title (large text)</label><input id="heroTitle" class="form-control" oninput="liveUpdate()" /></div>
+                <div class="form-group"><label class="form-label">Subtitle</label><input id="heroSubtitle" class="form-control" oninput="liveUpdate()" /></div>
+              </div>
+              <div class="form-group"><label class="form-label">Tagline / Quote</label><input id="heroTagline" class="form-control" oninput="liveUpdate()" /></div>
+              <div class="form-group">
+                <label class="form-label">Background Image URL</label>
+                <input id="heroImage" class="form-control" placeholder="https://…" oninput="liveUpdate()" />
+                <div class="form-hint">Use a high-resolution landscape image (1920×1080 recommended).</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Welcome -->
+          <div class="section-card">
+            <div class="section-card-header" onclick="toggleSection(this)">
+              <div class="section-label"><i class="fas fa-church"></i> Welcome Strip</div>
+              <i class="fas fa-chevron-down" style="color:var(--text-dim);font-size:11px;transition:transform .2s;"></i>
+            </div>
+            <div class="section-card-body open">
+              <div class="form-group"><label class="form-label">Section Title</label><input id="welcomeTitle" class="form-control" oninput="liveUpdate()" /></div>
+              <div class="form-group"><label class="form-label">Welcome Body Text</label><textarea id="welcomeText" class="form-control" rows="4" oninput="liveUpdate()"></textarea></div>
+            </div>
+          </div>
+
+          <!-- Bishop -->
+          <div class="section-card">
+            <div class="section-card-header" onclick="toggleSection(this)">
+              <div class="section-label"><i class="fas fa-user-tie"></i> Bishop's Message</div>
+              <i class="fas fa-chevron-down" style="color:var(--text-dim);font-size:11px;transition:transform .2s;"></i>
+            </div>
+            <div class="section-card-body">
+              <div class="form-row form-row-2">
+                <div class="form-group"><label class="form-label">Bishop's Name</label><input id="bishopName" class="form-control" /></div>
+                <div class="form-group"><label class="form-label">Title / Credentials</label><input id="bishopTitle" class="form-control" /></div>
+                <div class="form-group"><label class="form-label">Ordained / Since</label><input id="bishopSince" class="form-control" /></div>
+              </div>
+              <div class="form-group"><label class="form-label">Photo URL</label><input id="bishopImage" class="form-control" placeholder="https://…" oninput="previewBishop()" /></div>
+              <div class="img-preview" id="bishop-preview" style="height:140px;margin-bottom:14px;"><span><i class="fas fa-user" style="display:block;font-size:20px;margin-bottom:4px;"></i>Photo preview</span></div>
+              <div class="form-group"><label class="form-label">Message Quote</label><textarea id="bishopMessage" class="form-control" rows="5"></textarea></div>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="section-card">
+            <div class="section-card-header" onclick="toggleSection(this)">
+              <div class="section-label"><i class="fas fa-chart-bar"></i> Statistics Strip</div>
+              <i class="fas fa-chevron-down" style="color:var(--text-dim);font-size:11px;transition:transform .2s;"></i>
+            </div>
+            <div class="section-card-body">
+              <div class="form-row form-row-2">
+                <div class="form-group"><label class="form-label">Founded Year</label><input id="statFounded" class="form-control" oninput="liveUpdate()" /></div>
+                <div class="form-group"><label class="form-label">Years of Faith</label><input id="statYears" class="form-control" placeholder="e.g. 95+" oninput="liveUpdate()" /></div>
+                <div class="form-group"><label class="form-label">Weekly Masses</label><input id="statMasses" class="form-control" oninput="liveUpdate()" /></div>
+                <div class="form-group"><label class="form-label">Parishioners</label><input id="statParishioners" class="form-control" placeholder="e.g. 5,000+" oninput="liveUpdate()" /></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scripture quote -->
+          <div class="section-card">
+            <div class="section-card-header" onclick="toggleSection(this)">
+              <div class="section-label"><i class="fas fa-book-open"></i> Scripture Quote Strips</div>
+              <i class="fas fa-chevron-down" style="color:var(--text-dim);font-size:11px;transition:transform .2s;"></i>
+            </div>
+            <div class="section-card-body">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">These green-background quote strips appear between sections across several pages.</p>
+              <div class="form-group"><label class="form-label">Homepage Quote</label><input id="quoteHome" class="form-control" placeholder="e.g. I was glad when they said to me, &quot;Let us go to the house of the Lord!&quot;" /></div>
+              <div class="form-group"><label class="form-label">Scripture Reference</label><input id="quoteHomeRef" class="form-control" placeholder="e.g. Psalm 122:1" /></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Live preview sidebar -->
+        <div style="position:sticky;top:80px;display:flex;flex-direction:column;gap:14px;">
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title"><i class="fas fa-eye"></i> Live Preview</div></div>
+            <div class="panel-body" style="padding:12px;">
+
+              <!-- Hero mini preview -->
+              <div style="border-radius:7px;overflow:hidden;height:140px;position:relative;margin-bottom:12px;" id="hero-mini">
+                <img id="hero-mini-img" src="" style="width:100%;height:100%;object-fit:cover;display:none;">
+                <div style="position:absolute;inset:0;background:rgba(6,13,31,0.75);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:10px;text-align:center;">
+                  <div id="prev-heroTitle" style="font-family:'Cinzel',serif;font-size:16px;font-weight:900;color:#fff;letter-spacing:0.1em;"></div>
+                  <div id="prev-heroSubtitle" style="font-family:'Cinzel',serif;font-size:9px;color:#c9a84c;letter-spacing:0.3em;margin-top:3px;"></div>
+                  <div id="prev-heroTagline" style="font-size:10px;color:rgba(255,255,255,0.7);margin-top:6px;font-style:italic;"></div>
+                </div>
+              </div>
+
+              <!-- Welcome preview -->
+              <div style="background:var(--surface3);border-radius:7px;padding:12px;margin-bottom:12px;">
+                <div id="prev-welcomeTitle" style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:#fff;margin-bottom:6px;"></div>
+                <div id="prev-welcomeText" style="font-size:11px;color:var(--text-muted);line-height:1.5;"></div>
+              </div>
+
+              <!-- Stats preview -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                <div style="text-align:center;background:var(--surface3);border-radius:6px;padding:10px;">
+                  <div id="prev-statFounded" style="font-family:'Cinzel',serif;font-size:16px;font-weight:900;color:#c9a84c;"></div>
+                  <div style="font-size:9px;color:var(--text-dim);margin-top:2px;">FOUNDED</div>
+                </div>
+                <div style="text-align:center;background:var(--surface3);border-radius:6px;padding:10px;">
+                  <div id="prev-statParishioners" style="font-family:'Cinzel',serif;font-size:16px;font-weight:900;color:#c9a84c;"></div>
+                  <div style="font-size:9px;color:var(--text-dim);margin-top:2px;">PARISHIONERS</div>
+                </div>
+              </div>
+
+              <a href="../index.html" target="_blank" class="btn btn-outline" style="width:100%;justify-content:center;font-size:11px;">
+                <i class="fas fa-external-link-alt"></i> Open Full Homepage
+              </a>
+            </div>
+          </div>
+
+          <!-- Save card -->
+          <div class="panel">
+            <div class="panel-body">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">Changes are saved to your browser's local storage and reflected on the public site immediately.</p>
+              <button class="btn btn-gold" style="width:100%;justify-content:center;" onclick="saveAll()"><i class="fas fa-save"></i> Save All Changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="{{ asset('admin/js/admin.js') }}"></script>
+<script>
+  const FIELD_IDS = ['heroTitle','heroSubtitle','heroTagline','heroImage','welcomeTitle','welcomeText',
+    'bishopName','bishopTitle','bishopSince','bishopImage','bishopMessage',
+    'statFounded','statYears','statMasses','statParishioners','quoteHome','quoteHomeRef'];
+
+  function loadFields() {
+    const s = CathedralDB.get('settings');
+    FIELD_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = s[id] || '';
+    });
+    liveUpdate();
+    previewBishop();
+  }
+
+  function saveAll() {
+    const s = CathedralDB.get('settings');
+    FIELD_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) s[id] = el.value;
+    });
+    CathedralDB.set('settings', s);
+    showToast('Homepage content saved!', 'success');
+    CathedralDB.log('Admin', 'Updated homepage content');
+  }
+
+  function liveUpdate() {
+    const get = id => document.getElementById(id)?.value || '';
+    document.getElementById('prev-heroTitle').textContent     = get('heroTitle');
+    document.getElementById('prev-heroSubtitle').textContent  = get('heroSubtitle');
+    document.getElementById('prev-heroTagline').textContent   = get('heroTagline');
+    document.getElementById('prev-welcomeTitle').textContent  = get('welcomeTitle');
+    document.getElementById('prev-welcomeText').textContent   = get('welcomeText').slice(0, 120) + (get('welcomeText').length > 120 ? '…' : '');
+    document.getElementById('prev-statFounded').textContent   = get('statFounded');
+    document.getElementById('prev-statParishioners').textContent = get('statParishioners');
+    const imgEl = document.getElementById('hero-mini-img');
+    const url   = get('heroImage');
+    if (url) { imgEl.src = url; imgEl.style.display = 'block'; } else { imgEl.style.display = 'none'; }
+  }
+
+  function previewBishop() {
+    const url = document.getElementById('bishopImage')?.value.trim();
+    const p   = document.getElementById('bishop-preview');
+    p.innerHTML = url ? `<img src="${url}" onerror="this.parentElement.innerHTML='<span>Invalid URL</span>'" style="width:100%;height:100%;object-fit:cover;">` : '<span><i class="fas fa-user" style="display:block;font-size:20px;margin-bottom:4px;"></i>Photo preview</span>';
+  }
+
+  function toggleSection(header) {
+    const body  = header.nextElementSibling;
+    const arrow = header.querySelector('.fa-chevron-down');
+    const open  = body.classList.toggle('open');
+    arrow.style.transform = open ? 'rotate(180deg)' : '';
+  }
+
+  window.addEventListener('DOMContentLoaded', loadFields);
+</script>
+</body>
+</html>

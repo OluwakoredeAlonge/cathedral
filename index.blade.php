@@ -1,0 +1,414 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>St. Patrick's Catholic Cathedral — Ado-Ekiti</title>
+  <meta name="description" content="Official website of St. Patrick's Catholic Cathedral, Ado-Ekiti, Diocese of Ekiti, Nigeria." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="{{ asset('js/data.js') }}"></script>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     ANNOUNCEMENT TICKER
+════════════════════════════════════════════════ -->
+<div class="ticker-wrap" style="position:relative;z-index:1001;">
+  <div id="ticker-text" class="ticker-content font-cinzel text-xs tracking-widest text-white opacity-90">
+    &nbsp;&nbsp;&nbsp;✦ HOLY MASS: Weekdays 6:30am &amp; 7:00am &nbsp;|&nbsp; ✦ Welcome to St. Patrick's Catholic Cathedral &nbsp;&nbsp;&nbsp;
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════════ -->
+<nav id="navbar" class="py-4 px-6 md:px-12">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <!-- Logo -->
+    <a href="index.html" class="flex items-center gap-3 group">
+      <div class="w-10 h-10 rounded-full border border-yellow-600 flex items-center justify-center text-yellow-500 text-lg font-bold font-cinzel group-hover:bg-yellow-600 group-hover:text-navy transition-all duration-300">✝</div>
+      <div>
+        <div class="font-cinzel text-sm font-bold tracking-widest text-white leading-tight">ST. PATRICK'S</div>
+        <div class="font-cinzel text-xs tracking-widest" style="color:var(--gold);font-size:0.6rem;">CATHOLIC CATHEDRAL</div>
+      </div>
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="hidden lg:flex items-center gap-8">
+      <a href="index.html"   class="nav-link active">HOME</a>
+      <a href="about.html"   class="nav-link">ABOUT</a>
+      <a href="masses.html"  class="nav-link">MASSES</a>
+      <a href="events.html"  class="nav-link">EVENTS</a>
+      <a href="blog.html"    class="nav-link">BLOG</a>
+      <a href="gallery.html" class="nav-link">GALLERY</a>
+      <a href="contact.html" class="nav-link">CONTACT</a>
+    </div>
+
+    <!-- Give button + Hamburger -->
+    <div class="flex items-center gap-4">
+      <a href="contact.html" class="hidden md:inline-flex btn-gold text-xs">GIVE ONLINE</a>
+      <button id="menu-btn" class="lg:hidden text-white focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu">
+  <button id="close-menu" class="absolute top-6 right-6 text-white text-2xl">&times;</button>
+  <div class="text-center mb-6">
+    <div class="font-cinzel text-2xl font-bold tracking-widest" style="color:var(--gold);">✝</div>
+  </div>
+  <a href="index.html"   class="mobile-nav-link">HOME</a>
+  <a href="about.html"   class="mobile-nav-link">ABOUT</a>
+  <a href="masses.html"  class="mobile-nav-link">MASSES</a>
+  <a href="events.html"  class="mobile-nav-link">EVENTS</a>
+  <a href="blog.html"    class="mobile-nav-link">BLOG</a>
+  <a href="gallery.html" class="mobile-nav-link">GALLERY</a>
+  <a href="contact.html" class="mobile-nav-link">CONTACT</a>
+  <a href="contact.html" class="btn-gold mt-4">GIVE ONLINE</a>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════ -->
+<section class="hero-section" style="margin-top:-6.75rem;">
+  <!-- PLACEHOLDER: Replace with actual St. Patrick's Cathedral, Ado-Ekiti photo -->
+  <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1516912481808-3406841bd33c?w=1920&q=85');"></div>
+  <div class="hero-overlay"></div>
+
+  <!-- Cross watermark -->
+  <div class="cross-watermark" style="top:50%;left:50%;transform:translate(-50%,-50%);">✝</div>
+
+  <div class="hero-content px-4 max-w-4xl mx-auto">
+    <p class="fade-up delay-1 font-cinzel tracking-[0.35em] text-xs mb-4" style="color:var(--gold);">DIOCESE OF EKITI &nbsp;·&nbsp; ADO-EKITI, NIGERIA</p>
+    <h1 class="fade-up delay-2 font-cinzel font-black text-white leading-none mb-2" style="font-size:clamp(2.6rem,7vw,5.5rem);">ST. PATRICK'S</h1>
+    <h2 class="fade-up delay-2 font-cormorant font-light text-white leading-none mb-6" style="font-size:clamp(1.4rem,4vw,2.8rem);letter-spacing:0.25em;color:var(--cream);">CATHOLIC CATHEDRAL</h2>
+    <div class="fade-up delay-3 ornament"><span class="ornament-icon">✦</span></div>
+    <p class="fade-up delay-3 font-cormorant italic text-lg md:text-xl mb-8 max-w-xl mx-auto" style="color:rgba(248,243,232,0.82);font-size:1.25rem;">
+      "A House of God, a Gate of Heaven" — serving the faithful of Ado-Ekiti since 1929
+    </p>
+    <div class="fade-up delay-4 flex flex-wrap gap-4 justify-center">
+      <a href="masses.html" class="btn-gold">VIEW MASS TIMES</a>
+      <a href="about.html"  class="btn-outline">OUR STORY</a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60" style="z-index:2;">
+    <span class="font-cinzel text-xs tracking-widest" style="color:var(--gold);">SCROLL</span>
+    <div style="width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);animation:pulse 2s infinite;"></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     WELCOME STRIP
+════════════════════════════════════════════════ -->
+<section class="section-mid py-16 px-6">
+  <div class="max-w-4xl mx-auto text-center reveal">
+    <p class="font-cinzel text-xs tracking-[0.3em] mb-4" style="color:var(--gold);">WELCOME HOME</p>
+    <h2 id="welcome-title" class="font-cinzel text-3xl md:text-5xl font-bold text-white mb-6">A Community of Faith,<br/><span class="gold-text">Hope &amp; Love</span></h2>
+    <div class="ornament"><span class="ornament-icon">✦</span></div>
+    <p id="welcome-text" class="font-cormorant text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto" style="font-size:1.2rem;">
+      St. Patrick's Catholic Cathedral stands as the mother church of the Diocese of Ekiti — a spiritual home where generations of faithful have encountered the living God. Whether you are visiting for the first time or returning after many years, you are welcome here.
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     QUICK STATS
+════════════════════════════════════════════════ -->
+<section class="section-dark py-14 px-6 border-y" style="border-color:rgba(201,164,120,0.1);">
+  <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center reveal">
+    <div>
+      <div class="counter-num" data-target="1929" data-suffix="">1929</div>
+      <div class="font-cinzel text-xs tracking-widest mt-1" style="color:var(--gold);">FOUNDED</div>
+    </div>
+    <div>
+      <div class="counter-num" data-target="95" data-suffix="+">0+</div>
+      <div class="font-cinzel text-xs tracking-widest mt-1" style="color:var(--gold);">YEARS OF FAITH</div>
+    </div>
+    <div>
+      <div class="counter-num" data-target="6" data-suffix="">0</div>
+      <div class="font-cinzel text-xs tracking-widest mt-1" style="color:var(--gold);">MASSES WEEKLY</div>
+    </div>
+    <div>
+      <div class="counter-num" data-target="5000" data-suffix="+">0+</div>
+      <div class="font-cinzel text-xs tracking-widest mt-1" style="color:var(--gold);">PARISHIONERS</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     BISHOP'S MESSAGE
+════════════════════════════════════════════════ -->
+<section class="section-mid py-20 px-6">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+    <!-- Image -->
+    <div class="reveal relative">
+      <div class="absolute -inset-3 border border-yellow-700 opacity-30 rounded-sm"></div>
+      <img id="bishop-img-index" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Bishop" class="w-full object-cover rounded-sm" style="height:480px;object-fit:cover;"/>
+      <div class="absolute bottom-0 left-0 right-0 p-5" style="background:linear-gradient(to top,rgba(15,5,3,0.95),transparent);">
+        <div id="bishop-name-index" class="font-cinzel font-bold text-white text-sm">Most Rev. Felix Femi Ajakaye</div>
+        <div id="bishop-title-index" class="font-cinzel text-xs tracking-widest mt-1" style="color:var(--gold);">BISHOP OF EKITI · SINCE 2010</div>
+      </div>
+    </div>
+    <!-- Message -->
+    <div class="reveal">
+      <p class="font-cinzel text-xs tracking-[0.3em] mb-3" style="color:var(--gold);">BISHOP'S MESSAGE</p>
+      <h3 class="font-cinzel text-3xl md:text-4xl font-bold text-white mb-4">Grace &amp; Peace<br/>to You All</h3>
+      <div class="ornament justify-start ml-0"><span class="ornament-icon">✦</span></div>
+      <p id="bishop-message-index" class="font-cormorant text-xl text-gray-300 leading-relaxed mb-5" style="font-size:1.15rem;">
+        "With great joy I welcome you to the online home of our beloved Cathedral."
+      </p>
+      <p id="bishop-sig-index" class="font-cinzel text-xs tracking-widest" style="color:var(--gold-light);">— Most Rev. Felix Femi Ajakaye, DD</p>
+      <div class="mt-8"><a href="about.html" class="btn-gold">READ FULL MESSAGE</a></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     MASS TIMES (QUICK VIEW)
+════════════════════════════════════════════════ -->
+<section class="parallax-strip py-24 px-6 reveal" style="background-image:url('https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=1920&q=80');">
+  <div style="position:absolute;inset:0;background:rgba(15,5,3,0.88);"></div>
+  <div class="relative max-w-5xl mx-auto text-center">
+    <p class="font-cinzel text-xs tracking-[0.3em] mb-3" style="color:var(--gold);">COME WORSHIP WITH US</p>
+    <h2 class="font-cinzel text-3xl md:text-5xl font-bold text-white mb-10">Mass Schedule</h2>
+    <div class="grid sm:grid-cols-3 gap-6 text-left" id="index-mass-cards"></div>
+    <div class="mt-10"><a href="masses.html" class="btn-gold">FULL LITURGICAL SCHEDULE</a></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     FEATURED SERVICES / SACRAMENTS
+════════════════════════════════════════════════ -->
+<section class="section-dark py-20 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-14 reveal">
+      <p class="font-cinzel text-xs tracking-[0.3em] mb-3" style="color:var(--gold);">THE SEVEN SACRAMENTS</p>
+      <h2 class="font-cinzel text-3xl md:text-5xl font-bold text-white">Pathways of Grace</h2>
+      <div class="ornament"><span class="ornament-icon">✦</span></div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal" id="index-sacraments-grid"></div>
+    <div class="text-center mt-10 reveal"><a href="masses.html" class="btn-outline">LEARN ABOUT ALL SACRAMENTS</a></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     UPCOMING EVENTS
+════════════════════════════════════════════════ -->
+<section class="section-mid py-20 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4 reveal">
+      <div>
+        <p class="font-cinzel text-xs tracking-[0.3em] mb-2" style="color:var(--gold);">PARISH LIFE</p>
+        <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-white">Upcoming Events</h2>
+      </div>
+      <a href="events.html" class="btn-outline self-start md:self-auto">VIEW ALL EVENTS</a>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6 reveal" id="index-events-preview"></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SCRIPTURE QUOTE
+════════════════════════════════════════════════ -->
+<section class="section-mid py-20 px-6 reveal">
+  <div class="max-w-6xl mx-auto flex justify-center">
+    <div class="w-full max-w-2xl text-center px-8 md:px-14 py-14 relative overflow-hidden" style="background:linear-gradient(150deg,#3d1809 0%,#1a0a04 60%,#2e1008 100%);border:1px solid rgba(201,164,120,0.22);border-radius:18px;box-shadow:0 28px 70px rgba(0,0,0,0.6),inset 0 1px 0 rgba(201,164,120,0.1);">
+      <div class="absolute top-0 left-0 w-36 h-36 opacity-10 pointer-events-none" style="background:radial-gradient(circle at 0 0,var(--gold),transparent);border-radius:0 0 100% 0;"></div>
+      <div class="absolute bottom-0 right-0 w-36 h-36 opacity-10 pointer-events-none" style="background:radial-gradient(circle at 100% 100%,var(--gold),transparent);border-radius:100% 0 0 0;"></div>
+      <div class="text-5xl mb-6 relative z-10">📖</div>
+      <p class="scripture-quote text-white mb-6 relative z-10">I was glad when they said to me, "Let us go to the house of the Lord!"</p>
+      <div class="ornament relative z-10"><span class="ornament-icon">✦</span></div>
+      <p class="font-cinzel text-xs tracking-[0.3em] mt-5 relative z-10" style="color:var(--gold-light);">— PSALM 122:1</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     GALLERY PREVIEW
+════════════════════════════════════════════════ -->
+<section class="section-dark py-20 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12 reveal">
+      <p class="font-cinzel text-xs tracking-[0.3em] mb-3" style="color:var(--gold);">MOMENTS OF GRACE</p>
+      <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-white">Cathedral Gallery</h2>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 reveal" style="grid-auto-rows:200px;" id="index-gallery-preview"></div>
+    <div class="text-center mt-10 reveal"><a href="gallery.html" class="btn-gold">VIEW FULL GALLERY</a></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════ -->
+<footer class="py-16 px-6">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
+    <!-- Brand -->
+    <div class="md:col-span-2">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 border border-yellow-700 rounded-full flex items-center justify-center font-cinzel font-bold text-yellow-600 text-lg">✝</div>
+        <div>
+          <div class="font-cinzel font-bold text-white text-sm tracking-widest">ST. PATRICK'S CATHOLIC CATHEDRAL</div>
+          <div class="font-cinzel text-xs tracking-widest mt-0.5" style="color:var(--gold);font-size:0.6rem;">ADO-EKITI · DIOCESE OF EKITI</div>
+        </div>
+      </div>
+      <p class="text-gray-500 text-sm leading-relaxed mb-5 max-w-xs">
+        The Cathedral Church of the Diocese of Ekiti, Nigeria — serving the faithful since 1929 through the grace of God and the intercession of St. Patrick.
+      </p>
+      <div class="flex gap-4">
+        <a href="#" class="w-8 h-8 border border-yellow-800 rounded-sm flex items-center justify-center text-yellow-600 hover:bg-yellow-600 hover:text-navy transition-all text-sm"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="w-8 h-8 border border-yellow-800 rounded-sm flex items-center justify-center text-yellow-600 hover:bg-yellow-600 hover:text-navy transition-all text-sm"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="w-8 h-8 border border-yellow-800 rounded-sm flex items-center justify-center text-yellow-600 hover:bg-yellow-600 hover:text-navy transition-all text-sm"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="w-8 h-8 border border-yellow-800 rounded-sm flex items-center justify-center text-yellow-600 hover:bg-yellow-600 hover:text-navy transition-all text-sm"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <!-- Quick Links -->
+    <div>
+      <div class="font-cinzel text-xs tracking-[0.25em] mb-5" style="color:var(--gold);">QUICK LINKS</div>
+      <ul class="space-y-3">
+        <li><a href="index.html"   class="text-gray-500 hover:text-yellow-500 text-sm transition-colors flex items-center gap-2"><span style="color:var(--gold);">›</span> Home</a></li>
+        <li><a href="about.html"   class="text-gray-500 hover:text-yellow-500 text-sm transition-colors flex items-center gap-2"><span style="color:var(--gold);">›</span> About the Cathedral</a></li>
+        <li><a href="masses.html"  class="text-gray-500 hover:text-yellow-500 text-sm transition-colors flex items-center gap-2"><span style="color:var(--gold);">›</span> Mass Times</a></li>
+        <li><a href="events.html"  class="text-gray-500 hover:text-yellow-500 text-sm transition-colors flex items-center gap-2"><span style="color:var(--gold);">›</span> Events</a></li>
+        <li><a href="blog.html"    class="text-gray-500 hover:text-yellow-500 text-sm transition-colors flex items-center gap-2"><span style="color:var(--gold);">›</span> Blog</a></li>
+        <li><a href="gallery.html" class="text-gray-500 hover:text-yellow-500 text-sm transition-colors flex items-center gap-2"><span style="color:var(--gold);">›</span> Gallery</a></li>
+        <li><a href="contact.html" class="text-gray-500 hover:text-yellow-500 text-sm transition-colors flex items-center gap-2"><span style="color:var(--gold);">›</span> Contact</a></li>
+      </ul>
+    </div>
+    <!-- Contact -->
+    <div>
+      <div class="font-cinzel text-xs tracking-[0.25em] mb-5" style="color:var(--gold);">FIND US</div>
+      <ul class="space-y-4 text-sm text-gray-500">
+        <li class="flex gap-3"><i class="fas fa-map-marker-alt mt-1" style="color:var(--gold);min-width:14px;"></i>Pope John Paul II Pastoral Centre, Ikere Road, Ado-Ekiti, Ekiti State, Nigeria</li>
+        <li class="flex gap-3"><i class="fas fa-phone mt-1" style="color:var(--gold);min-width:14px;"></i>(0812) 567-4455</li>
+        <li class="flex gap-3"><i class="fas fa-envelope mt-1" style="color:var(--gold);min-width:14px;"></i>info@catholicdioceseofekiti.org</li>
+        <li class="flex gap-3"><i class="fas fa-globe mt-1" style="color:var(--gold);min-width:14px;"></i>www.catholicdioceseofekiti.org</li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-6xl mx-auto mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-3" style="border-top:1px solid rgba(201,164,120,0.1);">
+    <p class="text-gray-600 text-xs">&copy; 2026 St. Patrick's Catholic Cathedral, Ado-Ekiti. All rights reserved.</p>
+    <p class="text-gray-600 text-xs font-cinzel tracking-wider">DIOCESE OF EKITI · ECCLESIASTICAL PROVINCE OF IBADAN</p>
+  </div>
+</footer>
+
+<!-- Lightbox -->
+<div id="lightbox"><img id="lightbox-img" src="" alt=""/></div>
+
+<script src="{{ asset('js/main.js') }}"></script>
+<script>
+(function renderIndexPage() {
+  const s = CathedralDB.get('settings');
+
+  /* Ticker */
+  const ticker = document.getElementById('ticker-text');
+  if (ticker) { const t = CathedralDB.buildTickerText(); if(t) ticker.textContent = t; }
+
+  /* Welcome */
+  const wt = document.getElementById('welcome-title');
+  const wp = document.getElementById('welcome-text');
+  if (wt && s.welcomeTitle) wt.innerHTML = s.welcomeTitle.replace(' & ', ',<br/><span class="gold-text">').replace(/,$/, '') + (s.welcomeTitle.includes(' & ') ? '</span>' : '');
+  if (wp && s.welcomeText) wp.textContent = s.welcomeText;
+
+  /* Bishop */
+  const bImg = document.getElementById('bishop-img-index');
+  if (bImg && s.bishopImage) { bImg.src = s.bishopImage; bImg.alt = s.bishopName || 'Bishop'; }
+  const bName = document.getElementById('bishop-name-index');
+  if (bName && s.bishopName) bName.textContent = s.bishopName;
+  const bTitle = document.getElementById('bishop-title-index');
+  if (bTitle && s.bishopTitle) bTitle.textContent = (s.bishopTitle + ' · SINCE ' + (s.bishopSince || '').split(' ').pop()).toUpperCase();
+  const bMsg = document.getElementById('bishop-message-index');
+  if (bMsg && s.bishopMessage) bMsg.textContent = '“' + s.bishopMessage + '”';
+  const bSig = document.getElementById('bishop-sig-index');
+  if (bSig && s.bishopName) bSig.textContent = '— ' + s.bishopName + ', DD';
+
+  /* Mass cards — show Weekdays, Saturday, Sunday */
+  const massCardsEl = document.getElementById('index-mass-cards');
+  if (massCardsEl) {
+    const masses = CathedralDB.get('masses') || [];
+    const weekday = masses.find(m => m.day === 'Monday');
+    const sat = masses.find(m => m.day === 'Saturday');
+    const sun = masses.find(m => m.day === 'Sunday');
+    massCardsEl.innerHTML = [
+      { label: 'WEEKDAYS', times: weekday ? weekday.times : '—', note: 'Monday — Friday' },
+      { label: 'SATURDAYS', times: sat ? sat.times : '—', note: sat && sat.note ? sat.note : 'Including Vigil Mass' },
+      { label: 'SUNDAYS', times: sun ? sun.times : '—', note: sun ? sun.language : '' },
+    ].map(c => `
+      <div class="mass-card rounded-sm">
+        <div class="font-cinzel text-xs tracking-widest mb-2" style="color:var(--gold);">${c.label}</div>
+        <div class="text-white font-semibold text-lg">${c.times}</div>
+        <p class="text-gray-400 text-sm mt-1">${c.note}</p>
+      </div>`).join('');
+  }
+
+  /* Sacraments — show first 4 */
+  const sacEl = document.getElementById('index-sacraments-grid');
+  if (sacEl) {
+    const sacs = (CathedralDB.get('sacraments') || []).sort((a,b) => (a.order||0)-(b.order||0)).slice(0,4);
+    sacEl.innerHTML = sacs.map(s => `
+      <div class="sacrament-box">
+        <div class="text-4xl mb-4" style="color:var(--gold);">${s.emoji}</div>
+        <h4 class="font-cinzel font-bold text-white mb-2">${s.name}</h4>
+        <p class="text-gray-400 text-sm">${s.description}</p>
+      </div>`).join('');
+  }
+
+  /* Events preview — next 3 upcoming */
+  const eventsEl = document.getElementById('index-events-preview');
+  if (eventsEl) {
+    const upcoming = CathedralDB.getUpcomingEvents(3);
+    const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    eventsEl.innerHTML = upcoming.map(e => {
+      const d = new Date(e.date + 'T00:00:00');
+      const dateStr = d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+      return `
+      <div class="card-glass rounded-sm overflow-hidden">
+        <div class="relative">
+          <img src="${e.image}" alt="${e.title}" class="w-full object-cover" style="height:200px;">
+          <div class="absolute top-4 left-4 px-3 py-1 font-cinzel text-xs font-bold tracking-wider" style="background:var(--gold);color:var(--navy);">${e.tag}</div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center gap-2 mb-2">
+            <i class="fas fa-calendar-alt text-xs" style="color:var(--gold);"></i>
+            <span class="font-cinzel text-xs tracking-wider" style="color:var(--gold);">${dateStr.toUpperCase()}</span>
+          </div>
+          <h4 class="font-cinzel font-bold text-white text-base mb-2">${e.title}</h4>
+          <p class="text-gray-400 text-sm">${e.description.substring(0,100)}${e.description.length>100?'…':''}</p>
+        </div>
+      </div>`;
+    }).join('') || '<p class="text-gray-500 col-span-3 text-center py-8">No upcoming events.</p>';
+  }
+
+  /* Gallery preview — first 5 items, first one 2x2 */
+  const galleryEl = document.getElementById('index-gallery-preview');
+  if (galleryEl) {
+    const items = (CathedralDB.get('gallery') || []).slice(0,5);
+    galleryEl.innerHTML = items.map((item, i) => {
+      const cls = i === 0 ? 'gallery-item col-span-2 row-span-2' : 'gallery-item';
+      return `
+      <div class="${cls}">
+        <img src="${item.image}" alt="${item.title}">
+        <div class="gallery-overlay"><span class="font-cinzel text-xs tracking-wider text-white">${item.title}</span></div>
+      </div>`;
+    }).join('');
+  }
+})();
+</script>
+</body>
+</html>

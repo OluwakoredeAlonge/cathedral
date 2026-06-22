@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog Posts — Cathedral CMS</title>
+  <link rel="stylesheet" href="{{ asset('admin/css/admin.css') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="{{ asset('js/data.js') }}"></script>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar"></aside>
+  <div class="main-area">
+    <header class="top-header">
+      <div class="page-title"><h1>Blog Posts</h1><p>Manage all articles, pastoral letters and news</p></div>
+      <div class="header-actions">
+        <a href="../blog.html" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-external-link-alt"></i> View Blog</a>
+        <a href="post-editor.html" class="btn btn-gold"><i class="fas fa-plus"></i> New Post</a>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="breadcrumb"><a href="index.html">Dashboard</a><span>/</span><span>Blog Posts</span></div>
+
+      <!-- Stats -->
+      <div class="stats-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:20px;" id="post-stats"></div>
+
+      <div class="panel">
+        <!-- Tabs -->
+        <div class="tabs" id="post-tabs">
+          <button class="tab-btn active" data-tab="tab-all" onclick="switchTab(this,'all')">All Posts</button>
+          <button class="tab-btn" data-tab="tab-pub" onclick="switchTab(this,'published')">Published</button>
+          <button class="tab-btn" data-tab="tab-draft" onclick="switchTab(this,'draft')">Drafts</button>
+          <button class="tab-btn" data-tab="tab-featured" onclick="switchTab(this,'featured')">Featured</button>
+        </div>
+
+        <div class="toolbar">
+          <div class="search-box"><i class="fas fa-search"></i><input type="text" id="search" placeholder="Search posts…" oninput="renderTable()"></div>
+          <select id="filter-cat" class="form-control" style="width:160px;" onchange="renderTable()">
+            <option value="">All Categories</option>
+            <option>History</option><option>Events</option><option>Formation</option>
+            <option>Pastoral</option><option>Youth</option><option>News</option>
+          </select>
+          <select id="sort-by" class="form-control" style="width:140px;" onchange="renderTable()">
+            <option value="date-desc">Newest First</option>
+            <option value="date-asc">Oldest First</option>
+            <option value="views">Most Viewed</option>
+            <option value="title">Title A–Z</option>
+          </select>
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:70px;">Cover</th>
+              <th>Title &amp; Excerpt</th>
+              <th>Author</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Views</th>
+              <th>Featured</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="posts-tbody"></tbody>
+        </table>
+        <div id="table-footer" style="padding:12px 18px;font-size:12px;color:var(--text-muted);border-top:1px solid var(--border);"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="{{ asset('admin/js/admin.js') }}"></script>
+<script>
+  let currentFilter = 'all';
+
+  function switchTab(btn, filter) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = filter;
+    renderTable();
+  }
+
+  function renderStats() {
+    const posts = CathedralDB.get('posts');
+    const totalViews = posts.reduce((a,p) => a + (p.views||0), 0);
+    [
+      { label:'Total Posts', value: posts.length, color:'var(--gold)', icon:'fa-newspaper' },
+      { label:'Published', value: posts.filter(p=>p.published).length, color:'var(--green)', icon:'fa-check-circle' },
+      { label:'Drafts', value: posts.filter(p=>!p.published).length, color:'var(--amber)', icon:'fa-file-pen' },
+      { label:'Featured', value: posts.filter(p=>p.featured).length, color:'var(--blue)', icon:'fa-star' },
+      { label:'Total Views', value: totalViews.toLocaleString(), color:'var(--purple)', icon:'fa-eye' },
+    ].forEach((s,i) => {
+      document.getElementById('post-stats').innerHTML += `<div class="stat-card">
+        <div class="stat-card-accent" style="background:${s.color}"></div>
+        <div class="stat-card-icon" style="background:${s.color}22;color:${s.color};"><i class="fas ${s.icon}"></i></div>
+        <div class="stat-card-value" style="color:${s.color};">${s.value}</div>
+        <div class="stat-card-label">${s.label}</div>
+      </div>`;
+    });
+  }
+
+  function renderTable() {
+    const q      = document.getElementById('search').value.toLowerCase();
+    const cat    = document.getElementById('filter-cat').value;
+    const sortBy = document.getElementById('sort-by').value;
+
+    let posts = CathedralDB.get('posts').filter(p =>
+      (p.title.toLowerCase().includes(q) || (p.excerpt||'').toLowerCase().includes(q)) &&
+      (!cat || p.category === cat) &&
+      (currentFilter === 'all' ||
+       (currentFilter === 'published' && p.published) ||
+       (currentFilter === 'draft' && !p.published) ||
+       (currentFilter === 'featured' && p.featured))
+    );
+
+    if (sortBy === 'date-asc')  posts.sort((a,b) => new Date(a.date) - new Date(b.date));
+    else if (sortBy === 'views')posts.sort((a,b) => (b.views||0) - (a.views||0));
+    else if (sortBy === 'title')posts.sort((a,b) => a.title.localeCompare(b.title));
+    else posts.sort((a,b) => new Date(b.date) - new Date(a.date));
+
+    const tbody = document.getElementById('posts-tbody');
+    tbody.innerHTML = '';
+    document.getElementById('table-footer').textContent = `Showing ${posts.length} post${posts.length!==1?'s':''}`;
+
+    if (!posts.length) {
+      tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state"><i class="fas fa-newspaper"></i><h3>No posts found</h3><p>Try adjusting your filters or <a href="post-editor.html" style="color:var(--gold);">create a new post</a>.</p></div></td></tr>`;
+      return;
+    }
+
+    posts.forEach(p => {
+      const tags = (p.tags||[]).map(t => `<span class="badge badge-gray" style="margin-right:3px;">${t}</span>`).join('');
+      tbody.innerHTML += `<tr>
+        <td>
+          ${p.image ? `<img src="${p.image}" style="width:56px;height:42px;object-fit:cover;border-radius:5px;">` : `<div style="width:56px;height:42px;background:var(--surface3);border-radius:5px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-image" style="color:var(--text-dim);font-size:14px;"></i></div>`}
+        </td>
+        <td style="max-width:300px;">
+          <a href="post-editor.html?id=${p.id}" style="font-weight:600;color:var(--text);text-decoration:none;display:block;margin-bottom:3px;">${p.title}</a>
+          <div style="font-size:11px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.excerpt || ''}</div>
+          <div style="margin-top:4px;">${tags}</div>
+        </td>
+        <td style="color:var(--text-muted);font-size:12px;white-space:nowrap;">${p.author||'—'}</td>
+        <td><span class="badge badge-blue">${p.category||'—'}</span></td>
+        <td style="color:var(--text-muted);font-size:12px;white-space:nowrap;">${fmtDate(p.date)}</td>
+        <td style="color:var(--text-muted);font-size:12px;">${(p.views||0).toLocaleString()}</td>
+        <td>
+          <button class="btn-icon ${p.featured?'':'opacity-50'}" onclick="toggleFeatured(${p.id})" title="${p.featured?'Remove from featured':'Mark as featured'}">
+            <i class="fas fa-star" style="color:${p.featured?'var(--amber)':'var(--text-dim)'}"></i>
+          </button>
+        </td>
+        <td>
+          <label class="toggle">
+            <input type="checkbox" ${p.published?'checked':''} onchange="togglePublish(${p.id},this.checked)">
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+          </label>
+        </td>
+        <td>
+          <div class="actions">
+            <a href="post-editor.html?id=${p.id}" class="btn-icon" title="Edit"><i class="fas fa-pen"></i></a>
+            <a href="../blog-post.html?slug=${p.slug}" target="_blank" class="btn-icon" title="View"><i class="fas fa-eye"></i></a>
+            <button class="btn-icon danger" onclick="deletePost(${p.id})" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>`;
+    });
+  }
+
+  function togglePublish(id, val) {
+    const posts = CathedralDB.get('posts');
+    const p = posts.find(x => x.id === id);
+    if (p) { p.published = val; CathedralDB.set('posts', posts); }
+    renderTable(); renderStats();
+    showToast(val ? 'Post published' : 'Post moved to drafts', 'info');
+    CathedralDB.log('Admin', `${val?'Published':'Unpublished'} post: ${p?.title?.slice(0,40)}`);
+  }
+
+  function toggleFeatured(id) {
+    const posts = CathedralDB.get('posts');
+    const p = posts.find(x => x.id === id);
+    if (p) { p.featured = !p.featured; CathedralDB.set('posts', posts); }
+    renderTable();
+    showToast(p?.featured ? 'Marked as featured' : 'Removed from featured', 'info');
+  }
+
+  function deletePost(id) {
+    const p = CathedralDB.get('posts').find(x => x.id === id);
+    confirmAction(`Permanently delete "${p?.title}"? This cannot be undone.`, () => {
+      CathedralDB.set('posts', CathedralDB.get('posts').filter(x => x.id !== id));
+      document.getElementById('post-stats').innerHTML = '';
+      renderStats(); renderTable();
+      showToast('Post deleted', 'error');
+      CathedralDB.log('Admin', `Deleted post: ${p?.title?.slice(0,40)}`);
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', () => { renderStats(); renderTable(); });
+</script>
+</body>
+</html>

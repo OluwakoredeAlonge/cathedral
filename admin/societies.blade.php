@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parish Societies — Cathedral CMS</title>
+  <link rel="stylesheet" href="{{ asset('admin/css/admin.css') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="{{ asset('js/data.js') }}"></script>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar"></aside>
+  <div class="main-area">
+    <header class="top-header">
+      <div class="page-title">
+        <h1>Parish Societies &amp; Groups</h1>
+        <p>Manage the organisations shown on the About page</p>
+      </div>
+      <div class="header-actions">
+        <a href="../about.html#groups" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-external-link-alt"></i> View Page</a>
+        <button class="btn btn-gold" onclick="openModal('society-modal')"><i class="fas fa-plus"></i> Add Society</button>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="breadcrumb"><a href="index.html">Dashboard</a><span>/</span><span>Parish Societies</span></div>
+
+      <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:20px;">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(201,168,76,0.1);color:var(--gold);"><i class="fas fa-people-group"></i></div>
+          <div class="stat-info"><div class="stat-value" id="stat-total">0</div><div class="stat-label">Total Groups</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(34,197,94,0.1);color:var(--green);"><i class="fas fa-check-circle"></i></div>
+          <div class="stat-info"><div class="stat-value" id="stat-active">0</div><div class="stat-label">Active</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(239,68,68,0.1);color:var(--red);"><i class="fas fa-eye-slash"></i></div>
+          <div class="stat-info"><div class="stat-value" id="stat-hidden">0</div><div class="stat-label">Hidden</div></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="toolbar">
+          <div class="search-box"><i class="fas fa-search"></i><input type="text" id="search" placeholder="Search societies…" oninput="renderTable()"></div>
+          <span id="count-label" style="font-size:12px;color:var(--text-muted);"></span>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:50px;">Order</th>
+              <th style="width:40px;">Icon</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th style="width:80px;">Status</th>
+              <th style="width:110px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="societies-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="society-modal">
+  <div class="modal" style="max-width:540px;">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title">Add Society</span>
+      <button class="modal-close" onclick="closeModal('society-modal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-id" />
+      <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label">Society Name *</label>
+          <input type="text" id="edit-name" class="form-control" placeholder="e.g. Legion of Mary" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Emoji Icon</label>
+          <input type="text" id="edit-emoji" class="form-control" placeholder="e.g. 📿" maxlength="4" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Display Order</label>
+          <input type="number" id="edit-order" class="form-control" min="1" value="1" />
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label">Description</label>
+          <textarea id="edit-description" class="form-control" rows="3" placeholder="Brief description of the society and meeting schedule…"></textarea>
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label">Status</label>
+          <select id="edit-active" class="form-control">
+            <option value="true">Active (visible on website)</option>
+            <option value="false">Hidden</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('society-modal')">Cancel</button>
+      <button class="btn btn-gold" onclick="saveSociety()"><i class="fas fa-save mr-1"></i> Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="{{ asset('admin/js/admin.js') }}"></script>
+<script>
+let editingId = null;
+
+function renderTable() {
+  const items = CathedralDB.get('societies') || [];
+  const q = (document.getElementById('search').value || '').toLowerCase();
+  const filtered = items.filter(s => !q || s.name.toLowerCase().includes(q) || (s.description||'').toLowerCase().includes(q))
+    .sort((a,b) => (a.order||0)-(b.order||0));
+
+  document.getElementById('stat-total').textContent  = items.length;
+  document.getElementById('stat-active').textContent = items.filter(s => s.active !== false).length;
+  document.getElementById('stat-hidden').textContent = items.filter(s => s.active === false).length;
+  document.getElementById('count-label').textContent = `${filtered.length} of ${items.length}`;
+
+  const tbody = document.getElementById('societies-table');
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-dim);padding:40px;">No societies found.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.map(s => `
+    <tr>
+      <td style="text-align:center;">
+        <div style="display:flex;gap:4px;justify-content:center;">
+          <button class="btn-icon" onclick="moveUp(${s.id})" title="Move up"><i class="fas fa-chevron-up"></i></button>
+          <span style="font-weight:600;color:var(--text-muted);font-size:12px;">${s.order||'—'}</span>
+          <button class="btn-icon" onclick="moveDown(${s.id})" title="Move down"><i class="fas fa-chevron-down"></i></button>
+        </div>
+      </td>
+      <td style="text-align:center;font-size:22px;">${s.emoji||'✝️'}</td>
+      <td><span style="font-weight:600;color:var(--text);">${s.name}</span></td>
+      <td style="color:var(--text-muted);font-size:12px;max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.description||''}</td>
+      <td>
+        <span class="badge ${s.active !== false ? 'badge-green' : 'badge-gray'}">
+          ${s.active !== false ? 'Active' : 'Hidden'}
+        </span>
+      </td>
+      <td>
+        <div style="display:flex;gap:6px;">
+          <button class="btn-icon" onclick="editSociety(${s.id})" title="Edit"><i class="fas fa-edit"></i></button>
+          <button class="btn-icon danger" onclick="deleteSociety(${s.id})" title="Delete"><i class="fas fa-trash"></i></button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function openMilestoneModal() { openModal('society-modal'); }
+
+function editSociety(id) {
+  const items = CathedralDB.get('societies') || [];
+  const s = items.find(x => x.id === id);
+  if (!s) return;
+  editingId = id;
+  document.getElementById('modal-title').textContent = 'Edit Society';
+  document.getElementById('edit-id').value = id;
+  document.getElementById('edit-name').value = s.name || '';
+  document.getElementById('edit-emoji').value = s.emoji || '';
+  document.getElementById('edit-order').value = s.order || 1;
+  document.getElementById('edit-description').value = s.description || '';
+  document.getElementById('edit-active').value = s.active === false ? 'false' : 'true';
+  openModal('society-modal');
+}
+
+function saveSociety() {
+  const name = document.getElementById('edit-name').value.trim();
+  if (!name) { showToast('Society name is required.', 'error'); return; }
+  const items = CathedralDB.get('societies') || [];
+  const id = editingId ? parseInt(editingId) : CathedralDB.nextId('societies');
+  const entry = {
+    id,
+    name,
+    emoji:       document.getElementById('edit-emoji').value.trim() || '✝️',
+    order:       parseInt(document.getElementById('edit-order').value) || 1,
+    description: document.getElementById('edit-description').value.trim(),
+    active:      document.getElementById('edit-active').value !== 'false',
+  };
+  if (editingId) {
+    const idx = items.findIndex(x => x.id === id);
+    if (idx !== -1) items[idx] = entry; else items.push(entry);
+  } else {
+    items.push(entry);
+  }
+  CathedralDB.set('societies', items);
+  CathedralDB.log('Admin', `${editingId ? 'Updated' : 'Added'} society: ${name}`);
+  editingId = null;
+  document.getElementById('modal-title').textContent = 'Add Society';
+  ['edit-name','edit-emoji','edit-description'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('edit-order').value = 1;
+  closeModal('society-modal');
+  renderTable();
+  showToast(`Society ${editingId ? 'updated' : 'saved'} successfully!`, 'success');
+}
+
+function deleteSociety(id) {
+  const items = CathedralDB.get('societies') || [];
+  const s = items.find(x => x.id === id);
+  confirmAction(`Delete "${s ? s.name : 'this society'}"? This cannot be undone.`, () => {
+    CathedralDB.set('societies', items.filter(x => x.id !== id));
+    renderTable();
+    showToast('Society deleted.', 'success');
+  });
+}
+
+function moveUp(id) {
+  const items = [...(CathedralDB.get('societies') || [])].sort((a,b) => (a.order||0)-(b.order||0));
+  const idx = items.findIndex(x => x.id === id);
+  if (idx <= 0) return;
+  const tmp = items[idx].order; items[idx].order = items[idx-1].order; items[idx-1].order = tmp;
+  CathedralDB.set('societies', items); renderTable();
+}
+
+function moveDown(id) {
+  const items = [...(CathedralDB.get('societies') || [])].sort((a,b) => (a.order||0)-(b.order||0));
+  const idx = items.findIndex(x => x.id === id);
+  if (idx < 0 || idx >= items.length - 1) return;
+  const tmp = items[idx].order; items[idx].order = items[idx+1].order; items[idx+1].order = tmp;
+  CathedralDB.set('societies', items); renderTable();
+}
+
+document.addEventListener('DOMContentLoaded', () => { renderSidebar(); renderTable(); });
+</script>
+</body>
+</html>

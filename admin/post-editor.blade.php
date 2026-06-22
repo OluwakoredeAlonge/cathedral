@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post Editor — Cathedral CMS</title>
+  <link rel="stylesheet" href="{{ asset('admin/css/admin.css') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="{{ asset('js/data.js') }}"></script>
+  <style>
+    .editor-wrap { display:grid; grid-template-columns:1fr 300px; gap:20px; align-items:start; }
+    @media(max-width:1000px){ .editor-wrap{ grid-template-columns:1fr; } }
+    .sticky-sidebar { position:sticky; top:80px; display:flex; flex-direction:column; gap:14px; }
+    .rich-editor h1,.rich-editor h2,.rich-editor h3 { color:#e2e8f0; margin:14px 0 6px; }
+    .rich-editor p  { margin-bottom:10px; }
+    .rich-editor ul,.rich-editor ol { padding-left:22px; margin-bottom:10px; }
+    .rich-editor blockquote { border-left:3px solid var(--gold); padding:8px 14px; margin:12px 0; background:rgba(201,168,76,0.06); color:#94a3b8; font-style:italic; }
+    .rich-editor a  { color:var(--gold-light); }
+    .autosave-badge { font-size:10px; color:var(--text-dim); display:flex; align-items:center; gap:5px; }
+    .word-count { font-size:11px; color:var(--text-dim); }
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar"></aside>
+  <div class="main-area">
+    <header class="top-header">
+      <div class="page-title">
+        <h1 id="editor-heading">New Post</h1>
+        <div class="autosave-badge"><i class="fas fa-circle" id="save-dot" style="color:var(--text-dim);font-size:8px;"></i> <span id="save-status">Not saved</span></div>
+      </div>
+      <div class="header-actions">
+        <span class="word-count" id="word-count">0 words</span>
+        <button class="btn btn-outline" onclick="saveDraft()"><i class="fas fa-floppy-disk"></i> Save Draft</button>
+        <button class="btn btn-gold" onclick="publishPost()"><i class="fas fa-upload"></i> Publish</button>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="breadcrumb"><a href="index.html">Dashboard</a><span>/</span><a href="posts.html">Posts</a><span>/</span><span id="bc-title">New Post</span></div>
+
+      <div class="editor-wrap">
+
+        <!-- Left: Main editor -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+
+          <!-- Title -->
+          <div class="panel">
+            <div class="panel-body">
+              <input type="text" id="post-title" class="form-control" placeholder="Post title…"
+                style="font-size:22px;font-weight:700;border:none;background:transparent;padding:4px 0;color:var(--text);"
+                oninput="onTitleChange()" />
+              <div style="margin-top:8px;display:flex;align-items:center;gap:8px;">
+                <span style="font-size:11px;color:var(--text-dim);">Slug:</span>
+                <input type="text" id="post-slug" class="form-control" style="font-size:11px;padding:3px 8px;background:var(--surface3);flex:1;" placeholder="post-slug-here" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Rich text editor -->
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title"><i class="fas fa-pen-nib"></i> Content</div></div>
+            <div class="editor-toolbar">
+              <button class="toolbar-btn" onclick="fmt('bold')" title="Bold"><i class="fas fa-bold"></i></button>
+              <button class="toolbar-btn" onclick="fmt('italic')" title="Italic"><i class="fas fa-italic"></i></button>
+              <button class="toolbar-btn" onclick="fmt('underline')" title="Underline"><i class="fas fa-underline"></i></button>
+              <div class="toolbar-sep"></div>
+              <button class="toolbar-btn" onclick="fmtBlock('h2')" title="Heading 2"><i class="fas fa-heading"></i></button>
+              <button class="toolbar-btn" onclick="fmtBlock('h3')" title="Heading 3"><span style="font-size:9px;font-weight:700;">H3</span></button>
+              <div class="toolbar-sep"></div>
+              <button class="toolbar-btn" onclick="fmt('insertUnorderedList')" title="Bullet list"><i class="fas fa-list-ul"></i></button>
+              <button class="toolbar-btn" onclick="fmt('insertOrderedList')" title="Numbered list"><i class="fas fa-list-ol"></i></button>
+              <div class="toolbar-sep"></div>
+              <button class="toolbar-btn" onclick="fmtBlock('blockquote')" title="Quote"><i class="fas fa-quote-left"></i></button>
+              <button class="toolbar-btn" onclick="insertLink()" title="Link"><i class="fas fa-link"></i></button>
+              <div class="toolbar-sep"></div>
+              <button class="toolbar-btn" onclick="fmt('removeFormat')" title="Clear formatting"><i class="fas fa-eraser"></i></button>
+            </div>
+            <div id="post-content" class="rich-editor" contenteditable="true" oninput="onContentChange()" style="min-height:420px;border-radius:0 0 7px 7px;"></div>
+          </div>
+
+          <!-- Excerpt -->
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title"><i class="fas fa-align-left"></i> Excerpt</div></div>
+            <div class="panel-body">
+              <textarea id="post-excerpt" class="form-control" rows="3" placeholder="Short summary shown in the blog listing (max ~200 characters)…" maxlength="250"></textarea>
+              <div class="form-hint">If left empty, the excerpt will be auto-generated from the first paragraph.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Sidebar -->
+        <div class="sticky-sidebar">
+
+          <!-- Publish settings -->
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title"><i class="fas fa-rocket"></i> Publish</div></div>
+            <div class="panel-body" style="display:flex;flex-direction:column;gap:12px;">
+              <div>
+                <label class="form-label">Status</label>
+                <select id="post-status" class="form-control">
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Publish Date</label>
+                <input type="date" id="post-date" class="form-control" />
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <label class="toggle"><input type="checkbox" id="post-featured"><div class="toggle-track"><div class="toggle-thumb"></div></div><span class="toggle-label">Feature this post</span></label>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:4px;">
+                <button class="btn btn-outline" style="flex:1;justify-content:center;" onclick="saveDraft()">Save Draft</button>
+                <button class="btn btn-gold" style="flex:1;justify-content:center;" onclick="publishPost()">Publish</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Post details -->
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title"><i class="fas fa-tags"></i> Details</div></div>
+            <div class="panel-body" style="display:flex;flex-direction:column;gap:12px;">
+              <div>
+                <label class="form-label">Category</label>
+                <select id="post-cat" class="form-control">
+                  <option>History</option><option>Events</option><option>Formation</option>
+                  <option>Pastoral</option><option>Youth</option><option>News</option><option>Announcements</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Author</label>
+                <input type="text" id="post-author" class="form-control" placeholder="e.g. Parish Secretary" />
+              </div>
+              <div>
+                <label class="form-label">Tags <span style="color:var(--text-dim);font-weight:400;">(comma separated)</span></label>
+                <input type="text" id="post-tags" class="form-control" placeholder="faith, eucharist, youth" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Cover image -->
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title"><i class="fas fa-image"></i> Cover Image</div></div>
+            <div class="panel-body">
+              <div class="img-preview" id="cover-preview"><span><i class="fas fa-image" style="display:block;margin-bottom:6px;font-size:24px;"></i>No image</span></div>
+              <input type="text" id="post-image" class="form-control" placeholder="Paste image URL…" oninput="previewCover()" style="margin-top:8px;" />
+            </div>
+          </div>
+
+          <!-- SEO preview -->
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title"><i class="fas fa-magnifying-glass"></i> SEO Preview</div></div>
+            <div class="panel-body">
+              <div style="background:var(--surface2);border-radius:7px;padding:12px;">
+                <div id="seo-title" style="color:#8ab4f8;font-size:14px;margin-bottom:3px;">Post title will appear here</div>
+                <div id="seo-url" style="color:#4ade80;font-size:11px;margin-bottom:4px;">cathedralsite.org/blog-post.html?slug=your-slug</div>
+                <div id="seo-desc" style="color:#bdc1c6;font-size:12px;line-height:1.5;">Your excerpt will appear here as the meta description.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Danger zone -->
+          <div class="panel" id="danger-zone" style="display:none;border-color:rgba(239,68,68,0.2);">
+            <div class="panel-header" style="border-color:rgba(239,68,68,0.2);"><div class="panel-title" style="color:var(--red);"><i class="fas fa-triangle-exclamation"></i> Danger Zone</div></div>
+            <div class="panel-body">
+              <button class="btn btn-danger" style="width:100%;justify-content:center;" onclick="deletePost()"><i class="fas fa-trash"></i> Delete Post</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input type="hidden" id="post-id" />
+<div id="toast-container"></div>
+<script src="{{ asset('admin/js/admin.js') }}"></script>
+<script>
+  let autoSaveTimer;
+
+  /* ── Formatting helpers ── */
+  function fmt(cmd, val) { document.execCommand(cmd, false, val||null); document.getElementById('post-content').focus(); }
+  function fmtBlock(tag) {
+    const sel = window.getSelection();
+    if (!sel.rangeCount) return;
+    const range = sel.getRangeAt(0);
+    const el = document.createElement(tag);
+    if (tag === 'blockquote') { el.appendChild(range.extractContents()); range.insertNode(el); }
+    else document.execCommand('formatBlock', false, tag);
+  }
+  function insertLink() {
+    const url = prompt('Enter URL:');
+    if (url) fmt('createLink', url);
+  }
+
+  /* ── Word count ── */
+  function onContentChange() {
+    const text = document.getElementById('post-content').innerText;
+    const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+    document.getElementById('word-count').textContent = `${words} word${words!==1?'s':''}`;
+    updateSEO();
+    scheduleAutosave();
+  }
+
+  function onTitleChange() {
+    const title = document.getElementById('post-title').value;
+    document.getElementById('post-slug').value = slugify(title);
+    document.getElementById('bc-title').textContent = title || 'New Post';
+    updateSEO();
+    scheduleAutosave();
+  }
+
+  function updateSEO() {
+    const title   = document.getElementById('post-title').value || 'Post title will appear here';
+    const slug    = document.getElementById('post-slug').value  || 'your-slug';
+    const excerpt = document.getElementById('post-excerpt').value || document.getElementById('post-content').innerText.slice(0,160);
+    document.getElementById('seo-title').textContent = title;
+    document.getElementById('seo-url').textContent = `cathedralsite.org/blog-post.html?slug=${slug}`;
+    document.getElementById('seo-desc').textContent = excerpt.slice(0,160) || 'Your excerpt will appear here.';
+  }
+
+  function previewCover() {
+    const url = document.getElementById('post-image').value.trim();
+    document.getElementById('cover-preview').innerHTML = url
+      ? `<img src="${url}" onerror="this.parentElement.innerHTML='<span>Invalid URL</span>'">`
+      : '<span><i class="fas fa-image" style="display:block;margin-bottom:6px;font-size:24px;"></i>No image</span>';
+  }
+
+  /* ── Autosave ── */
+  function scheduleAutosave() {
+    clearTimeout(autoSaveTimer);
+    document.getElementById('save-dot').style.color = 'var(--amber)';
+    document.getElementById('save-status').textContent = 'Unsaved changes…';
+    autoSaveTimer = setTimeout(() => autoSave(), 3000);
+  }
+
+  function autoSave() {
+    savePost(false);
+    document.getElementById('save-dot').style.color = 'var(--green)';
+    document.getElementById('save-status').textContent = 'Autosaved';
+  }
+
+  /* ── Save / Publish ── */
+  function saveDraft()    { savePost(false); }
+  function publishPost()  { document.getElementById('post-status').value = 'published'; savePost(true); }
+
+  function savePost(showToastMsg) {
+    const title = document.getElementById('post-title').value.trim();
+    if (!title) { showToast('Post title is required', 'error'); return; }
+    const slug = document.getElementById('post-slug').value.trim() || slugify(title);
+    const published = document.getElementById('post-status').value === 'published';
+    const editId = parseInt(document.getElementById('post-id').value);
+    const posts = CathedralDB.get('posts');
+
+    const data = {
+      title, slug, published,
+      excerpt:  document.getElementById('post-excerpt').value.trim(),
+      content:  document.getElementById('post-content').innerHTML,
+      image:    document.getElementById('post-image').value.trim(),
+      category: document.getElementById('post-cat').value,
+      author:   document.getElementById('post-author').value.trim() || 'Parish Administrator',
+      date:     document.getElementById('post-date').value || new Date().toISOString().split('T')[0],
+      tags:     document.getElementById('post-tags').value.split(',').map(t=>t.trim()).filter(Boolean),
+      featured: document.getElementById('post-featured').checked,
+      views:    0,
+    };
+
+    if (editId) {
+      const p = posts.find(x => x.id === editId);
+      if (p) { Object.assign(p, data); data.views = p.views; }
+      CathedralDB.log('Admin', `Updated post: ${title.slice(0,40)}`);
+    } else {
+      const newPost = { id: CathedralDB.nextId('posts'), ...data };
+      posts.push(newPost);
+      document.getElementById('post-id').value = newPost.id;
+      document.getElementById('danger-zone').style.display = 'block';
+      CathedralDB.log('Admin', `Created post: ${title.slice(0,40)}`);
+    }
+
+    CathedralDB.set('posts', posts);
+    document.getElementById('save-dot').style.color = 'var(--green)';
+    document.getElementById('save-status').textContent = `Saved at ${new Date().toLocaleTimeString()}`;
+    if (showToastMsg) showToast(published ? 'Post published!' : 'Draft saved', published ? 'success' : 'info');
+  }
+
+  function deletePost() {
+    const id = parseInt(document.getElementById('post-id').value);
+    if (!id) return;
+    const p = CathedralDB.get('posts').find(x => x.id === id);
+    confirmAction(`Delete "${p?.title}"? This cannot be undone.`, () => {
+      CathedralDB.set('posts', CathedralDB.get('posts').filter(x => x.id !== id));
+      CathedralDB.log('Admin', `Deleted post: ${p?.title}`);
+      showToast('Post deleted', 'error');
+      setTimeout(() => window.location.href = 'posts.html', 1200);
+    });
+  }
+
+  /* ── Load existing post if ?id= ── */
+  window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get('id'));
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('post-date').value = today;
+
+    if (id) {
+      const p = CathedralDB.getPostById(id);
+      if (p) {
+        document.getElementById('post-id').value = p.id;
+        document.getElementById('post-title').value = p.title;
+        document.getElementById('post-slug').value = p.slug;
+        document.getElementById('post-content').innerHTML = p.content || '';
+        document.getElementById('post-excerpt').value = p.excerpt || '';
+        document.getElementById('post-image').value = p.image || '';
+        document.getElementById('post-cat').value = p.category || 'News';
+        document.getElementById('post-author').value = p.author || '';
+        document.getElementById('post-date').value = p.date || today;
+        document.getElementById('post-tags').value = (p.tags||[]).join(', ');
+        document.getElementById('post-featured').checked = p.featured;
+        document.getElementById('post-status').value = p.published ? 'published' : 'draft';
+        document.getElementById('editor-heading').textContent = 'Edit Post';
+        document.getElementById('bc-title').textContent = p.title;
+        document.getElementById('danger-zone').style.display = 'block';
+        if (p.image) previewCover();
+        const words = (p.content||'').replace(/<[^>]+>/g,'').trim().split(/\s+/).filter(Boolean).length;
+        document.getElementById('word-count').textContent = `${words} words`;
+        updateSEO();
+        document.getElementById('save-status').textContent = `Last saved ${fmtDate(p.date)}`;
+        document.getElementById('save-dot').style.color = 'var(--green)';
+      }
+    }
+  });
+</script>
+</body>
+</html>

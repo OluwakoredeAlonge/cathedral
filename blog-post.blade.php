@@ -1,0 +1,338 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">Article — St. Patrick's Catholic Cathedral</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="{{ asset('js/data.js') }}"></script>
+  <style>
+    .post-body { font-family:'Raleway',sans-serif; font-size:1.05rem; line-height:1.9; color:#cbd5e1; }
+    .post-body h1,.post-body h2,.post-body h3 { font-family:'Cinzel',serif; color:#fff; margin:1.6rem 0 0.6rem; }
+    .post-body h2 { font-size:1.5rem; }
+    .post-body h3 { font-size:1.15rem; color:var(--gold-light); }
+    .post-body p  { margin-bottom:1.1rem; }
+    .post-body ul,.post-body ol { padding-left:1.5rem; margin-bottom:1.1rem; }
+    .post-body li { margin-bottom:0.4rem; }
+    .post-body blockquote { border-left:3px solid var(--gold); padding:10px 18px; margin:1.5rem 0; background:rgba(201,164,120,0.06); color:#94a3b8; font-style:italic; font-family:'Cormorant Garamond',serif; font-size:1.15rem; }
+    .post-body a  { color:var(--gold-light); text-decoration:underline; }
+    .post-body strong { color:#e2e8f0; }
+    .reading-progress { position:fixed; top:36px; left:0; height:2px; background:var(--gold); z-index:999; transition:width 0.1s; }
+  </style>
+</head>
+<body>
+
+<div class="reading-progress" id="reading-progress"></div>
+
+<!-- Ticker -->
+<div class="ticker-wrap" style="position:relative;z-index:1001;">
+  <div class="ticker-content font-cinzel text-xs tracking-widest text-white opacity-90" id="ticker-text"></div>
+</div>
+
+<!-- Navbar -->
+<nav id="navbar" class="py-4 px-6 md:px-12">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3 group">
+      <div class="w-10 h-10 rounded-full border border-yellow-600 flex items-center justify-center text-yellow-500 text-lg font-bold font-cinzel group-hover:bg-yellow-600 group-hover:text-navy transition-all duration-300">✝</div>
+      <div>
+        <div class="font-cinzel text-sm font-bold tracking-widest text-white leading-tight">ST. PATRICK'S</div>
+        <div class="font-cinzel text-xs tracking-widest" style="color:var(--gold);font-size:0.6rem;">CATHOLIC CATHEDRAL</div>
+      </div>
+    </a>
+    <div class="hidden lg:flex items-center gap-8">
+      <a href="index.html"   class="nav-link">HOME</a>
+      <a href="about.html"   class="nav-link">ABOUT</a>
+      <a href="masses.html"  class="nav-link">MASSES</a>
+      <a href="events.html"  class="nav-link">EVENTS</a>
+      <a href="blog.html"    class="nav-link active">BLOG</a>
+      <a href="gallery.html" class="nav-link">GALLERY</a>
+      <a href="contact.html" class="nav-link">CONTACT</a>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="contact.html" class="hidden md:inline-flex btn-gold text-xs">GIVE ONLINE</a>
+      <button id="menu-btn" class="lg:hidden text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    </div>
+  </div>
+</nav>
+<div id="mobile-menu">
+  <button id="close-menu" class="absolute top-6 right-6 text-white text-2xl">&times;</button>
+  <a href="index.html"   class="mobile-nav-link">HOME</a>
+  <a href="about.html"   class="mobile-nav-link">ABOUT</a>
+  <a href="masses.html"  class="mobile-nav-link">MASSES</a>
+  <a href="events.html"  class="mobile-nav-link">EVENTS</a>
+  <a href="blog.html"    class="mobile-nav-link">BLOG</a>
+  <a href="gallery.html" class="mobile-nav-link">GALLERY</a>
+  <a href="contact.html" class="mobile-nav-link">CONTACT</a>
+</div>
+
+
+<!-- ══════ ARTICLE HERO ══════ -->
+<div id="article-hero" style="position:relative;margin-top:-36px;padding-top:0;height:480px;overflow:hidden;">
+  <img id="hero-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;">
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,5,3,0.4) 0%,rgba(15,5,3,0.98) 100%);"></div>
+  <div style="position:absolute;bottom:0;left:0;right:0;padding:3rem 2rem 2.5rem;" class="max-w-4xl mx-auto">
+    <div class="breadcrumb" style="margin-bottom:14px;">
+      <a href="index.html" style="color:rgba(255,255,255,0.5);text-decoration:none;">Home</a>
+      <span style="color:rgba(255,255,255,0.3);">/</span>
+      <a href="blog.html" style="color:rgba(255,255,255,0.5);text-decoration:none;">Blog</a>
+      <span style="color:rgba(255,255,255,0.3);">/</span>
+      <span id="bc-cat" style="color:var(--gold-light);"></span>
+    </div>
+    <div id="article-category" class="inline-block font-cinzel text-xs font-bold px-3 py-1 mb-4 tracking-widest" style="background:var(--gold);color:var(--navy);"></div>
+    <h1 id="article-title" class="font-cinzel font-black text-white mb-4" style="font-size:clamp(1.6rem,4vw,3rem);line-height:1.2;"></h1>
+    <div class="flex flex-wrap gap-5 items-center text-sm" style="color:rgba(255,255,255,0.65);">
+      <span id="article-author"><i class="fas fa-user mr-1"></i></span>
+      <span id="article-date"><i class="fas fa-calendar mr-1"></i></span>
+      <span id="article-views"><i class="fas fa-eye mr-1"></i></span>
+      <span id="article-read-time"><i class="fas fa-clock mr-1"></i></span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════ ARTICLE BODY ══════ -->
+<section class="section-dark py-16 px-6">
+  <div class="max-w-6xl mx-auto" style="display:grid;grid-template-columns:1fr 300px;gap:40px;align-items:start;">
+
+    <!-- Main content -->
+    <div>
+      <!-- Tags -->
+      <div class="flex flex-wrap gap-2 mb-8" id="article-tags"></div>
+
+      <!-- Body -->
+      <div class="post-body" id="article-body"></div>
+
+      <!-- Share -->
+      <div class="mt-12 pt-8" style="border-top:1px solid rgba(201,164,120,0.15);">
+        <p class="font-cinzel text-xs tracking-[0.25em] mb-4" style="color:var(--gold);">SHARE THIS ARTICLE</p>
+        <div class="flex gap-3">
+          <a href="#" onclick="sharePost('facebook')" class="flex items-center gap-2 text-sm px-4 py-2 rounded-sm transition-all" style="background:rgba(24,119,242,0.15);border:1px solid rgba(24,119,242,0.3);color:#93c5fd;"><i class="fab fa-facebook-f"></i> Share</a>
+          <a href="#" onclick="sharePost('twitter')"  class="flex items-center gap-2 text-sm px-4 py-2 rounded-sm transition-all" style="background:rgba(29,161,242,0.15);border:1px solid rgba(29,161,242,0.3);color:#93c5fd;"><i class="fab fa-twitter"></i> Tweet</a>
+          <a href="#" onclick="sharePost('whatsapp')" class="flex items-center gap-2 text-sm px-4 py-2 rounded-sm transition-all" style="background:rgba(37,211,102,0.15);border:1px solid rgba(37,211,102,0.3);color:#86efac;"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+          <button onclick="copyLink()" class="flex items-center gap-2 text-sm px-4 py-2 rounded-sm transition-all" style="background:rgba(201,164,120,0.1);border:1px solid rgba(201,164,120,0.25);color:var(--gold-light);cursor:pointer;"><i class="fas fa-link"></i> Copy Link</button>
+        </div>
+      </div>
+
+      <!-- Author card -->
+      <div class="mt-10 p-6 rounded-sm flex gap-5 items-start" style="background:rgba(30,11,6,0.6);border:1px solid rgba(201,164,120,0.15);">
+        <div class="w-14 h-14 rounded-full border border-yellow-700 flex-shrink-0 flex items-center justify-center text-2xl" style="background:rgba(201,164,120,0.1);color:var(--gold);">✝</div>
+        <div>
+          <div class="font-cinzel font-bold text-white mb-1" id="author-name"></div>
+          <div class="font-cinzel text-xs tracking-wider mb-2" style="color:var(--gold);font-size:0.65rem;">ST. PATRICK'S CATHOLIC CATHEDRAL · ADO-EKITI</div>
+          <p class="text-gray-400 text-sm">Articles, pastoral letters and news published by the Parish Communications Office of St. Patrick's Catholic Cathedral, Diocese of Ekiti, Nigeria.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div style="position:sticky;top:90px;display:flex;flex-direction:column;gap:20px;">
+
+      <!-- Back -->
+      <a href="blog.html" class="btn-outline font-cinzel text-xs tracking-widest px-5 py-3 flex items-center gap-2" style="border:1px solid rgba(201,164,120,0.25);color:var(--gold-light);">
+        <i class="fas fa-arrow-left"></i> BACK TO BLOG
+      </a>
+
+      <!-- Mass times quick ref -->
+      <div class="card-glass p-5 rounded-sm">
+        <div class="font-cinzel text-xs tracking-[0.25em] mb-4" style="color:var(--gold);">MASS TIMES</div>
+        <div id="sidebar-masses"></div>
+        <a href="masses.html" class="font-cinzel text-xs tracking-wider mt-3 flex items-center gap-1" style="color:var(--gold);">FULL SCHEDULE <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <!-- Related posts -->
+      <div class="card-glass p-5 rounded-sm">
+        <div class="font-cinzel text-xs tracking-[0.25em] mb-4" style="color:var(--gold);">MORE ARTICLES</div>
+        <div id="related-posts"></div>
+      </div>
+
+      <!-- Upcoming event -->
+      <div class="card-glass p-5 rounded-sm" id="sidebar-event-wrap" style="display:none;">
+        <div class="font-cinzel text-xs tracking-[0.25em] mb-4" style="color:var(--gold);">NEXT EVENT</div>
+        <div id="sidebar-event"></div>
+        <a href="events.html" class="font-cinzel text-xs tracking-wider mt-3 flex items-center gap-1" style="color:var(--gold);">ALL EVENTS <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════ MORE POSTS ══════ -->
+<section class="section-mid py-14 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="font-cinzel text-xl font-bold text-white">Continue Reading</h2>
+      <a href="blog.html" class="btn-outline font-cinzel text-xs tracking-wider px-4 py-2" style="border:1px solid rgba(201,164,120,0.25);color:var(--gold-light);">ALL ARTICLES</a>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6" id="more-posts"></div>
+  </div>
+</section>
+
+
+<!-- Footer -->
+<footer class="py-16 px-6">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
+    <div class="md:col-span-2">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 border border-yellow-700 rounded-full flex items-center justify-center font-cinzel font-bold text-yellow-600 text-lg">✝</div>
+        <div>
+          <div class="font-cinzel font-bold text-white text-sm tracking-widest">ST. PATRICK'S CATHOLIC CATHEDRAL</div>
+          <div class="font-cinzel text-xs tracking-widest mt-0.5" style="color:var(--gold);font-size:0.6rem;">ADO-EKITI · DIOCESE OF EKITI</div>
+        </div>
+      </div>
+      <p class="text-gray-500 text-sm leading-relaxed mb-5 max-w-xs">The Cathedral Church of the Diocese of Ekiti — serving the faithful since 1929.</p>
+      <div class="flex gap-4">
+        <a href="#" class="w-8 h-8 border border-yellow-800 rounded-sm flex items-center justify-center text-yellow-600 hover:bg-yellow-600 hover:text-navy transition-all text-sm"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="w-8 h-8 border border-yellow-800 rounded-sm flex items-center justify-center text-yellow-600 hover:bg-yellow-600 hover:text-navy transition-all text-sm"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="w-8 h-8 border border-yellow-800 rounded-sm flex items-center justify-center text-yellow-600 hover:bg-yellow-600 hover:text-navy transition-all text-sm"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="w-8 h-8 border border-yellow-800 rounded-sm flex items-center justify-center text-yellow-600 hover:bg-yellow-600 hover:text-navy transition-all text-sm"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div>
+      <div class="font-cinzel text-xs tracking-[0.25em] mb-5" style="color:var(--gold);">QUICK LINKS</div>
+      <ul class="space-y-3">
+        <li><a href="index.html"   class="text-gray-500 hover:text-yellow-500 text-sm transition-colors flex items-center gap-2"><span style="color:var(--gold);">›</span> Home</a></li>
+        <li><a href="about.html"   class="text-gray-500 hover:text-yellow-500 text-sm transition-colors flex items-center gap-2"><span style="color:var(--gold);">›</span> About</a></li>
+        <li><a href="masses.html"  class="text-gray-500 hover:text-yellow-500 text-sm transition-colors flex items-center gap-2"><span style="color:var(--gold);">›</span> Mass Times</a></li>
+        <li><a href="events.html"  class="text-gray-500 hover:text-yellow-500 text-sm transition-colors flex items-center gap-2"><span style="color:var(--gold);">›</span> Events</a></li>
+        <li><a href="blog.html"    class="text-gray-500 hover:text-yellow-500 text-sm transition-colors flex items-center gap-2"><span style="color:var(--gold);">›</span> Blog</a></li>
+        <li><a href="gallery.html" class="text-gray-500 hover:text-yellow-500 text-sm transition-colors flex items-center gap-2"><span style="color:var(--gold);">›</span> Gallery</a></li>
+        <li><a href="contact.html" class="text-gray-500 hover:text-yellow-500 text-sm transition-colors flex items-center gap-2"><span style="color:var(--gold);">›</span> Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="font-cinzel text-xs tracking-[0.25em] mb-5" style="color:var(--gold);">FIND US</div>
+      <ul class="space-y-4 text-sm text-gray-500">
+        <li class="flex gap-3"><i class="fas fa-map-marker-alt mt-1" style="color:var(--gold);min-width:14px;"></i>Pope John Paul II Pastoral Centre, Ikere Road, Ado-Ekiti</li>
+        <li class="flex gap-3"><i class="fas fa-phone mt-1" style="color:var(--gold);min-width:14px;"></i>(0812) 567-4455</li>
+        <li class="flex gap-3"><i class="fas fa-envelope mt-1" style="color:var(--gold);min-width:14px;"></i>info@catholicdioceseofekiti.org</li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-6xl mx-auto mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-3" style="border-top:1px solid rgba(201,164,120,0.1);">
+    <p class="text-gray-600 text-xs">&copy; 2026 St. Patrick's Catholic Cathedral, Ado-Ekiti. All rights reserved.</p>
+    <p class="text-gray-600 text-xs font-cinzel tracking-wider">DIOCESE OF EKITI · ECCLESIASTICAL PROVINCE OF IBADAN</p>
+  </div>
+</footer>
+
+<script src="{{ asset('js/main.js') }}"></script>
+<script>
+  function formatDate(str) {
+    if (!str) return '';
+    return new Date(str).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+  }
+  function readTime(html) {
+    const words = (html||'').replace(/<[^>]+>/g,'').trim().split(/\s+/).filter(Boolean).length;
+    return Math.max(1, Math.ceil(words / 200)) + ' min read';
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    /* Ticker */
+    document.getElementById('ticker-text').textContent = CathedralDB.buildTickerText();
+
+    /* Load post */
+    const slug = new URLSearchParams(window.location.search).get('slug');
+    const post = slug ? CathedralDB.getPostBySlug(slug) : null;
+
+    if (!post) {
+      document.getElementById('article-body').innerHTML = `<div style="text-align:center;padding:60px 0;"><div style="font-size:3rem;margin-bottom:12px;">✝</div><h2 class="font-cinzel text-white text-xl mb-3">Article not found</h2><p class="text-gray-400">The article you're looking for doesn't exist or may have been removed.</p><a href="blog.html" class="btn-gold mt-6 inline-flex">← Back to Blog</a></div>`;
+      return;
+    }
+
+    /* Increment view count */
+    const posts = CathedralDB.get('posts');
+    const p = posts.find(x => x.id === post.id);
+    if (p) { p.views = (p.views || 0) + 1; CathedralDB.set('posts', posts); }
+
+    /* Populate hero */
+    document.title = post.title + ' — St. Patricks Cathedral';
+    if (post.image) document.getElementById('hero-img').src = post.image;
+    document.getElementById('bc-cat').textContent = post.category;
+    document.getElementById('article-category').textContent = post.category;
+    document.getElementById('article-title').textContent = post.title;
+    document.getElementById('article-author').innerHTML  = `<i class="fas fa-user mr-1"></i>${post.author || 'Parish'}`;
+    document.getElementById('article-date').innerHTML    = `<i class="fas fa-calendar mr-1"></i>${formatDate(post.date)}`;
+    document.getElementById('article-views').innerHTML   = `<i class="fas fa-eye mr-1"></i>${((p?.views||post.views||0)).toLocaleString()} views`;
+    document.getElementById('article-read-time').innerHTML = `<i class="fas fa-clock mr-1"></i>${readTime(post.content)}`;
+    document.getElementById('article-body').innerHTML = post.content || '';
+    document.getElementById('author-name').textContent = post.author || 'Parish Communications Office';
+
+    /* Tags */
+    document.getElementById('article-tags').innerHTML = (post.tags||[]).map(t =>
+      `<span class="font-cinzel text-xs tracking-wider px-3 py-1 rounded-sm" style="background:rgba(201,164,120,0.1);border:1px solid rgba(201,164,120,0.2);color:var(--gold-light);">#${t}</span>`
+    ).join('');
+
+    /* Reading progress bar */
+    window.addEventListener('scroll', () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      const pct   = total > 0 ? (window.scrollY / total) * 100 : 0;
+      document.getElementById('reading-progress').style.width = pct + '%';
+    });
+
+    /* Sidebar: mass times */
+    const masses = CathedralDB.get('masses').slice(0, 3);
+    document.getElementById('sidebar-masses').innerHTML = masses.map(m =>
+      `<div style="border-left:2px solid var(--gold);padding:5px 10px;margin-bottom:7px;background:rgba(201,164,120,0.04);">
+        <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.15em;color:var(--gold);">${m.day.toUpperCase()}</div>
+        <div style="color:#fff;font-size:12px;font-weight:600;">${m.times}</div>
+      </div>`
+    ).join('');
+
+    /* Sidebar: related posts */
+    const related = CathedralDB.getPublishedPosts()
+      .filter(x => x.id !== post.id && (x.category === post.category || (x.tags||[]).some(t => (post.tags||[]).includes(t))))
+      .slice(0, 3);
+    document.getElementById('related-posts').innerHTML = related.length
+      ? related.map(r => `<a href="blog-post.html?slug=${r.slug}" style="display:flex;gap:10px;margin-bottom:12px;text-decoration:none;align-items:flex-start;">
+          ${r.image ? `<img src="${r.image}" style="width:50px;height:40px;object-fit:cover;border-radius:4px;flex-shrink:0;">` : `<div style="width:50px;height:40px;background:var(--navy-mid);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:14px;">✝</div>`}
+          <div style="font-size:12px;font-weight:600;color:var(--text);line-height:1.4;">${r.title}</div>
+        </a>`).join('')
+      : '<p style="font-size:12px;color:var(--text-muted);">No related articles found.</p>';
+
+    /* Sidebar: next event */
+    const nextEv = CathedralDB.getUpcomingEvents(1)[0];
+    if (nextEv) {
+      document.getElementById('sidebar-event-wrap').style.display = 'block';
+      document.getElementById('sidebar-event').innerHTML = `
+        <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:4px;">${nextEv.title}</div>
+        <div style="font-size:11px;color:var(--gold-light);"><i class="fas fa-calendar mr-1"></i>${formatDate(nextEv.date)}</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:2px;"><i class="fas fa-map-marker-alt mr-1"></i>${nextEv.location}</div>`;
+    }
+
+    /* More posts */
+    const more = CathedralDB.getPublishedPosts().filter(x => x.id !== post.id).slice(0, 3);
+    document.getElementById('more-posts').innerHTML = more.map(r => `
+      <a href="blog-post.html?slug=${r.slug}" class="card-glass rounded-sm overflow-hidden block" style="text-decoration:none;">
+        ${r.image ? `<img src="${r.image}" style="width:100%;height:150px;object-fit:cover;">` : `<div style="width:100%;height:150px;background:var(--navy-mid);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:2rem;">✝</div>`}
+        <div style="padding:14px;">
+          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.15em;color:var(--gold);margin-bottom:4px;">${r.category}</div>
+          <div style="font-weight:600;color:#fff;font-size:13px;line-height:1.4;margin-bottom:4px;">${r.title}</div>
+          <div style="font-size:11px;color:var(--text-muted);">${formatDate(r.date)}</div>
+        </div>
+      </a>`).join('');
+  });
+
+  function sharePost(platform) {
+    const url   = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(document.getElementById('article-title').textContent);
+    const links = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+      twitter:  `https://twitter.com/intent/tweet?url=${url}&text=${title}`,
+      whatsapp: `https://wa.me/?text=${title}%20${url}`,
+    };
+    window.open(links[platform], '_blank', 'width=600,height=400');
+    return false;
+  }
+
+  function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      const btn = event.currentTarget;
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+      btn.style.color = 'var(--green)';
+      setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; }, 2000);
+    });
+  }
+</script>
+</body>
+</html>

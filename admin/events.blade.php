@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Events — Cathedral CMS</title>
+  <link rel="stylesheet" href="{{ asset('admin/css/admin.css') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="{{ asset('js/data.js') }}"></script>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar"></aside>
+  <div class="main-area">
+    <header class="top-header">
+      <div class="page-title"><h1>Events</h1><p>Create, edit and manage all parish events</p></div>
+      <div class="header-actions">
+        <a href="../events.html" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-external-link-alt"></i> View Public Page</a>
+        <button class="btn btn-gold" onclick="openEventModal()"><i class="fas fa-plus"></i> New Event</button>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="breadcrumb"><a href="index.html">Dashboard</a><span>/</span><span>Events</span></div>
+
+      <!-- Stats row -->
+      <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px;" id="event-stats"></div>
+
+      <div class="panel">
+        <div class="toolbar">
+          <div class="search-box"><i class="fas fa-search"></i><input type="text" id="search" placeholder="Search events…" oninput="renderTable()"></div>
+          <select id="filter-cat" class="form-control" style="width:160px;" onchange="renderTable()">
+            <option value="">All Categories</option>
+            <option value="liturgy">Liturgy</option><option value="youth">Youth</option>
+            <option value="retreat">Retreat</option><option value="feast">Feast Day</option>
+            <option value="music">Music</option><option value="annual">Annual</option>
+          </select>
+          <select id="filter-status" class="form-control" style="width:130px;" onchange="renderTable()">
+            <option value="">All Status</option>
+            <option value="published">Published</option><option value="draft">Draft</option>
+          </select>
+        </div>
+        <table class="data-table">
+          <thead><tr><th style="width:60px;">Image</th><th>Event</th><th>Date</th><th>Location</th><th>Category</th><th>Featured</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="events-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Event Modal -->
+<div class="modal-backdrop" id="event-modal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <span class="modal-title" id="event-modal-title">New Event</span>
+      <button class="modal-close" onclick="closeModal('event-modal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="ev-id" />
+      <div class="form-row form-row-2">
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label">Event Title <span style="color:var(--red)">*</span></label>
+          <input type="text" id="ev-title" class="form-control" placeholder="e.g. Corpus Christi Procession" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date <span style="color:var(--red)">*</span></label>
+          <input type="date" id="ev-date" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Time</label>
+          <input type="text" id="ev-time" class="form-control" placeholder="e.g. 10:00 AM" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Location</label>
+          <input type="text" id="ev-location" class="form-control" placeholder="e.g. Cathedral Grounds" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select id="ev-cat" class="form-control">
+            <option value="liturgy">Liturgy</option><option value="youth">Youth</option>
+            <option value="retreat">Retreat</option><option value="feast">Feast Day</option>
+            <option value="music">Music</option><option value="annual">Annual</option><option value="community">Community</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Badge Label</label>
+          <input type="text" id="ev-tag" class="form-control" placeholder="e.g. UPCOMING" />
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label">Cover Image URL</label>
+          <input type="text" id="ev-image" class="form-control" placeholder="https://…" oninput="previewEvImg()" />
+          <div class="img-preview" id="ev-img-preview" style="margin-top:8px;height:120px;"><span><i class="fas fa-image" style="display:block;margin-bottom:4px;"></i>Image preview</span></div>
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label">Description</label>
+          <textarea id="ev-desc" class="form-control" rows="4" placeholder="Event description…"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="toggle"><input type="checkbox" id="ev-featured"><div class="toggle-track"><div class="toggle-thumb"></div></div><span class="toggle-label">Mark as Featured Event</span></label>
+        </div>
+        <div class="form-group">
+          <label class="toggle"><input type="checkbox" id="ev-published" checked><div class="toggle-track"><div class="toggle-thumb"></div></div><span class="toggle-label">Published (visible on site)</span></label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('event-modal')">Cancel</button>
+      <button class="btn btn-gold" onclick="saveEvent()"><i class="fas fa-save"></i> Save Event</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="{{ asset('admin/js/admin.js') }}"></script>
+<script>
+  const CATEGORY_COLORS = { liturgy:'badge-gold', youth:'badge-green', retreat:'badge-blue', feast:'badge-purple', music:'badge-gray', annual:'badge-gold', community:'badge-blue' };
+
+  function renderStats() {
+    const events = CathedralDB.get('events');
+    const upcoming = CathedralDB.getUpcomingEvents().length;
+    const stats = [
+      { label:'Total Events', value: events.length, icon:'fa-calendar', color:'var(--gold)' },
+      { label:'Upcoming', value: upcoming, icon:'fa-clock', color:'var(--green)' },
+      { label:'Published', value: events.filter(e=>e.published).length, icon:'fa-eye', color:'var(--blue)' },
+      { label:'Featured', value: events.filter(e=>e.featured).length, icon:'fa-star', color:'var(--amber)' },
+    ];
+    document.getElementById('event-stats').innerHTML = stats.map(s => `
+      <div class="stat-card"><div class="stat-card-accent" style="background:${s.color}"></div>
+        <div class="stat-card-icon" style="background:${s.color}22;color:${s.color};"><i class="fas ${s.icon}"></i></div>
+        <div class="stat-card-value" style="color:${s.color};">${s.value}</div>
+        <div class="stat-card-label">${s.label}</div>
+      </div>`).join('');
+  }
+
+  function renderTable() {
+    const q = document.getElementById('search').value.toLowerCase();
+    const cat = document.getElementById('filter-cat').value;
+    const status = document.getElementById('filter-status').value;
+    let events = CathedralDB.get('events').filter(e =>
+      e.title.toLowerCase().includes(q) &&
+      (!cat || e.category === cat) &&
+      (!status || (status === 'published' ? e.published : !e.published))
+    ).sort((a,b) => new Date(a.date) - new Date(b.date));
+    const tbody = document.getElementById('events-tbody');
+    tbody.innerHTML = '';
+    if (!events.length) { tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><i class="fas fa-calendar-xmark"></i><h3>No events found</h3></div></td></tr>'; return; }
+    events.forEach(e => {
+      tbody.innerHTML += `<tr>
+        <td><img src="${e.image}" style="width:48px;height:36px;object-fit:cover;border-radius:4px;" onerror="this.style.display='none'"></td>
+        <td><div style="font-weight:600;">${e.title}</div><div style="font-size:11px;color:var(--text-muted);">${e.time}</div></td>
+        <td style="color:var(--gold-light);font-size:12px;">${fmtDate(e.date)}</td>
+        <td style="color:var(--text-muted);font-size:12px;">${e.location}</td>
+        <td><span class="badge ${CATEGORY_COLORS[e.category] || 'badge-gray'}">${e.category}</span></td>
+        <td>${e.featured ? '<i class="fas fa-star" style="color:var(--amber);"></i>' : '<i class="fas fa-star" style="color:var(--surface3);"></i>'}</td>
+        <td>
+          <label class="toggle"><input type="checkbox" ${e.published ? 'checked' : ''} onchange="togglePublish(${e.id},this.checked)">
+          <div class="toggle-track"><div class="toggle-thumb"></div></div></label>
+        </td>
+        <td><div class="actions">
+          <button class="btn-icon" onclick="editEvent(${e.id})" title="Edit"><i class="fas fa-pen"></i></button>
+          <button class="btn-icon danger" onclick="deleteEvent(${e.id})" title="Delete"><i class="fas fa-trash"></i></button>
+        </div></td>
+      </tr>`;
+    });
+  }
+
+  function togglePublish(id, val) {
+    const items = CathedralDB.get('events');
+    const item = items.find(e => e.id === id);
+    if (item) { item.published = val; CathedralDB.set('events', items); }
+    renderStats(); showToast(val ? 'Event published' : 'Event unpublished', 'info');
+    CathedralDB.log('Admin', `${val ? 'Published' : 'Unpublished'} event: ${item?.title}`);
+  }
+
+  function openEventModal(ev) {
+    const fields = ['ev-id','ev-title','ev-date','ev-time','ev-location','ev-tag','ev-image','ev-desc'];
+    fields.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    document.getElementById('ev-cat').value = 'liturgy';
+    document.getElementById('ev-featured').checked = false;
+    document.getElementById('ev-published').checked = true;
+    document.getElementById('ev-img-preview').innerHTML = '<span><i class="fas fa-image" style="display:block;margin-bottom:4px;"></i>Image preview</span>';
+    document.getElementById('event-modal-title').textContent = 'New Event';
+    if (ev) {
+      document.getElementById('ev-id').value = ev.id;
+      document.getElementById('ev-title').value = ev.title;
+      document.getElementById('ev-date').value = ev.date;
+      document.getElementById('ev-time').value = ev.time;
+      document.getElementById('ev-location').value = ev.location;
+      document.getElementById('ev-cat').value = ev.category;
+      document.getElementById('ev-tag').value = ev.tag || '';
+      document.getElementById('ev-image').value = ev.image;
+      document.getElementById('ev-desc').value = ev.description;
+      document.getElementById('ev-featured').checked = ev.featured;
+      document.getElementById('ev-published').checked = ev.published;
+      if (ev.image) document.getElementById('ev-img-preview').innerHTML = `<img src="${ev.image}">`;
+      document.getElementById('event-modal-title').textContent = 'Edit Event';
+    }
+    openModal('event-modal');
+  }
+
+  function editEvent(id) { openEventModal(CathedralDB.get('events').find(e => e.id === id)); }
+
+  function previewEvImg() {
+    const url = document.getElementById('ev-image').value.trim();
+    document.getElementById('ev-img-preview').innerHTML = url ? `<img src="${url}" onerror="this.parentElement.innerHTML='<span>Invalid URL</span>'">` : '<span><i class="fas fa-image" style="display:block;margin-bottom:4px;"></i>Image preview</span>';
+  }
+
+  function saveEvent() {
+    const title = document.getElementById('ev-title').value.trim();
+    const date  = document.getElementById('ev-date').value;
+    if (!title || !date) { showToast('Title and date are required', 'error'); return; }
+    const items = CathedralDB.get('events');
+    const editId = parseInt(document.getElementById('ev-id').value);
+    const data = {
+      title, date,
+      time: document.getElementById('ev-time').value,
+      location: document.getElementById('ev-location').value,
+      category: document.getElementById('ev-cat').value,
+      tag: document.getElementById('ev-tag').value,
+      image: document.getElementById('ev-image').value,
+      description: document.getElementById('ev-desc').value,
+      featured: document.getElementById('ev-featured').checked,
+      published: document.getElementById('ev-published').checked,
+    };
+    if (editId) { const i = items.find(e => e.id === editId); if (i) Object.assign(i, data); }
+    else { items.push({ id: CathedralDB.nextId('events'), tagColor: 'gold', ...data }); }
+    CathedralDB.set('events', items);
+    closeModal('event-modal');
+    renderTable(); renderStats();
+    showToast('Event saved!', 'success');
+    CathedralDB.log('Admin', `${editId ? 'Updated' : 'Created'} event: ${title}`);
+  }
+
+  function deleteEvent(id) {
+    const ev = CathedralDB.get('events').find(e => e.id === id);
+    confirmAction(`Delete event "${ev?.title}"? This cannot be undone.`, () => {
+      CathedralDB.set('events', CathedralDB.get('events').filter(e => e.id !== id));
+      renderTable(); renderStats(); showToast('Event deleted', 'error');
+      CathedralDB.log('Admin', `Deleted event: ${ev?.title}`);
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', () => { renderStats(); renderTable(); });
+</script>
+</body>
+</html>
